@@ -51,9 +51,9 @@ classdef sistema
                 return
             end
            
-            if (isequal(size(x0),[1 n]))
+            if (isequal(size(x0),[1 obj.n]))
                 obj.x(1)=x0';
-            elseif (isequal(size(x0),[n 1]))
+            elseif (isequal(size(x0),[obj.n 1]))
                 obj.x(1)=x0;
             else
                 error("Vettore x0 non coerente con A");
