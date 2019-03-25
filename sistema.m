@@ -19,7 +19,6 @@ classdef sistema < handle
                 obj.n=size(A,1);
             else
                 error("Matrice A non quadrata");
-                return
             end
             
             if (size(B,1)==obj.n)
@@ -27,7 +26,6 @@ classdef sistema < handle
                 obj.m = size(B,2);
             else
                 error("Matrice B non coerente con A");
-                return
             end
             
             if (size(C,2)==obj.n)
@@ -35,21 +33,18 @@ classdef sistema < handle
                 obj.p = size(C,1);
             else
                 error("Matrice C non coerente con A");
-                return
             end
             
             if (diff(size(Q))==0 && size(Q,1)==obj.n) 
                 obj.Q = Q;
             else
                 error("Matrice Q non coerente con x");
-                return
             end
             
             if (diff(size(R))==0 && size(R,1)==obj.p) 
                 obj.R = R;
             else
                 error("Matrice R non coerente con y");
-                return
             end
            
             if (isequal(size(x0),[1 obj.n]))
@@ -58,7 +53,6 @@ classdef sistema < handle
                 obj.x=x0;
             else
                 error("Vettore x0 non coerente con A");
-                return
             end
         end
         
