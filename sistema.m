@@ -34,6 +34,11 @@ classdef sistema
             %   Detailed explanation goes here
             y=obj.C*obj.x;
         end
+        
+        function update(obj, u)
+          obj.x(end+1) = obj.A*obj.x(end) + obj.B*u;
+        end
+        
     end
 end
 
