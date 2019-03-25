@@ -64,14 +64,14 @@ classdef sistema < handle
         
         function y = leggiUscita(obj)
             % restituisce in output l'uscita y del sistema
-            y=obj.C*obj.x;
+            y=obj.C*obj.x + obj.R*randn(obj.p,1);
         end
         
         function update(obj, u)
             % aggiorna lo stato del sistema salvando quello vecchio nel
             % vettore xold per plottare
             obj.xold(:,end+1)=obj.x;  % salva il vecchio stato
-            xn=obj.A*obj.x + obj.B*u; % calcola il nuovo stato 
+            xn=obj.A*obj.x + obj.B*u + obj.Q*randn(obj.n,1); % calcola il nuovo stato 
             obj.x = xn;               % aggiorna lo stato con quello nuovo
         end
         
