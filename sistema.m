@@ -64,7 +64,7 @@ classdef sistema
         function y = leggiUscita(obj)
             %METHOD1 Summary of this method goes here
             %   Detailed explanation goes here
-            y=obj.C*obj.x;
+            y=obj.C*obj.x(end);
         end
         
         function update(obj, u)
