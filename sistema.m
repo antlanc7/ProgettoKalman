@@ -1,4 +1,4 @@
-classdef sistema
+classdef sistema < handle
     %SISTEMA 
     %Classe che descrive un sistema dinamico tempo discreto invariante
     
@@ -7,6 +7,7 @@ classdef sistema
         % Q matrice di covarianza del rumore di processo
         % R matrice di covarianza del rumore di misura
         n,m,p;      %n dim stato, m dim ingresso, p dim uscita
+        xold;       %vettore stati vecchi (per plot)
     end
     
     methods
@@ -52,9 +53,9 @@ classdef sistema
             end
            
             if (isequal(size(x0),[1 obj.n]))
-                obj.x(1)=x0';
+                obj.x=x0';
             elseif (isequal(size(x0),[obj.n 1]))
-                obj.x(1)=x0;
+                obj.x=x0;
             else
                 error("Vettore x0 non coerente con A");
                 return
@@ -62,13 +63,16 @@ classdef sistema
         end
         
         function y = leggiUscita(obj)
-            %METHOD1 Summary of this method goes here
-            %   Detailed explanation goes here
-            y=obj.C*obj.x(end);
+            % restituisce in output l'uscita y del sistema
+            y=obj.C*obj.x;
         end
         
         function update(obj, u)
-          obj.x(end+1) = obj.A*obj.x(end) + obj.B*u;
+            % aggiorna lo stato del sistema salvando quello vecchio nel
+            % vettore xold per plottare
+            obj.xold(:,end+1)=obj.x;  % salva il vecchio stato
+            xn=obj.A*obj.x + obj.B*u; % calcola il nuovo stato 
+            obj.x = xn;               % aggiorna lo stato con quello nuovo
         end
         
     end
