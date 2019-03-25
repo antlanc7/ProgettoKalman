@@ -70,6 +70,7 @@ classdef sistema < handle
         function update(obj, u)
             % aggiorna lo stato del sistema salvando quello vecchio nel
             % vettore xold per plottare
+            if (nargin<2) u=0; end    % se u viene omesso si considera nullo
             obj.xold(:,end+1)=obj.x;  % salva il vecchio stato
             xn=obj.A*obj.x + obj.B*u + obj.Q*randn(obj.n,1); % calcola il nuovo stato 
             obj.x = xn;               % aggiorna lo stato con quello nuovo
