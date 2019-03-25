@@ -13,7 +13,13 @@ classdef sistema
         function obj = sistema(A,B,C,Q,R,x0)
             %SISTEMA Construct an instance of this class
             %   Detailed explanation goes here
-            obj.A = A;
+            if (diff(size(A))==0) 
+                obj.A = A;
+                obj.n=length(A);
+            else
+                error("ERRORE: Matrice A non quadrata");
+                return
+            end
             obj.B = B;
             obj.C = C;
             obj.Q = Q;
@@ -23,10 +29,10 @@ classdef sistema
             
         end
         
-        function y = leggiUscita()
+        function y = leggiUscita(obj)
             %METHOD1 Summary of this method goes here
             %   Detailed explanation goes here
-            y=C*x+randn();
+            y=obj.C*obj.x;
         end
     end
 end
