@@ -7,7 +7,7 @@ classdef kalmanfilter < handle
     end
     
     methods
-        function obj = kalman(sigmaModel)
+        function obj = kalmanfilter(sigmaModel)
             % inizializzo la stima come l'uscita del sistema da osservare
             obj.sigmaModel = sigmaModel;
             obj.P = inv(sigmaModel.C)*sigmaModel.R*inv(sigmaModel.C');
