@@ -1,23 +1,24 @@
-classdef kalman
+classdef kalman < handle
     %KALMAN Summary of this class goes here
     %   Detailed explanation goes here
     
     properties
-        Property1
+        sigmaModel, P, K, stima;
     end
     
     methods
-        function obj = kalman(inputArg1,inputArg2)
-            %KALMAN Construct an instance of this class
-            %   Detailed explanation goes here
-            obj.Property1 = inputArg1 + inputArg2;
+        function obj = kalman(sigmaModel)
+            % inizializzo la stima come l'uscita del sistema da osservare
+            obj.sigmaModel = sigmaModel;
+            obj.P = inv(sigmaModel.C)*sigmaModel.R*inv(sigmaModel.C');
+            obj.stima = sigmaModel.leggiUscita();
         end
         
-        function outputArg = method1(obj,inputArg)
-            %METHOD1 Summary of this method goes here
-            %   Detailed explanation goes here
-            outputArg = obj.Property1 + inputArg;
+        function kalmanGain(obj)
+            % calcolo della matrice di guadagno di kalman
+            obj.K = obj.P*obj.sigmaModel.C'*inv(obj.sigmaModel.C*obj.P*obj.sigmaModel.C'+obj.sigmaModel.R);
         end
+        
     end
 end
 
