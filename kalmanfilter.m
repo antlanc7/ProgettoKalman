@@ -1,4 +1,4 @@
-classdef kalman < handle
+classdef kalmanfilter < handle
     %KALMAN Summary of this class goes here
     %   Detailed explanation goes here
     
