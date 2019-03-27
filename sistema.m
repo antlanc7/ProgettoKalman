@@ -63,7 +63,7 @@ classdef sistema < handle
             obj.xold(:,end+1)=obj.x;  % salva il vecchio stato
             xn=obj.A*obj.x + obj.B*u + obj.Q*zeros(obj.n,1); % calcola il nuovo stato x(t) = Ax(t-1) + Bu + v : v = rumore di processo
             obj.x = xn;               % aggiorna lo stato con quello nuovo
-        end  
+        end 
         
         
         function y = leggiUscita(obj)
@@ -71,6 +71,7 @@ classdef sistema < handle
             y=obj.C*obj.x + obj.R*randn(obj.p,1); % y = Cx + w : w = rumore di misura
         end
         
+        %get dello stato per plot
         function esc = leggiStato(obj)
             esc = obj.x;
         end
