@@ -10,7 +10,7 @@ C = [1 0];
 Q = [0 0; 0 1];
 R = 1;
 x0 = [0; 0];
-u = 0.1;
+u = 1;
 
 sigma = sistema(A, B, C, Q, R, x0);
 kal = kalmanfilter(sigma, [0; 0]);
@@ -30,3 +30,4 @@ hold on;
 plot(statoSistema(1, :), 'r.');
 plot(statoKalman(1, :), 'g');
 plot(uscitaSigma(1, :), 'b--');
+legend('stato sistema','Kalman output','uscita sistema');
