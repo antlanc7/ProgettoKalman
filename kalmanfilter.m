@@ -30,13 +30,14 @@ classdef kalmanfilter < sistema
             obj.P = obj.A*obj.P*obj.A'+obj.Q;
             
             %calcolo della matrice di guadagno di Kalman
-            dK = (obj.C*obj.P*obj.C'+obj.R);
-            if (det(dK) ~= 0) %controllo che l'operazione sia possibile
+            dK = (obj.C*obj.P*obj.C'+obj.R);    %termine che compare come inverso
+            if (det(dK) ~= 0) %controllo che il termine sia invertibile (det>0)
                 obj.K = obj.P*obj.C'/dK;
-            else obj.K = zeros(obj.n, obj.p);
+            else              %imposto direttamente il guadagno di Kalman a 0
+                obj.K = zeros(obj.n, obj.p);
             end
           
-            %aggiornamento
+            %correzione
             obj.x = obj.x+obj.K*(y-obj.C*obj.x);
             obj.P = (eye(obj.n)-obj.K*obj.C)*obj.P;
             
