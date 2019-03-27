@@ -3,7 +3,7 @@ classdef kalmanfilter < sistema
     %classe filtro di Kalman:
     %eredita da sistema 
     
-    properties
+    properties (Access = protected)
         P, K;
     end
     
@@ -30,8 +30,12 @@ classdef kalmanfilter < sistema
             obj.P = obj.A*obj.P*obj.A'+obj.Q;
             
             %calcolo della matrice di guadagno di Kalman
-            obj.K = obj.P*obj.C'/(obj.C*obj.P*obj.C'+obj.R);
-                        
+            dK = (obj.C*obj.P*obj.C'+obj.R);
+            if (det(dK) ~= 0) %controllo che l'operazione sia possibile
+                obj.K = obj.P*obj.C'/dK;
+            else obj.K = zeros(obj.n, obj.p);
+            end
+          
             %aggiornamento
             obj.x = obj.x+obj.K*(y-obj.C*obj.x);
             obj.P = (eye(obj.n)-obj.K*obj.C)*obj.P;
