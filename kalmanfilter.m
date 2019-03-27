@@ -1,10 +1,10 @@
 classdef kalmanfilter < sistema
     
     %classe filtro di Kalman:
-    %eredita da sistema 
+    %eredita da sistema essendo a sua volta un sistema
     
     properties (Access = protected)
-        P, K;
+        P, K;   %P matrice di covarianza dello stato; K matrice guadagno di Kalman
     end
     
     methods
@@ -32,8 +32,8 @@ classdef kalmanfilter < sistema
             %calcolo della matrice di guadagno di Kalman
             dK = (obj.C*obj.P*obj.C'+obj.R);    %termine che compare come inverso
             if (det(dK) ~= 0) %controllo che il termine sia invertibile (det>0)
-                obj.K = obj.P*obj.C'/dK;
-            else              %imposto direttamente il guadagno di Kalman a 0
+                obj.K = obj.P*obj.C'/dK; % se lo è completo il calcolo
+            else %altrimenti imposto direttamente il guadagno di Kalman a 0
                 obj.K = zeros(obj.n, obj.p);
             end
           
@@ -45,7 +45,7 @@ classdef kalmanfilter < sistema
           
         
         function y = leggiUscita(obj)
-            y = obj.x;
+            y = obj.x;  %uscita dell'osservatore uguale allo stato
         end
         
     end

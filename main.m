@@ -1,11 +1,11 @@
-clear all
+clear variables
 close all
 clc
 
 dt = 0.1;
 
 A = [1 dt; 0 1];
-B = [dt*dt/2; dt];
+B = [dt^2/2; dt];
 C = [1 0];
 Q = [0 0; 0 1];
 R = 7;
