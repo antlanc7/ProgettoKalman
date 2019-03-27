@@ -68,8 +68,7 @@ classdef sistema < handle
             obj.xold(:,end+1)=obj.x;  % salva il vecchio stato
             xn=obj.A*obj.x + obj.B*u + obj.Q*randn(obj.n,1); % calcola il nuovo stato 
             obj.x = xn;               % aggiorna lo stato con quello nuovo
-        end
-        
+        end       
     end
 end
 

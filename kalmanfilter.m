@@ -1,37 +1,44 @@
 classdef kalmanfilter < sistema
-    %KALMAN Summary of this class goes here
-    %   Detailed explanation goes here
+    
+    %classe filtro di Kalman:
+    %eredita da sistema 
     
     properties
-        sigmaModel, P, K;
+        P, K;
     end
     
     methods
-        function obj = kalmanfilter(sigmaModel, x0)
-            % inizializzo la stima come l'uscita del sistema da osservare
+        
+        %costruttore della classe: inizializza il filtro
+        function obj = kalmanfilter(sigmaModel, x0) %parametri: sistema da osservare, "stima" iniziale dello stato
+            
+            %chiama il costruttore della superclasse (sistema) copiando le
+            %matrici del sistema da osservare (sigmaModel)
             obj@sistema(sigmaModel.A, sigmaModel.B, sigmaModel.C, sigmaModel.Q, sigmaModel.R, x0);
-            obj.sigmaModel = sigmaModel;
+            
+            %inizializza la matrice di covarianza dello stato 
+            %(matrice quadrata della dimensione dello stato)
             obj.P = eye(obj.n);
+            
         end
         
-        function kalmanGain(obj)
-            % calcolo della matrice di guadagno di kalman
-            obj.K = obj.P*obj.C'*inv(obj.C*obj.P*obj.C'+obj.R);
-        end
-        
-        function update(obj, u, y)
+        %calcola la stima dello stato del sistema osservato
+        function update(obj, u, y) %parametri: ingresso dato a sigma(u), uscita del sistema osservato(y)
+            
             %predizione
             obj.x = obj.A*obj.x + obj.B*u;
             obj.P = obj.A*obj.P*obj.A'+obj.Q;
             
-            obj.kalmanGain();
-            
+            %calcolo della matrice di guadagno di Kalman
+            obj.K = obj.P*obj.C'/(obj.C*obj.P*obj.C'+obj.R);
+                        
             %aggiornamento
             obj.x = obj.x+obj.K*(y-obj.C*obj.x);
             obj.P = (eye(obj.n)-obj.K*obj.C)*obj.P;
             
         end
-            
+          
+        
         function y = leggiUscita(obj)
             y = obj.x;
         end
