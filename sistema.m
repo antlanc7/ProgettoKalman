@@ -36,13 +36,21 @@ classdef sistema < handle
             end
             
             if (diff(size(Q))==0 && size(Q,1)==obj.n) % controlla che Q sia quadrata e della stessa dimensione dello stato
-                obj.Q = Q;
+                if all(eig(Q)>0)
+                    obj.Q = Q;
+                else
+                    error("Matrice Q non definita positiva");
+                end
             else
                 error("Matrice Q non coerente con x");
             end
             
             if (diff(size(R))==0 && size(R,1)==obj.p) % controlla che R sia quadrata e della stessa dimensione dell' uscita 
-                obj.R = R;
+               if all(eig(R)>0)
+                    obj.R = R;
+               else
+                   error("Matrice R non definita positiva");
+               end
             else
                 error("Matrice R non coerente con y");
             end
@@ -59,7 +67,9 @@ classdef sistema < handle
         
         function update(obj, u)
             % aggiorna lo stato del sistema salvando quello vecchio nel vettore xold per plottare
-            if (nargin<2) u = zeros(obj.m,1); end    % se u viene omesso si considera nullo
+            if (nargin<2)
+                u = zeros(obj.m,1);  % se u viene omesso si considera nullo
+            end   
             obj.xold(:,end+1)=obj.x;  % salva il vecchio stato
             xn=obj.A*obj.x + obj.B*u + obj.Q*zeros(obj.n,1); % calcola il nuovo stato x(t) = Ax(t-1) + Bu + v : v = rumore di processo
             obj.x = xn;               % aggiorna lo stato con quello nuovo

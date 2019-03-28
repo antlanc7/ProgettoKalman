@@ -34,7 +34,7 @@ classdef kalmanfilter < sistema
             if (det(dK) ~= 0) %controllo che il termine sia invertibile (det>0)
                 obj.K = obj.P*obj.C'/dK; % se lo è completo il calcolo
             else %altrimenti imposto direttamente il guadagno di Kalman a 0
-                obj.K = zeros(obj.n, obj.p);
+                obj.K = zeros(obj.n, obj.p);               
             end
           
             %correzione

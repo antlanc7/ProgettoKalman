@@ -2,27 +2,34 @@ clear variables
 close all
 clc
 
+nIt = 100;
 dt = 0.1;
 
 A = [1 dt; 0 1];
 B = [dt^2/2; dt];
 C = [1 0];
-Q = [0 0; 0 1];
-R = 7;
-x0 = [50; 10];
-u = 1;
+Q = [0.1 0; 0 2];
+R = 1;
+x0 = [0; 0];
+x = linspace(1, 10*pi, nIt);
+u = ones(nIt,1);
+
+uscitaSigma = zeros(size(C,1), nIt);
+statoSistema = zeros(length(x0), nIt);
+statoKalman = zeros(length(x0), nIt);
 
 sigma = sistema(A, B, C, Q, R, x0);
 kal = kalmanfilter(sigma, [0; 0]);
 
-for i=1:100
+
+for i=1:nIt
         
     uscitaSigma(:,i) = sigma.leggiUscita();
     statoSistema(:,i)=sigma.leggiStato();
     statoKalman(:,i)=kal.leggiStato();
   
-    sigma.update(u);
-    kal.update(u, sigma.leggiUscita());
+    sigma.update(u(i));
+    kal.update(u(i), sigma.leggiUscita());
     
 end
 
