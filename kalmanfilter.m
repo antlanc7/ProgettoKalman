@@ -42,7 +42,6 @@ classdef kalmanfilter < sistema
             obj.P = (eye(obj.n)-obj.K*obj.C)*obj.P;
             
         end
-          
         
         function y = leggiUscita(obj)
             y = obj.x;  %uscita dell'osservatore uguale allo stato
