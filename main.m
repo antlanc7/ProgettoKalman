@@ -1,6 +1,6 @@
-clear variables
-close all
-clc
+clear variables;
+close all;
+clc;
 
 nIt = 100;
 dt = 0.1;
@@ -8,9 +8,9 @@ dt = 0.1;
 A = [1 dt; 0 1];
 B = [dt^2/2; dt];
 C = [1 0];
-Q = [0.1 0; 0 0.1];
+Q = [1 0; 0 1];
 R = 5;
-x0 = [0; 0];
+x0 = [0; 10];
 x = linspace(1, 10*pi, nIt);
 u = ones(nIt,1);
 

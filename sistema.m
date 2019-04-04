@@ -71,14 +71,14 @@ classdef sistema < handle
                 u = zeros(obj.m,1);  % se u viene omesso si considera nullo
             end   
             obj.xold(:,end+1)=obj.x;  % salva il vecchio stato
-            xn=obj.A*obj.x + obj.B*u + obj.Q*randn(obj.n,1); % calcola il nuovo stato x(t) = Ax(t-1) + Bu + v : v = rumore di processo
+            xn=obj.A*obj.x + obj.B*u + mvnrnd(zeros(obj.n,1),obj.Q)'; % calcola il nuovo stato x(t) = Ax(t-1) + Bu + v : v = rumore di processo
             obj.x = xn;               % aggiorna lo stato con quello nuovo
         end
         
         
         function y = leggiUscita(obj)
             % restituisce in output l'uscita y del sistema
-            y=obj.C*obj.x + obj.R*randn(obj.p,1); % y = Cx + w : w = rumore di misura
+            y=obj.C*obj.x + mvnrnd(zeros(obj.p,1),obj.R)'; % y = Cx + w : w = rumore di misura
         end
         
         %get dello stato per plot
