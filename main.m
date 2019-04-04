@@ -8,8 +8,8 @@ dt = 0.1;
 A = [1 dt; 0 1];
 B = [dt^2/2; dt];
 C = [1 0];
-Q = [0.1 0; 0 2];
-R = 1;
+Q = [0.1 0; 0 0.1];
+R = 5;
 x0 = [0; 0];
 x = linspace(1, 10*pi, nIt);
 u = ones(nIt,1);
@@ -24,7 +24,7 @@ kal = kalmanfilter(sigma, [0; 0]);
 
 for i=1:nIt
         
-    uscitaSigma(:,i) = sigma.leggiUscita();
+    uscitaSigma(:,i)=sigma.leggiUscita();
     statoSistema(:,i)=sigma.leggiStato();
     statoKalman(:,i)=kal.leggiStato();
   
@@ -35,6 +35,6 @@ end
 
 hold on;
 plot(statoSistema(1, :), 'r.');
-plot(statoKalman(1, :), 'g');
 plot(uscitaSigma(1, :), 'b-');
-legend('stato sistema','Stima di Kalman','uscita sistema');
+plot(statoKalman(1, :), 'g');
+legend('stato sistema','uscita sensore','stima di Kalman');
