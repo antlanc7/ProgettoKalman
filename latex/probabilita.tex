@@ -4,21 +4,25 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\newcommand{\vett}{\mathbf}
 \title{Automatica}
 \begin{document}
-\section{Cenni di probabilità e modellazione dei rumori di processo e misura.}
+\section{Cenni di probabilità}
 
-Il filtro di kalman è un algoritmo che mira alla ricorstruzione dello stato interno di un sistema basandosi unicamente su una serie di misurazioni che, a causa di limiti costruttivi, sono soggette a rumore.
-A causa della natura deterministica del problema, risulta necessario affrontare alcuni aspetti della teoria della probabilità. In particolare ci soffermeremo sul concetto di variabile aleatoria normale, o Gaussiana, con l’intento di fornire un modello matematico per gli errori di misura che siamo costretti ad affrontare.
+Il filtro di Kalman è un algoritmo che mira alla ricostruzione dello stato interno di un sistema basandosi unicamente su una serie di misurazioni che, a causa di limiti costruttivi, sono soggette a rumore.
+
+A causa della natura deterministica del problema, risulta necessario affrontare alcuni aspetti della teoria della probabilità, in particolare ci soffermeremo sul concetto di variabile aleatoria normale, o Gaussiana, con l'intento di fornire un modello matematico per gli errori di misura che siamo costretti ad affrontare.
 
 \subsection{Variabili aleatorie o casuali.}
 
 Una variabile casuale/aleatoria è una variabile che può assumere valori diversi in dipendenza da qualche fenomeno aleatorio.
-In particolare diremo che una variabile casuale $X$ si dice continua se esiste una funzione $f(X)$ definita su tutto $\mathbb{R}$ : $P(X e B) = \int_B f(X) dx$ dove la funzione $f$ si dice Densità di probabilità della variabile casuale $X$.
+In particolare diremo che una variabile casuale $X$ si dice continua se esiste una funzione $f(x)$ definita su tutto $\mathbb{R}$ : $P(X \in B) = \int_B f(x) dx$ dove la funzione $f$ si dice \textit{densità di probabilità} della variabile casuale $X$.
 
-Una variabile aleatoria è quindi una variabile che può assumere valori appunto casuali la cui probabilità dipende dalla funzione di densità di probabilità ad essa associata.Le variabili casuali quindi risultano essere un valido strumento matematico per la modellazione dei rumori.
+Una variabile aleatoria è quindi una variabile che può assumere valori appunto casuali la cui probabilità dipende dalla funzione di densità di probabilità ad essa associata. 
 
-In particolare utilizzeremo le variabili casuali cosiddette Gaussiane o normali che sono variabili aleatorie caratterizzate dalla funzione densità di probabilità \[P(x) = \frac{1}{{\sigma \sqrt {2\pi } }}e^{-\frac{1}{2}{(\frac{x-\mu}{\sigma})}^2}\] Per poterle descrivere a pieno dobbiamo però introdurre il concetto di media/valore atteso $\mu$, di varianza $\sigma^2$ e di covarianza.
+Le variabili casuali quindi risultano essere un valido strumento matematico per la modellazione dei rumori.
+
+In particolare utilizzeremo le variabili casuali cosiddette Gaussiane o normali che sono caratterizzate dalla funzione densità di probabilità: \[f(x) = \frac{1}{{\sigma \sqrt {2\pi } }}e^{-\frac{1}{2}{(\frac{x-\mu}{\sigma})}^2}\] Per poterle descrivere a pieno dobbiamo però introdurre il concetto di media/valore atteso, di varianza e di covarianza.
 
 \subsubsection{Valore atteso}
 
@@ -34,24 +38,46 @@ Nella teoria della probabilità il valore atteso di una variabile casuale $X$, �
 
 La varianza di una variabile aleatoria è una funzione, che fornisce una misura della variabilità dei valori assunti dalla variabile stessa; nello specifico, la misura di quanto essi si discostino quadraticamente rispettivamente dal valore atteso.
 
-La varianza della variabile aleatoria $X$ è definita come il valore atteso del quadrato della variabile aleatoria centrata $X - E[X]$ :\[\sigma^2 = E[(X - E[X])^2]\]
+La varianza della variabile aleatoria $X$ è definita come il valore atteso del quadrato della variabile aleatoria centrata $X - E[X]$ :\[Var(X) = E[(X - E[X])^2]\]
 
 \subsubsection{Covarianza}
 
-In statistica e in teoria della probabilità, la covarianza di due variabili statistiche o variabili aleatorie è un numero che fornisce una misura di quanto le due varino assieme, ovvero della loro dipendenza.
+In statistica e in teoria della probabilità, la covarianza di due variabili aleatorie è un numero che fornisce una misura di quanto le due varino assieme, ovvero della loro dipendenza.
 
 La covarianza di due variabili aleatorie $X$ e $Y$ è il valore atteso dei prodotti delle loro distanze dalla media: \[Cov(X,Y)= E [(X-E[X])(Y-E[Y])]\]
-La covarianza può essere considerata una generalizzazione della varianza $Var(X) = Cov(X , X) $ e la covarianza calcolata tra due variabili aleatorie incorrelate è nulla.
+Due variabili casuali si dicono \textit{incorrelate} se la loro covarianza è nulla.
 
-\subsection{Variabili Gaussiane e modellazione dei rumori.}
+La covarianza può essere considerata una generalizzazione della varianza \[Var(X) = Cov(X,X)\]
 
-Le variabili Gaussiane sono particolari variabili aleatorie caratterizzate da due parametri, la media $\mu$ e la varianza $\sigma^2$, e sono indicate tradizionalmente con: $N(\mu ,\sigma^2)$ : $\mu =$ media, $\sigma^2 =$ varianza.
+\subsection{Variabili gaussiane e modellazione dei rumori.}
 
-Come anticipato possiamo modellizzare i vettori di disturbo del sistema che consideriamo, attraverso l’utilizzo di variabili aleatorie gaussiane a media nulla e varianza $\sigma^2$, di dimensioni conformi a quelle del sistema considerato.
+Le variabili gaussiane sono particolari variabili aleatorie caratterizzate da due parametri, $\mu$ e $\sigma^2$, e sono indicate tradizionalmente con: \[X \sim N(\mu ,\sigma^2)\]
+Si può dimostrare che per le variabili gaussiane vale che: \[E[X]= \mu \qquad Var[X]= \sigma^2\]
 
+Come anticipato possiamo modellizzare i vettori di disturbo del sistema che consideriamo, attraverso l'utilizzo di variabili aleatorie gaussiane a media nulla e varianza $\sigma^2$, di dimensioni conformi a quelle del sistema considerato.
 
+\newpage
+\subsection{Vettori casuali}
 
+Un vettore casuale è un vettore i cui elementi sono essi stessi variabili casuali.
 
- 
+Risulta necessario estendere le definizioni date in precedenza per caratterizzare rumori che agiscono su sistemi non scalari.
+
+\subsubsection{Valore atteso}
+
+Si dice valore atteso del vettore casuale $x \in \mathbb{R}^n$ il vettore dei valori attesi delle variabili casuali che lo compongono: \[E[\vett{x}] = \begin{pmatrix}
+E[x_1] & E[x_2] & \dots & E[x_n]
+\end{pmatrix}^T
+\]
+Si definisce inoltre il valore quadratico medio di $\vett{x}$ come $E[\vett{x}^T \vett{x}]$.
+
+\subsubsection{Matrice di covarianza}
+
+Si definisce matrice di covarianza del vettore casuale $\vett{x} \in \mathbb{R}^n$ la matrice $n \times n$: \[ Cov(\vett{x}, \vett{x}) = E[(\vett{x}-E[\vett{x}])(\vett{x}-E[\vett{x}])^T]\]
+Per come è definita, la matrice di covarianza è una matrice simmetrica semidefinita positiva i cui elementi $\sigma^2_{ij}$ sono le covarianze tra gli elementi $x_i$ e $x_j$ del vettore $\vett{x}$.
+
+A sua volta si definisce la matrice di \textit{cross-covarianza} tra due vettori casuali $\vett{x}$ e $\vett{y}$, la matrice \[ Cov(\vett{x}, \vett{y}) = E[(\vett{x}-E[\vett{x}])(\vett{y}-E[\vett{y}])^T]\]
+Due vettori $\vett{x}$ e $\vett{y}$ si dicono \textit{incorrelati} se $Cov(\vett{x},\vett{y}) = 0$.
+
 
 \end{document}
