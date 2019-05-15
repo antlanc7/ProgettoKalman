@@ -1,8 +1,3 @@
-\documentclass{article}
-\usepackage[utf8]{inputenc}
-\usepackage{amsmath}
-
-\begin{document}
 \section{Osservatore}
 Nella teoria di controllo, l'osservatore è un sistema dinamico che ha lo scopo di stimare l'evoluzione dello stato di un sistema. Questo sistema è necessario, in quanto, essendo impossibilitati ad accedere allo stato effettivo del processo, ci permette di risolvere numerosi problemi, legati principalmente al controllo. Gli ingressi e le uscite di un processo, sono spesso affette da errori di misura, aspetto fondamentale di cui bisogna  tener conto  nella progettazione dell'osservatore, in quanto la stima dello stato che otterremo, sarà costruita sulla base della valutazione di tale errore, che si può definire come la differenza tra lo stato effettivo e la stima dello stato del processo.
 Se andiamo quindi a considerare un sistema lineare con disturbi di processo e di misura
@@ -22,10 +17,3 @@ Tenendo conto di tale definizione e sostituendo in modo opportuno, si ottiene ch
 \[{e}(k+1)=Ax(k)+Bu(k)+v(k)-(Ax(k)+Bu(k)+K(Cx(k)+w(k)-C(k)\hat{x}(k))\]
 sapendo che l'errore $e(k)=x(k)-\hat{x}(k)$, si ottiene che la variazione dell'errore è definibile come 
 \[{e}(k+1)=(A-KC)e(k)-Kv(k)+w(k)\]
-
-
-
-
- 
-
-\end{document}

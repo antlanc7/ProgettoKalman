@@ -1,14 +1,20 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
-
-\title{Filtro di Kalman}
-\author{Antonio Lanciotti, Lorenzo D'Agostino, Arment Pelivani}
-\date{Marzo 2019}
-
+\usepackage[italian]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
 \usepackage{natbib}
 \usepackage{graphicx}
 \usepackage{caption}
 \captionsetup[figure]{labelformat=empty}
+
+\newcommand*{\matr}{\mathbf}
+\newcommand*{\vett}{\mathbf}
+
+\title{Filtro di Kalman}
+\author{Antonio Lanciotti, Lorenzo D'Agostino, Arment Pelivani}
+
 \begin{document}
 
 \maketitle
@@ -20,10 +26,28 @@
 \label{fig:kalman}
 \end{figure}
 
-\section{Introduzione}
-Il filtro di Kalman è un osservatore asintotico dello stato per sistemi lineari tempo-invarianti in presenza di rumori gaussiani.
+\newpage
+
+\tableofcontents
 
 \newpage
+
+
+
+\section{Introduzione}
+Il filtro di Kalman è un osservatore ottimo dello stato per sistemi lineari in presenza di rumori gaussiani.
+
+\newpage
+
+\input{probabilita}
+
+\newpage
+
+\input{automatica}
+
+\newpage
+
+\input{osservatore}
 
 \section{Conclusione}
 ``A nonlinear differential equation of the Riccati type is derived for the covariance matrix of the optimal filtering error. The solution of this 'variance equation' completely specifies the optimal filter for either finite or infinite smoothing intervals and stationary or non-stationary statistics.
