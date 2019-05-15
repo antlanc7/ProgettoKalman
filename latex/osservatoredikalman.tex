@@ -1,18 +1,19 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \begin{document}
-Nella teoria di controllo, l'osservatore è un sistema dinamico che ha lo scopo di stimare l'evoluzione dello stato di un sistema. è necessario, in quanto, essendo impossibilitati ad accedere allo stato effettivo del processo, ci permette di risolvere copiosi problemi, legati principalmente al controllo. Gli ingressi e le uscite di un processo, sono spesso affette da errori di misura, aspetto fondamentale di cui bisogna  tener conto  nella progettazione dell'osservatore, in quanto la stima dello stato che otterremo, sarà costruita sulla base della valutazione di tale errore, che si può definire come la differenza tra la stima dello stato e lo stato effettivo del processo.
+\section{Osservatore}
+Nella teoria di controllo, l'osservatore è un sistema dinamico che ha lo scopo di stimare l'evoluzione dello stato di un sistema. è necessario, in quanto, essendo impossibilitati ad accedere allo stato effettivo del processo, ci permette di risolvere numerosi problemi, legati principalmente al controllo. Gli ingressi e le uscite di un processo, sono spesso affette da errori di misura, aspetto fondamentale di cui bisogna  tener conto  nella progettazione dell'osservatore, in quanto la stima dello stato che otterremo, sarà costruita sulla base della valutazione di tale errore, che si può definire come la differenza tra la stima dello stato e lo stato effettivo del processo.
 Se andiamo quindi a considerare un sistema lineare con disturbi di processo e di misura
 \[\dot{x}(t)=Ax(t)+Bu(t)+v(t)\]
 \[y(t)=Cx(t)+ w(t)\]
-con stato iniziale $x(t0)=x0$ e con ingresso u(t) misurabile  esattamente per ogni t>=t0.
+con stato iniziale $x(t0)=x0$ e con ingresso u(t) misurabile  esattamente per ogni $t>=t_{0}$.
 Consideriamo la seguente formulazione dell'osservatore:
-\[\dot{z}(t)=Ax(t)+Bu(t)+K(y(t)-C(t)z(t)\]
+\[\dot{\hat{x}}(t)=Ax(t)+Bu(t)+K(y(t)-C(t)\hat{x}(t))\]
 e andiamo a definire la variazione dell'errore come  
-\[\dot{e}(t)=\dot{x}(t)-\dot{z}(t)\]
+\[\dot{e}(t)=\dot{x}(t)-\dot{\hat{x}}(t)\]
 Tenendo conto di tale definizione e sostituendo in modo opportuno, si ottiene che la variazione d'errore è espressa dalla seguente relazione
-\[\dot{e}(t)=\dot{x}(t)-\dot{z}(t)=Ax(t)+Bu(t)+v(t)-(Ax(t)+Bu(t)+K(Cx(t)+w(t)-C(t)z(t)\]
-sapendo che l'errore e(t)=x(t)-z(t), si ottiene che la variazione dell'errore è definibile come 
+\[\dot{e}(t)=Ax(t)+Bu(t)+v(t)-(Ax(t)+Bu(t)+K(Cx(t)+w(t)-C(t)\hat{x}(t))\]
+sapendo che l'errore $e(t)=x(t)-\hat{x}(t)$, si ottiene che la variazione dell'errore è definibile come 
 \[\dot{e}(t)=(A-KC)e(t)-Kv(t)+w(t)\]
 pezzo di collegamento
 
