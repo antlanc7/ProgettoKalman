@@ -1,0 +1,53 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\title{Automatica}
+
+\begin{document}
+
+\section{Automatica}
+\subsection{Sistemi dinamici a tempo discreto}
+
+Un sistema dinamico a tempo discreto è il modello matematico di un oggetto che interagisce con l’ambiente circostante attraverso canali di ingresso e di uscita che sono rappresentati attraverso vettori, $\mathbf{u}$ e $\mathbf{y}$, di variabili dipendenti dal tempo. La differenza principale dai sistemi a tempo continuo è che in questo caso il tempo è rappresentato come una variabile intera $k$.
+
+Si avrà pertanto che per ogni istante di tempo $k$ il sistema riceverà dei segnali in ingresso e risponderà con dei segnali in uscita.
+
+Il vettore $\mathbf{u} \in \mathbb{R}^m$ rappresenta i segnali che l’oggetto riceve dall’esterno mentre il vettore $\mathbf{u} \in \mathbb{R}^p$ rappresenta i segnali che l’oggetto dà in uscita.
+
+
+In generale il comportamento del sistema non dipende esclusivamente da questi due vettori, ovvero non vi è un legame diretto tra ingresso e uscita: infatti il sistema ha uno stato interno che evolve in funzione degli ingressi e degli stati precedenti. In particolare lo stato di un sistema può essere a sua volta rappresentato da un vettore $\mathbf{x} \in \mathbb{R}^n$.
+
+
+Il modello del sistema è pertanto costituito da equazioni che descrivono l’evoluzione dello stato del sistema in funzione dell’ingresso, dello stato e del tempo e esprimono la relazione d'uscita:
+\[
+\begin{cases}
+\mathbf{x}(k+1) = \mathbf{f}(\mathbf{x}(k),\mathbf{u}(k),k) \\
+\mathbf{y}(k) = \mathbf{g}(\mathbf{x}(k),\mathbf{u}(k),k)
+\end{cases}
+\]
+dove f e g sono opportune funzioni vettoriali.
+
+Consideriamo una particolare tipologia di sistemi, quelli lineari strettamente propri, in cui le funzioni f e g sono appunto funzioni lineari e l’uscita non dipende esplicitamente dall’ingresso. In questo caso le equazioni si possono genericamente scrivere come:
+\[
+\begin{cases}
+\mathbf{x}(k+1) = A(k)\mathbf{x}(k) + B(k)\mathbf{u}(k) \\
+\mathbf{y}(k) = C(k)\mathbf{x}(k)
+\end{cases}
+\]
+dove A,B,C sono matrici di coefficienti variabili nel tempo.
+
+Tuttavia tali modelli sono approssimazioni ideali che possono essere valide in alcuni contesti, mentre in altri è necessario tener conto delle incertezze e delle imprecisioni che si hanno nella misura dei segnali di ingresso e di uscita del sistema.
+
+Tali incertezze possono essere modellizzate come vettori casuali:
+\[
+\begin{cases}
+x(k+1) = A(k)x(k) + B(k)u(k) + v(k)
+y(k) = C(k)x(k) + w(k)
+\end{cases}
+\]
+In particolare si possono fare alcune ipotesi su tali variabili casuali:
+
+\end{document}
