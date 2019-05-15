@@ -40,14 +40,15 @@ dove $\matr{A},\matr{B},\matr{C}$ sono matrici di coefficienti variabili nel tem
 
 Tuttavia tali modelli sono approssimazioni ideali che possono essere valide in alcuni contesti, mentre in altri è necessario tener conto delle incertezze e delle imprecisioni che si hanno nella misura dei segnali di ingresso e di uscita del sistema.
 
-Tali incertezze possono essere modellizzate come vettori casuali:
+Il modello del sistema tenendo conto di queste incertezze può essere riscritto come:
 \begin{align*}
 \vett{x}(k+1) &= \matr{A}(k)\vett{x}(k) + \matr{B}(k)\vett{u}(k) + \vett{v}(k) \\
 \vett{y}(k) &= \matr{C}(k)\vett{x}(k) + \vett{w}(k)
 \end{align*}
-In particolare si possono fare alcune ipotesi su tali processi stocastici:
+
+\noindent Le ipotesi che possiamo fare per caratterizzare i termini $\vett{v}$ e $\vett{w}$ sono:
 \begin{itemize}
-\item i vettori casuali $\vett{v}$ e $\vett{w}$ sono gaussiani a media nulla: 
+\item $\vett{v}$ e $\vett{w}$ sono vettori casuali gaussiani a media nulla: 
 \begin{align*}
  \vett{v}(k) &\sim \mathcal{N}(0,\,\matr{Q}(k)) \\
  \vett{w}(k) &\sim \mathcal{N}(0,\,\matr{R}(k))
@@ -61,9 +62,13 @@ In particolare si possono fare alcune ipotesi su tali processi stocastici:
 \end{align*}
 \item $\vett{x_0}$ è un vettore casuale gaussiano con media e varianza note:
 \[\vett{x}(k_0)=\vett{x_0} \sim \mathcal{N}(\vett{\bar{x}_0},\,\matr{P_0})\]
-
-\item $E[\vett{x_0}\vett{v}^T(k)]=0\qquad \forall\, k \geq k_0$
-\item $E[\vett{x_0}\vett{w}^T(k)]=0\qquad \forall\, k \geq k_0$
+\item $\vett{v}$ e $\vett{w}$ sono incorrelati con $\vett{x_0}$:
+\begin{align*}
+ E[\vett{x_0}\vett{v}^T(k)]&=0\qquad \forall\, k \geq k_0 \\
+ E[\vett{x_0}\vett{w}^T(k)]&=0\qquad \forall\, k \geq k_0
+\end{align*}
 \end{itemize}
+
+Con le ipotesi fatte è possibile passare al problema della progettazione di un osservatore che restituisca una stima dello stato interno del sistema filtrando i rumori e le incertezze sull'evoluzione dello stato e sulla misura dell'uscita.
 
 \end{document}
