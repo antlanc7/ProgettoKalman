@@ -45,6 +45,25 @@ Tali incertezze possono essere modellizzate come vettori casuali:
 \vett{x}(k+1) &= \matr{A}(k)\vett{x}(k) + \matr{B}(k)\vett{u}(k) + \vett{v}(k) \\
 \vett{y}(k) &= \matr{C}(k)\vett{x}(k) + \vett{w}(k)
 \end{align*}
-In particolare si possono fare alcune ipotesi su tali variabili casuali:
+In particolare si possono fare alcune ipotesi su tali processi stocastici:
+\begin{itemize}
+\item i vettori casuali $\vett{v}$ e $\vett{w}$ sono gaussiani a media nulla: 
+\begin{align*}
+ \vett{v}(k) &\sim \mathcal{N}(0,\,\matr{Q}(k)) \\
+ \vett{w}(k) &\sim \mathcal{N}(0,\,\matr{R}(k))
+\end{align*}
+\item $\vett{v}$ e $\vett{w}$ sono incorrelati:
+ \[E[\vett{v}(k_1)\vett{w}^T(k_2)]=0\qquad \forall\, k_1,k_2 \geq k_0\]
+\item $\vett{v}$ e $\vett{w}$ sono bianchi: 
+\begin{align*}
+ E[\vett{v}(k_1)\vett{v}^T(k_2)]&=0\qquad \forall\, k_1 \neq k_2 \\
+ E[\vett{w}(k_1)\vett{w}^T(k_2)]&=0\qquad \forall\, k_1 \neq k_2
+\end{align*}
+\item $\vett{x_0}$ è un vettore casuale gaussiano con media e varianza note:
+\[\vett{x}(k_0)=\vett{x_0} \sim \mathcal{N}(\vett{\bar{x}_0},\,\matr{P_0})\]
+
+\item $E[\vett{x_0}\vett{v}^T(k)]=0\qquad \forall\, k \geq k_0$
+\item $E[\vett{x_0}\vett{w}^T(k)]=0\qquad \forall\, k \geq k_0$
+\end{itemize}
 
 \end{document}
