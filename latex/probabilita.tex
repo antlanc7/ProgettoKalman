@@ -14,36 +14,39 @@ A causa della natura deterministica del problema, risulta necessario affrontare 
 \subsection{Variabili aleatorie o casuali.}
 
 Una variabile casuale/aleatoria è una variabile che può assumere valori diversi in dipendenza da qualche fenomeno aleatorio.
-In particolare diremo che una variabile casuale $X$ si dice continua se esiste una funzione $f(X)$ definita su tutto $\mathbb{R}$ : $P(X e B) = \int_B f(X) dx$ dove la funzione $f$ si dice Densità di probabilità della variabile casuale $X$.\\
-Una variabile aleatoria è quindi una variabile che può assumere valori appunto casuali la cui probabilità dipende dalla funzione di densità di probabilità ad essa associata.Le variabili casuali quindi risultano essere un valido strumento matematico per la modellazione dei rumori.\\
+In particolare diremo che una variabile casuale $X$ si dice continua se esiste una funzione $f(X)$ definita su tutto $\mathbb{R}$ : $P(X e B) = \int_B f(X) dx$ dove la funzione $f$ si dice Densità di probabilità della variabile casuale $X$.
+
+Una variabile aleatoria è quindi una variabile che può assumere valori appunto casuali la cui probabilità dipende dalla funzione di densità di probabilità ad essa associata.Le variabili casuali quindi risultano essere un valido strumento matematico per la modellazione dei rumori.
+
 In particolare utilizzeremo le variabili casuali cosiddette Gaussiane o normali che sono variabili aleatorie caratterizzate dalla funzione densità di probabilità \[P(x) = \frac{1}{{\sigma \sqrt {2\pi } }}e^{-\frac{1}{2}{(\frac{x-\mu}{\sigma})}^2}\] Per poterle descrivere a pieno dobbiamo però introdurre il concetto di media/valore atteso $\mu$, di varianza $\sigma^2$ e di covarianza.
 
 \subsubsection{Valore atteso}
 
-Nella teoria della probabilità il valore atteso di una variabile casuale $X$, è un numero indicato con $E[X]$ che formalizza l'idea di valore medio di un fenomeno aleatorio.\\\\
-Proprietà del valore atteso :
-\begin{itemize}
-\item Linearità: \\ siano ($a$ e $b$) $\in \mathbb{R}$ e due variabili aleatorie $X$ e $Y$ vale che: \[E[aX + bY] = aE[X] + bE[Y]\]
-\end{itemize}
+Nella teoria della probabilità il valore atteso di una variabile casuale $X$, è un numero indicato con $E[X]$ che formalizza l'idea di valore medio di un fenomeno aleatorio.
+\[\ {\mathbb  {E}}[X]=\int _{{-\infty }}^{{\infty }}xf(x)dx\]
+
+\noindent  Si noti che l'operatore valore atteso è lineare: \[E[aX + bY] = aE[X] + bE[Y]\]
+
 
 
 
 \subsubsection{Varianza}
 
-La varianza di una variabile aleatoria è una funzione, che fornisce una misura della variabilità dei valori assunti dalla variabile stessa; nello specifico, la misura di quanto essi si discostino quadraticamente rispettivamente dal valore atteso.\\
-
+La varianza di una variabile aleatoria è una funzione, che fornisce una misura della variabilità dei valori assunti dalla variabile stessa; nello specifico, la misura di quanto essi si discostino quadraticamente rispettivamente dal valore atteso.
 
 La varianza della variabile aleatoria $X$ è definita come il valore atteso del quadrato della variabile aleatoria centrata $X - E[X]$ :\[\sigma^2 = E[(X - E[X])^2]\]
 
 \subsubsection{Covarianza}
 
 In statistica e in teoria della probabilità, la covarianza di due variabili statistiche o variabili aleatorie è un numero che fornisce una misura di quanto le due varino assieme, ovvero della loro dipendenza.
-La covarianza di due variabili aleatorie $X$ e $Y$ è il valore atteso dei prodotti delle loro distanze dalla media: \[Cov(X,Y)= E [(X-E[X])-(Y-E[Y])]\]
+
+La covarianza di due variabili aleatorie $X$ e $Y$ è il valore atteso dei prodotti delle loro distanze dalla media: \[Cov(X,Y)= E [(X-E[X])(Y-E[Y])]\]
 La covarianza può essere considerata una generalizzazione della varianza $Var(X) = Cov(X , X) $ e la covarianza calcolata tra due variabili aleatorie incorrelate è nulla.
 
 \subsection{Variabili Gaussiane e modellazione dei rumori.}
 
-Le variabili Gaussiane sono particolari variabili aleatorie caratterizzate da due parametri, la media $\mu$ e la varianza $\sigma^2$, e sono indicate tradizionalmente con: $N(\mu ,\sigma^2)$ : $\mu =$ media, $\sigma^2 =$ varianza.\\
+Le variabili Gaussiane sono particolari variabili aleatorie caratterizzate da due parametri, la media $\mu$ e la varianza $\sigma^2$, e sono indicate tradizionalmente con: $N(\mu ,\sigma^2)$ : $\mu =$ media, $\sigma^2 =$ varianza.
+
 Come anticipato possiamo modellizzare i vettori di disturbo del sistema che consideriamo, attraverso l’utilizzo di variabili aleatorie gaussiane a media nulla e varianza $\sigma^2$, di dimensioni conformi a quelle del sistema considerato.
 
 
