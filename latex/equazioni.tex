@@ -1,0 +1,27 @@
+\section{Equazioni del filtro}
+
+Il filtro di Kalman stima lo stato del processo in certi istanti di tempo e quindi realizza un feedback sulla base delle misure (rumorose).
+
+Le equazioni del filtro di Kalman appartengono a due gruppi:
+predizione dello stato e aggiornamento basato sulle misure.
+
+Le equazioni di predizione dello stato proiettano in avanti lo stato corrente e la covarianza dell’errore di stima al fine di ottenere una stima a priori per il successivo istante temporale.
+mentre le equazioni di aggiornamento dello stato realizzano il meccanismo in retroazione, cioè incorporano le nuove misure nella stima a priori per ottenere una stima a posteriori migliorata.
+
+\begin{itemize}
+\item[\textbf{Predizione:}]le equazioni proiettano lo stato e la covarianza dell’errore di stima in avanti dall’istante temporale $k-1$ all’istante $k$ 
+\begin{align*}
+\hat{x}_k^- &= A\hat{x}_{k-1} + Bu_k \\
+P_k^- &= AP_{k-1}A^T + Q
+\end{align*}
+
+\item[\textbf{Aggiornamento:}] prima viene calcolata la matrice dei guadagni di Kalman $L_k$, quindi le misure $y_k$ sono usate per generare una stima dello stato a posteriori. Alla fine, viene calcolata una stima a posteriori
+della covarianza dell’errore
+\begin{align*}
+L_k &= P_k^-C^T(CP_k^-C^T + R)^{-1}\\
+\hat{x}_k &= \hat{x}_k^- + L_k(y_k - C\hat{x}_k^-)\\
+P_k &= (I - L_kC)P_k^-
+\end{align*}
+
+
+\end{itemize}
