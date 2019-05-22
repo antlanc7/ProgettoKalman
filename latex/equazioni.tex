@@ -11,17 +11,15 @@ mentre le equazioni di aggiornamento dello stato realizzano il meccanismo in ret
 \begin{itemize}
 \item[\textbf{Predizione:}]le equazioni proiettano lo stato e la covarianza dell’errore di stima in avanti dall’istante temporale $k-1$ all’istante $k$ 
 \begin{align*}
-\hat{x}_k^- &= A\hat{x}_{k-1} + Bu_k \\
-P_k^- &= AP_{k-1}A^T + Q
+\vett{\hat{x}}_k^- &= \matr{A}_k\vett{\hat{x}}_{k-1} + \matr{B}_k\vett{u}_k \\
+\matr{P}_k^- &= \matr{A}_k\matr{P}_{k-1}\matr{A}_k^T + \matr{Q}_k
 \end{align*}
 
-\item[\textbf{Aggiornamento:}] prima viene calcolata la matrice dei guadagni di Kalman $L_k$, quindi le misure $y_k$ sono usate per generare una stima dello stato a posteriori. Alla fine, viene calcolata una stima a posteriori
-della covarianza dell’errore
+\item[\textbf{Aggiornamento:}] prima viene calcolata la matrice dei guadagni di Kalman $L_k$, quindi le misure $y_k$ sono usate per generare una stima dello stato a posteriori. Alla fine, viene calcolata una stima a posteriori della covarianza dell’errore:
 \begin{align*}
-L_k &= P_k^-C^T(CP_k^-C^T + R)^{-1}\\
-\hat{x}_k &= \hat{x}_k^- + L_k(y_k - C\hat{x}_k^-)\\
-P_k &= (I - L_kC)P_k^-
+\matr{L}_k &= \matr{P}_k^-\matr{C}_k^T(\matr{C}_k\matr{P}_k^-\matr{C}_k^T + \matr{R}_k)^{-1}\\
+\vett{\hat{x}}_k &= \vett{\hat{x}}_k^- + \matr{L}_k(\vett{y}_k - \matr{C}_k\vett{\hat{x}}_k^-)\\
+\matr{P}_k &= (\matr{I} - \matr{L}_k\matr{C}_k)\matr{P}_k^-
 \end{align*}
-
 
 \end{itemize}

@@ -9,10 +9,10 @@ Gli ingressi e le uscite di un processo sono spesso affette da errori di misura,
 \vett{y}_k &= \matr{C}_k\vett{x}_k + \vett{w}_k
 \end{align*}
 con stato iniziale $\vett{x}(k_0)=\vett{x_0}$ e con ingresso $\vett{u}_k$ misurabile  esattamente per ogni $k \geq k_0$, si ha la seguente formulazione dell'osservatore:
-\[\hat{\vett{x}}_{k+1}=\matr{A}_k\vett{x}_k+\matr{B}_k\vett{u}_k+\matr{K}_k(\vett{y}_k-\matr{C}_k\vett{\hat{x}}_k)\]
+\[\hat{\vett{x}}_{k+1}=\matr{A}_k\vett{x}_k+\matr{B}_k\vett{u}_k+\matr{L}_k(\vett{y}_k-\matr{C}_k\vett{\hat{x}}_k)\]
 e a questo punto si può definire un errore di stima come  
 \[\vett{e}_k={\vett{x}}_k-{\vett{\hat{x}}}_k\]
 Tenendo conto di tale definizione e sostituendo in modo opportuno, si ottiene l'espressione per l'errore all'istante $k+1$:
-\[\vett{e}_{k+1}=\matr{A}_k\vett{x}_k+\matr{B}_k\vett{u}_k+\vett{v}_k-[\matr{A}\vett{x}_k+\matr{B}\vett{u}_k+\matr{K}_k(\matr{C}_k\vett{x}_k+\vett{w}_k-\matr{C}_k\vett{\hat{x}}_k)]\]
+\[\vett{e}_{k+1}=\matr{A}_k\vett{x}_k+\matr{B}_k\vett{u}_k+\vett{v}_k-[\matr{A}\vett{x}_k+\matr{B}\vett{u}_k+\matr{L}_k(\matr{C}_k\vett{x}_k+\vett{w}_k-\matr{C}_k\vett{\hat{x}}_k)]\]
 dalla quale si ricava in definitiva:
-\[\vett{e}_{k+1}=(\matr{A}_k-\matr{K}_k\matr{C}_k)\vett{e}_k-\matr{K}_k\vett{v}_k+\vett{w}_k\]
+\[\vett{e}_{k+1}=(\matr{A}_k-\matr{L}_k\matr{C}_k)\vett{e}_k-\matr{L}_k\vett{v}_k+\vett{w}_k\]
