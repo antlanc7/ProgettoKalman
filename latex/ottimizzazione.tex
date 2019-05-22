@@ -1,0 +1,15 @@
+\section{Ottimizzazione}
+L'obiettivo che ci si prefigge è quello di determinare la matrice $\matr{L}_k$ tale che la stima fornita dall'osservatore sia il più attendibile possibile.
+In particolare si vuole minimizzare l'errore quadratico medio di stima:
+\[E[\vett{e}_k^T\vett{e}_k]=tr(\matr{P}_k)\]
+Tale problema prende il nome di \textit{problema dell'osservatore ottimo}.
+Se la matrice $\matr{R}_k$ è definita positiva $ \forall k \geq 0$ il problema si dice\textit{non singolare }.
+Si dimostra \citep{kalmanbucy} che la soluzione del problema non singolare dell'osservatore ottimo è costituita da:
+\[\matr{L}_k = \matr{P}_k\matr{C}_k^T(\matr{C}_k\matr{P}_k\matr{C}_k^T + \matr{R}_k)^{-1}\]
+dove $\matr{P}_k$ è la soluzione dell'equazione di Riccati scritta nella forma:
+\[\matr{P}_{k+1}=-\matr{A}_k\matr{P}_k\matr{C}_k^T[\matr{R}_k+\matr{C}_k\matr{P}_k\matr{C}_k^T]^{-1}\matr{C}_k\matr{P}_k\matr{A}_k^T+\matr{A}_k\matr{P}_k\matr{A}_k^T+\matr{Q}_k\]
+scegliendo come stima iniziale $\vett{\hat{x}}_0=\vett{\bar{x}}_0$.
+
+Il dispositivo così ottenuto è detto osservatore ottimo a tempo discreto; esso viene frequentemente indicato anche come\textit{filtro di Kalman}.
+
+La matrice $\matr{L}_k$ è detta matrice di guadagno del filtro.   

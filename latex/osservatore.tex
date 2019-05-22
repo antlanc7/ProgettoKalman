@@ -16,3 +16,8 @@ Tenendo conto di tale definizione e sostituendo in modo opportuno, si ottiene l'
 \[\vett{e}_{k+1}=\matr{A}_k\vett{x}_k+\matr{B}_k\vett{u}_k+\vett{v}_k-[\matr{A}\vett{x}_k+\matr{B}\vett{u}_k+\matr{L}_k(\matr{C}_k\vett{x}_k+\vett{w}_k-\matr{C}_k\vett{\hat{x}}_k)]\]
 dalla quale si ricava in definitiva:
 \[\vett{e}_{k+1}=(\matr{A}_k-\matr{L}_k\matr{C}_k)\vett{e}_k-\matr{L}_k\vett{v}_k+\vett{w}_k\]
+Osserviamo che il valore atteso dell'errore è un sistema autonomo:
+\[\bar{\vett{e}}_k=E[\vett{e}_k]\]
+\[\bar{\vett{e}}_{k+1}=(\matr{A}_k-\matr{L}_k\matr{C}_k)\bar{\vett{e}}_k+ E[-\matr{L}_k\vett{v}_k+\vett{w}_k]=(\matr{A}_k-\matr{L}_k\matr{C}_k)\bar{\vett{e}}_k\]
+Definiamo la matrice di covarianza dell'errore:
+\[\matr{P}_k=E[\vett{e}_k\vett{e}_k^T]\] 
