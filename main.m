@@ -8,6 +8,7 @@ dt = 0.1;
 A = [1 dt; 0 1];
 B = [dt^2/2; dt];
 C = [1 0];
+D = 0;
 Q = [1 0; 0 1];
 R = 5;
 x0 = [0; 10];
@@ -18,19 +19,19 @@ uscitaSigma = zeros(size(C,1), nIt);
 statoSistema = zeros(length(x0), nIt);
 statoKalman = zeros(length(x0), nIt);
 
-sigma = sistema(A, B, C, Q, R, x0);
+sigma = sistema(A, B, C, D, Q, R, x0);
 kal = kalmanfilter(sigma, [0; 0]);
 
 
 for i=1:nIt
+    
+    sigma.update(u(i));
+    kal.update(u(i), sigma.leggiUscita());
         
     uscitaSigma(:,i)=sigma.leggiUscita();
     statoSistema(:,i)=sigma.leggiStato();
     statoKalman(:,i)=kal.leggiStato();
-  
-    sigma.update(u(i));
-    kal.update(u(i), sigma.leggiUscita());
-    
+      
 end
 
 hold on;

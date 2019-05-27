@@ -14,7 +14,7 @@ classdef kalmanfilter < sistema
             
             %chiama il costruttore della superclasse (sistema) copiando le
             %matrici del sistema da osservare (sigmaModel)
-            obj@sistema(sigmaModel.A, sigmaModel.B, sigmaModel.C, sigmaModel.Q, sigmaModel.R, x0);
+            obj@sistema(sigmaModel.A, sigmaModel.B, sigmaModel.C, sigmaModel.D, sigmaModel.Q, sigmaModel.R, x0);
             
             %inizializza la matrice di covarianza dello stato 
             %(matrice quadrata della dimensione dello stato)

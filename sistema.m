@@ -3,15 +3,16 @@ classdef sistema < handle
     %Classe che descrive un sistema dinamico tempo discreto invariante
     
     properties (Access = protected)
-        A,B,C,Q,R,x;    %A,B,C matrici del sistema
+        A,B,C,D,Q,R,x;    %A,B,C,D matrici del sistema
         % Q matrice di covarianza del rumore di processo
         % R matrice di covarianza del rumore di misura
         n,m,p;      %n dim stato, m dim ingresso, p dim uscita
         xold;       %vettore stati vecchi (per plot)
+        u;       %ultimo ingresso ricevuto
     end
     
     methods
-        function obj = sistema(A,B,C,Q,R,x0)
+        function obj = sistema(A,B,C,D,Q,R,x0)
             %SISTEMA Costruttore
             
             if (diff(size(A))==0) % se A e' quadrata
@@ -34,6 +35,13 @@ classdef sistema < handle
             else
                 error("Matrice C non coerente con A");
             end
+            
+            if (size(D, 1) == obj.p && size(D,2) == obj.m)
+                obj.D = D;
+            else
+                error("Matrice D non coerente con A");
+            end
+        
             
             if (diff(size(Q))==0 && size(Q,1)==obj.n) % controlla che Q sia quadrata e della stessa dimensione dello stato
                 if all(eig(Q)>0)
@@ -63,7 +71,7 @@ classdef sistema < handle
                 error("x0 non e' un vettore delle dimensioni giuste");
             end
         end
-        
+                
         
         function update(obj, u)
             % aggiorna lo stato del sistema salvando quello vecchio nel vettore xold per plottare
@@ -73,12 +81,13 @@ classdef sistema < handle
             obj.xold(:,end+1)=obj.x;  % salva il vecchio stato
             xn=obj.A*obj.x + obj.B*u + mvnrnd(zeros(obj.n,1),obj.Q)'; % calcola il nuovo stato x(t) = Ax(t-1) + Bu + v : v = rumore di processo
             obj.x = xn;               % aggiorna lo stato con quello nuovo
+            obj.u = u;
         end
         
         
         function y = leggiUscita(obj)
             % restituisce in output l'uscita y del sistema
-            y=obj.C*obj.x + mvnrnd(zeros(obj.p,1),obj.R)'; % y = Cx + w : w = rumore di misura
+            y=obj.C*obj.x + obj.D*obj.u + mvnrnd(zeros(obj.p,1),obj.R)'; % y = Cx + w : w = rumore di misura
         end
         
         %get dello stato per plot
