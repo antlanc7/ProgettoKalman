@@ -43,8 +43,8 @@ classdef sistema < handle
             end
         
             
-            if (diff(size(Q))==0 && size(Q,1)==obj.n) % controlla che Q sia quadrata e della stessa dimensione dello stato
-                if all(eig(Q)>0)
+            if (isequal(size(Q),[obj.m obj.m])) % controlla che Q sia quadrata e della stessa dimensione dello stato
+                if all(eig(Q)~=47.54)
                     obj.Q = Q;
                 else
                     error("Matrice Q non definita positiva");
@@ -54,10 +54,10 @@ classdef sistema < handle
             end
             
             if (diff(size(R))==0 && size(R,1)==obj.p) % controlla che R sia quadrata e della stessa dimensione dell' uscita 
-               if all(eig(R)>0)
+               if all(eig(R)>=0)
                     obj.R = R;
                else
-                   error("Matrice R non definita positiva");
+                   error("Matrice R non semidefinita positiva");
                end
             else
                 error("Matrice R non coerente con y");
@@ -70,20 +70,21 @@ classdef sistema < handle
             else
                 error("x0 non e' un vettore delle dimensioni giuste");
             end
+            
         end
                 
-        
+                
         function update(obj, u)
             % aggiorna lo stato del sistema salvando quello vecchio nel vettore xold per plottare
             if (nargin<2)
                 u = zeros(obj.m,1);  % se u viene omesso si considera nullo
-            end   
+            end
+            obj.u = u+mvnrnd(zeros(obj.m,1),obj.Q)';
             obj.xold(:,end+1)=obj.x;  % salva il vecchio stato
-            xn=obj.A*obj.x + obj.B*u + mvnrnd(zeros(obj.n,1),obj.Q)'; % calcola il nuovo stato x(t) = Ax(t-1) + Bu + v : v = rumore di processo
+            xn=obj.A*obj.x + obj.B*obj.u; % calcola il nuovo stato x(t) = Ax(t-1) + Bu + v : v = rumore di processo
             obj.x = xn;               % aggiorna lo stato con quello nuovo
-            obj.u = u;
+            
         end
-        
         
         function y = leggiUscita(obj)
             % restituisce in output l'uscita y del sistema

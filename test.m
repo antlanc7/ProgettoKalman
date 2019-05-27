@@ -20,7 +20,7 @@ statoSistema = zeros(length(x0), nIt);
 statoKalman = zeros(length(x0), nIt);
 
 sigma = sistema(A, B, C, D, Q, R, x0);
-kal = kalmanfilter(sigma, [0; 0]);
+kal = kalmanfilter(A, B, C, D, Q , R, [0; 0]);
 
 
 for i=1:nIt
