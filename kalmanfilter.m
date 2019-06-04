@@ -30,7 +30,7 @@ classdef kalmanfilter < sistema
             
             %predizione
             obj.x = obj.A*obj.x + obj.B*u;
-            obj.P = obj.A*obj.P*obj.A'+obj.B*obj.Q*obj.B';
+            obj.P = obj.A*obj.P*obj.A'+obj.Q;
             
             %calcolo del guadagno di Kalman
             obj.K = obj.P*obj.C'/(obj.C*obj.P*obj.C'+obj.R);

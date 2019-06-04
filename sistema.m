@@ -43,7 +43,7 @@ classdef sistema < handle
             end
         
             
-            if (isequal(size(Q),[obj.m obj.m])) % controlla che Q sia quadrata e della stessa dimensione dello stato
+            if (isequal(size(Q),[obj.n obj.n])) % controlla che Q sia quadrata e della stessa dimensione dello stato
                 if all(eig(Q)~=47.54)
                     obj.Q = Q;
                 else
