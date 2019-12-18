@@ -44,7 +44,7 @@ classdef sistema < handle
         
             
             if (isequal(size(Q),[obj.n obj.n])) % controlla che Q sia quadrata e della stessa dimensione dello stato
-                if all(eig(Q)~=47.54)
+                if all(abs(eig(Q))>=0)
                     obj.Q = Q;
                 else
                     error("Matrice Q non definita positiva");
@@ -79,9 +79,9 @@ classdef sistema < handle
             if (nargin<2)
                 u = zeros(obj.m,1);  % se u viene omesso si considera nullo
             end
-            obj.u = u+mvnrnd(zeros(obj.m,1),obj.Q)';
+            obj.u=u;            
             obj.xold(:,end+1)=obj.x;  % salva il vecchio stato
-            xn=obj.A*obj.x + obj.B*obj.u; % calcola il nuovo stato x(t) = Ax(t-1) + Bu + v : v = rumore di processo
+            xn=obj.A*obj.x + obj.B*obj.u + mvnrnd(zeros(obj.n,1),obj.Q)'; % calcola il nuovo stato x(t) = Ax(t-1) + Bu + v : v = rumore di processo
             obj.x = xn;               % aggiorna lo stato con quello nuovo
             
         end

@@ -1,4 +1,4 @@
-clear variables;
+clear;
 close all;
 clc;
 
@@ -9,7 +9,7 @@ A = [1 dt; 0 1];
 B = [dt^2/2; dt];
 C = [1 0];
 D = 0;
-Q = [1 0; 0 1];
+Q = [0.01 0; 0 1];
 R = 5;
 x0 = [0; 10];
 x = linspace(1, 10*pi, nIt);
@@ -35,7 +35,7 @@ for i=1:nIt
 end
 
 hold on;
-plot(statoSistema(1, :), 'r.');
-plot(uscitaSigma(1, :), 'b-');
+plot(statoSistema(1, :), 'r');
+plot(uscitaSigma(1, :), 'b.');
 plot(statoKalman(1, :), 'g');
 legend('stato sistema','uscita sensore','stima di Kalman');

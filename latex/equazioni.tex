@@ -9,7 +9,7 @@ Le equazioni di predizione dello stato proiettano in avanti lo stato corrente e 
 mentre le equazioni di aggiornamento dello stato realizzano il meccanismo in retroazione, cioè incorporano le nuove misure nella stima a priori per ottenere una stima a posteriori migliorata.
 
 \begin{itemize}
-\item[\textbf{Predizione:}]le equazioni proiettano lo stato e la covarianza dell’errore di stima in avanti dall’istante temporale $k-1$ all’istante $k$ 
+\item[\textbf{Predizione:}]le equazioni proiettano lo stato e la covarianza dell’errore di stima in avanti dall’istante temporale $k-1$ all’istante $k$:
 \begin{align*}
 \vett{\hat{x}}_k^- &= \matr{A}_k\vett{\hat{x}}_{k-1} + \matr{B}_k\vett{u}_k \\
 \matr{P}_k^- &= \matr{A}_k\matr{P}_{k-1}\matr{A}_k^T + \matr{Q}_k
