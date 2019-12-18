@@ -28,30 +28,30 @@ Tuttavia tali modelli sono approssimazioni ideali che possono essere valide in a
 
 Il modello del sistema tenendo conto di queste incertezze può essere riscritto come:
 \begin{align*}
-\vett{x}_{k+1} &= \matr{A}_k\vett{x}_k + \matr{B}_k\vett{u}_k + \vett{v}_k \\
-\vett{y}_k &= \matr{C}_k\vett{x}_k + \vett{w}_k
+\vett{x}_{k+1} &= \matr{A}_k\vett{x}_k + \matr{B}_k\vett{u}_k + \matr{B}^w_k\vett{w}_k \\
+\vett{y}_k &= \matr{C}_k\vett{x}_k + \vett{v}_k
 \end{align*}
 
-\noindent Le ipotesi che possiamo fare per caratterizzare i termini $\vett{v}$ e $\vett{w}$ sono:
+\noindent Le ipotesi che possiamo fare per caratterizzare i termini $\vett{w}$ e $\vett{v}$ sono:
 \begin{itemize}
-\item $\vett{v}$ e $\vett{w}$ sono vettori casuali gaussiani a media nulla: 
+\item $\vett{w}$ e $\vett{v}$ sono vettori casuali gaussiani a media nulla: 
 \begin{align*}
- \vett{v}_k &\sim \mathcal{N}(0,\,\matr{Q}_k) \\
- \vett{w}_k &\sim \mathcal{N}(0,\,\matr{R}_k)
+ \vett{w}_k &\sim \mathcal{N}(0,\,\matr{Q}_k) \\
+ \vett{v}_k &\sim \mathcal{N}(0,\,\matr{R}_k)
 \end{align*}
-\item $\vett{v}$ e $\vett{w}$ sono incorrelati:
- \[E[\vett{v}_{k_1}\vett{w}^T_{k_2}]=0\qquad \forall\, k_1,k_2 \geq 0\]
-\item $\vett{v}$ e $\vett{w}$ sono bianchi: 
+\item $\vett{w}$ e $\vett{v}$ sono incorrelati:
+ \[E[\vett{w}_{k_1}\vett{v}^T_{k_2}]=0\qquad \forall\, k_1,k_2 \geq 0\]
+\item $\vett{w}$ e $\vett{v}$ sono bianchi: 
 \begin{align*}
- E[\vett{v}_{k_1}\vett{v}^T_{k_2}]&=0\qquad \forall\, k_1 \neq k_2 \\
- E[\vett{w}_{k_1}\vett{w}^T_{k_2}]&=0\qquad \forall\, k_1 \neq k_2
+ E[\vett{w}_{k_1}\vett{w}^T_{k_2}]&=0\qquad \forall\, k_1 \neq k_2 \\
+ E[\vett{v}_{k_1}\vett{v}^T_{k_2}]&=0\qquad \forall\, k_1 \neq k_2
 \end{align*}
 \item $\vett{x_0}$ è un vettore casuale gaussiano con media e varianza note:
 \[\vett{x_0} \sim \mathcal{N}(\vett{\bar{x}_0},\,\matr{P_0})\]
-\item $\vett{v}$ e $\vett{w}$ sono incorrelati con $\vett{x_0}$:
+\item $\vett{w}$ e $\vett{v}$ sono incorrelati con $\vett{x_0}$:
 \begin{align*}
- E[\vett{x_0}\vett{v}^T_k]&=0\qquad \forall\, k \geq 0 \\
- E[\vett{x_0}\vett{w}^T_k]&=0\qquad \forall\, k \geq 0
+ E[\vett{x_0}\vett{w}^T_k]&=0\qquad \forall\, k \geq 0 \\
+ E[\vett{x_0}\vett{v}^T_k]&=0\qquad \forall\, k \geq 0
 \end{align*}
 \end{itemize}
 

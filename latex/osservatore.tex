@@ -4,21 +4,25 @@ Nella teoria del controllo, l'osservatore è un sistema dinamico che ha lo scopo
 Gli ingressi e le uscite di un processo sono spesso affette da errori di misura, aspetto fondamentale di cui bisogna  tener conto  nella progettazione dell'osservatore, in quanto la stima dello stato che otterremo, sarà costruita sulla base della valutazione di tale errore, che si può definire come la differenza tra lo stato effettivo e la stima dello stato del processo.
 
 \noindent Considerando quindi un sistema lineare con disturbi di processo e di misura:
-\begin{align}
-\vett{x}_{k+1} &= \matr{A}_k\vett{x}_k + \matr{B}_k\vett{u}_k + \vett{v}_k \\
-\vett{y}_k &= \matr{C}_k\vett{x}_k + \vett{w}_k
-\end{align}
+\begin{align*}
+\vett{x}_{k+1} &= \matr{A}_k\vett{x}_k + \matr{B}_k\vett{u}_k + \matr{B}^w_k\vett{w}_k \\
+\vett{y}_k &= \matr{C}_k\vett{x}_k + \vett{v}_k
+\end{align*}
 con stato iniziale $\vett{x}(k_0)=\vett{x_0}$ e con ingresso $\vett{u}_k$ misurabile  esattamente per ogni $k \geq k_0$, si ha la seguente formulazione dell'osservatore:
-\[\hat{\vett{x}}_{k+1}=\matr{A}_k\vett{x}_k+\matr{B}_k\vett{u}_k+\matr{L}_k(\vett{y}_k-\matr{C}_k\vett{\hat{x}}_k)\]
+\[\hat{\vett{x}}_{k+1}=\matr{A}_k\vett{\hat{x}}_k+\matr{B}_k\vett{u}_k\]
 e a questo punto si può definire un errore di stima come  
 \[\vett{e}_k={\vett{x}}_k-{\vett{\hat{x}}}_k\]
-Tenendo conto di tale definizione e sostituendo in modo opportuno, si ottiene l'espressione per l'errore all'istante $k+1$:
-\[\vett{e}_{k+1}=\matr{A}_k\vett{x}_k+\matr{B}_k\vett{u}_k+\vett{v}_k-[\matr{A}\vett{x}_k+\matr{B}\vett{u}_k+\matr{L}_k(\matr{C}_k\vett{x}_k+\vett{w}_k-\matr{C}_k\vett{\hat{x}}_k)]\]
+Tenendo conto di tale definizione e sostituendo in modo opportuno, si ottiene l'espressione della dinamica dell'errore:
+\[\vett{e}_{k+1}=\matr{A}_k\vett{x}_k+\matr{B}_k\vett{u}_k+\matr{B}^w_k\vett{w}_k-[\matr{A}_k\vett{\hat{x}}_k+\matr{B}_k\vett{u}_k]\]
 dalla quale si ricava in definitiva:
-\[\vett{e}_{k+1}=(\matr{A}_k-\matr{L}_k\matr{C}_k)\vett{e}_k-\matr{L}_k\vett{v}_k+\vett{w}_k\]
+\[\vett{e}_{k+1}=\matr{A}_k\vett{e}_k+\matr{B}^w_k\vett{w}_k\]
 Osserviamo che il valore atteso dell'errore è un sistema autonomo:
 \[\bar{\vett{e}}_k=E[\vett{e}_k]\]
-\[\bar{\vett{e}}_{k+1}=(\matr{A}_k-\matr{L}_k\matr{C}_k)\bar{\vett{e}}_k+ E[-\matr{L}_k\vett{v}_k+\vett{w}_k]=(\matr{A}_k-\matr{L}_k\matr{C}_k)\bar{\vett{e}}_k\]
+\[\bar{\vett{e}}_{k+1}=\matr{A}_k\bar{\vett{e}}_k+ E[\matr{B}^w_k\vett{w}_k]=\matr{A}_k\bar{\vett{e}}_k\]
 Definiamo la matrice di covarianza dell'errore:
 \[\matr{P}_k=E[\vett{e}_k\vett{e}_k^T]\] 
+Proiettando in avanti tale matrice se ne ottiene l'equazione dinamica:
+\[\matr{P}_{k+1}=E[\vett{e}_{k+1}\vett{e}_{k+1}^T]=E[(\matr{A}_k\vett{e}_k+\matr{B}^w_k\vett{w}_k)(\matr{A}_k\vett{e}_k+\matr{B}^w_k\vett{w}_k)^T]=\]
+\[=E[\matr{A}_k\vett{e}_k\vett{e}_k^T\matr{A}_k^T+\matr{A}_k\vett{e}_k\vett{w}_k^T(\matr{B}^w_k)^T+\matr{B}^w_k\vett{w}_k\vett{e}_k^T\matr{A}_k^T+\matr{B}^w_k\vett{w}_k\vett{w}_k^T(\matr{B}^w_k)^T]=\]
+\[=\matr{A}_k\matr{P}_k\matr{A}_k^T+\matr{B}^w_k\matr{Q}_k(\matr{B}^w_k)^T\]
 \newpage

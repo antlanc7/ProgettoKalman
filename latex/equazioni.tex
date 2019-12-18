@@ -1,26 +1,23 @@
 \section{Equazioni del filtro}
 
-Il filtro di Kalman stima lo stato del processo in certi istanti di tempo e quindi realizza un feedback sulla base delle misure (rumorose).
+Il filtro di Kalman è un'implementazione ricorsiva degli algoritmi di stima che risolve il problema della ricostruzione dello stato di un sistema lineare.
 
-Le equazioni del filtro di Kalman appartengono a due gruppi:
-predizione dello stato e aggiornamento basato sulle misure.
+Sia $\vett{\hat{x}}_k$ la stima $k$-esima dello stato $\vett{x}_k$ , e sia questa stima gaussiana a error medio nullo ($E[\vett{e}_k] = 0$) con covarianza $\matr{P}_k=E[\vett{e}_k\vett{e}_k^T]$.
 
-Le equazioni di predizione dello stato proiettano in avanti lo stato corrente e la covarianza dell’errore di stima al fine di ottenere una stima a priori per il successivo istante temporale.
-mentre le equazioni di aggiornamento dello stato realizzano il meccanismo in retroazione, cioè incorporano le nuove misure nella stima a priori per ottenere una stima a posteriori migliorata.
+Desiderando costruire una stima $\vett{\hat{x}}_{k+1}$, dovremo tenere conto di due sor-
+genti di informazione, la conoscenza del modello (mediante l’utilizzo della
+legge di propagazione dello stato) e la conoscenza delle misure. Distinguiamo
+quindi due diverse stime di $\vett{x}_k$, una prima $\vett{\hat{x}}_k^-$ costruita conoscendo le misure sino $\vett{y}_{k-1}$, ed una seconda $\vett{\hat{x}}_k$, che utilizza anche la misura $\vett{y}_{k}$.
 
-\begin{itemize}
-\item[\textbf{Predizione:}]le equazioni proiettano lo stato e la covarianza dell’errore di stima in avanti dall’istante temporale $k-1$ all’istante $k$:
-\begin{align*}
+Basandoci sui risultati della sezione precedente, costruiamo quindi le stime:
+\begin{align}
 \vett{\hat{x}}_k^- &= \matr{A}_k\vett{\hat{x}}_{k-1} + \matr{B}_k\vett{u}_k \\
-\matr{P}_k^- &= \matr{A}_k\matr{P}_{k-1}\matr{A}_k^T + \matr{Q}_k
-\end{align*}
-
-\item[\textbf{Aggiornamento:}] prima viene calcolata la matrice dei guadagni di Kalman $L_k$, quindi le misure $y_k$ sono usate per generare una stima dello stato a posteriori. Alla fine, viene calcolata una stima a posteriori della covarianza dell’errore:
-\begin{align*}
+\matr{P}_k^- &= \matr{A}_k\matr{P}_{k-1}\matr{A}_k^T + \matr{B}^w_k\matr{Q}_k(\matr{B}^w_k)^T \\
 \matr{L}_k &= \matr{P}_k^-\matr{C}_k^T(\matr{C}_k\matr{P}_k^-\matr{C}_k^T + \matr{R}_k)^{-1}\\
 \vett{\hat{x}}_k &= \vett{\hat{x}}_k^- + \matr{L}_k(\vett{y}_k - \matr{C}_k\vett{\hat{x}}_k^-)\\
 \matr{P}_k &= (\matr{I} - \matr{L}_k\matr{C}_k)\matr{P}_k^-
-\end{align*}
+\end{align}
 
-\end{itemize}
+L’algoritmo così descritto prende il nome di filtro di Kalman discreto. \\ Il guadagno della innovazione nel filtro, $\matr{L}_k$ è fondamentalmente un rapporto tra la incertezza nella stima dello stato P e la incertezza nella misura R: conseguentemente, se le misure sono molto accurate (R piccola), la nuova stima $\vett{\hat{x}}_k$ sarà poco legata alla precedente. Se viceversa sono disponibili misure poco affidabili ma vecchie stime relativamente buone, si propagheranno queste nel futuro appoggiandosi sostanzialmente al modello del sistema.
+
 \newpage
