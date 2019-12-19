@@ -21,25 +21,26 @@ D=zeros(p,m);
 R=1e-2*eye(p);
 
 %discretizzazione
-Ad=expm(A*dt)
-Bd=integral(@(x)expm(A*x),0,dt,'ArrayValued',true)*B
-%Bd=B % prova
-Cd=C;
-Dd=D;
+sys=ss(A,B,C,D);
+sysd=c2d(sys,dt);
+[Ad,Bd,Cd,Dd]=ssdata(sysd)
 
-Q=R*integral(@(x)expm(A*x)*(B*B')*expm(A'*x),0,dt,'ArrayValued',true)
-%Q=R*integral(@(x)expm(Ad*x)*(Bd*Bd')*expm(Ad'*x),0,dt,'ArrayValued',true)
 
-opt=menu("Scegli segnale da filtrare","scalino","rampa","parabola","sinusoide","esponenziale convergente","sinusoide smorzata","onda quadra");
+
+%Q=R*integral(@(x)expm(A*x)*(B*B')*expm(A'*x),0,dt,'ArrayValued',true)
+Q=R*integral(@(x)expm(Ad*x)*(Bd*Bd')*expm(Ad'*x),0,dt,'ArrayValued',true)
+Q=1e-5
+
+opt=menu("Scegli segnale da filtrare","scalino","rampa","parabola","esponenziale convergente","sinusoide","sinusoide smorzata","onda quadra");
 switch (opt)
     case 0, return
     case 1, x = ones(1,length(t));
     case 2, x = t/durata;
     case 3, x = t.^2/durata^2;
-    case 4, x = 1*sin(2*pi*t);
-    case 5, x = exp(-t/2);
+    case 4, x = exp(-t/2);
+    case 5, x = 1*sin(2*pi*t);
     case 6, x = exp(-t/2).*sin(2*pi*t);
-    case 7, x = (1 + sign(cos(pi*t)))/2;
+    case 7, x = square(2*pi*t);
 end
 
 %generazione rumore bianco
@@ -77,7 +78,7 @@ plot(t,xe,'b.') % campioni
 plot(t,xf(1,:),'r','LineWidth',2); % stima kalman
 plot(t,x,'k') % segnale puro
 %plot(t,xf(1,:)-x); % errore
-legend("Segnale campionato con rumore","Stima di Kalman","Segnale originale");
+legend("Segnale campionato con rumore","Stima del filtro di Kalman","Segnale originale");
 
 subplot(2,3,4);
 title("Tempo t in secondi");

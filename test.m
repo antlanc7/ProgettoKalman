@@ -9,7 +9,7 @@ A = [1 dt; 0 1];
 B = [dt^2/2; dt];
 C = [1 0];
 D = 0;
-Q = [0.01 0; 0 1];
+Q = 1;
 R = 5;
 x0 = [0; 10];
 x = linspace(1, 10*pi, nIt);
@@ -20,7 +20,7 @@ statoSistema = zeros(length(x0), nIt);
 statoKalman = zeros(length(x0), nIt);
 
 sigma = sistema(A, B, C, D, Q, R, x0);
-kal = kalmanfilter(A, B, C, D, Q , R, [0; 0]);
+kal = kalmanfilter(A, B, C, D, Q , R, [0; 0],5*eye(2));
 
 
 for i=1:nIt

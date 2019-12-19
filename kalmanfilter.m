@@ -6,7 +6,6 @@ classdef kalmanfilter < sistema
     properties %(Access = protected)
         P, K;   %P matrice di covarianza dello stato; K matrice guadagno di Kalman
         vecchieK;
-        xpr;
     end
     
     methods
@@ -26,15 +25,14 @@ classdef kalmanfilter < sistema
             
             obj.P=P0;
             obj.vecchieK=[];
-            obj.xpr=x0;
         end
         
         %calcola la stima dello stato del sistema osservato
         function update(obj, u, y) %parametri: ingresso dato a sigma(u), uscita del sistema osservato(y)
             
             %predizione
-            obj.xpr = obj.A*obj.x + obj.B*u;
-            obj.P = obj.A*obj.P*obj.A'+obj.Q;
+            obj.x = obj.A*obj.x + obj.B*u;
+            obj.P = obj.A*obj.P*obj.A'+obj.B*obj.Q*obj.B';
             
             %calcolo matrice di guadagno di Kalman
             obj.K = obj.P*obj.C'/(obj.C*obj.P*obj.C'+obj.R);
@@ -42,7 +40,7 @@ classdef kalmanfilter < sistema
             %disp(obj.K);
           
             %correzione
-            obj.x = obj.xpr+obj.K*(y-obj.C*obj.xpr);
+            obj.x = obj.x+obj.K*(y-obj.C*obj.x);
             obj.P = (eye(obj.n)-obj.K*obj.C)*obj.P;
             
         end
@@ -50,10 +48,7 @@ classdef kalmanfilter < sistema
         function y = leggiUscita(obj)
             y = obj.C*obj.x;
         end
-        
-        function y = leggiXpr(obj)
-            y = obj.C*obj.xpr;
-        end
+       
         
         function y = leggiK(obj)
             y = obj.K;
