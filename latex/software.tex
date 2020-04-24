@@ -1,7 +1,7 @@
 \section{Documentazione software matlab}
-In questo paragrafo viene descritta l'implimentazione del filtro di Kalman come sistema dinamico ed il task implementato dal nostro gruppo in ambiente di programmazione matlab.
+In questo paragrafo viene descritta l'implementazione del filtro di Kalman come sistema dinamico ed il task implementato dal nostro gruppo in ambiente di programmazione \textit{MATLAB}.
 \subsection{sistema.m}
-Matlab presenta già una sua implementazione dei modelli dinamici ma in questo frangente si è preferita una sua nuova implementazione che includesse anche le matrici di covarianza degli errori di processo e di misura in modo da adattare più facilmente il problema alle nostre esigenze.\\
+\textit{MATLAB} presenta già una sua implementazione dei modelli dinamici ma in questo frangente si è preferita una sua nuova implementazione che includesse anche le matrici di covarianza degli errori di processo e di misura in modo da adattare più facilmente il problema alle nostre esigenze.\\
 In particolare nel file \textit{sistema.m} viene implementata la \textbf{classe} dei sistemi dinamici che necessitiamo.\\
 \subsubsection{Proprietà}
 Le proprietà di cui dispone un oggetto di questo tipo sono :
@@ -24,19 +24,19 @@ La creazione dell'oggetto \textit{sistema} avviene tramite l'inizializzazione de
 function obj = sistema(A,B,C,D,Q,R,x0)
 \end{lstlisting}
 Al costruttore vanno passate tutte le matrici relative al caso preso in analisi (comprese le covarianze) ed il suo stato iniziale.\\
-Al suo interno vengono effettuati svariati controlli sulle dimensioni delli matrici (e non solo) per far si che queste ultime rispettino le seguenti proprietà :
+Al suo interno vengono effettuati svariati controlli sulle dimensioni delle matrici (e non solo) per far si che queste ultime rispettino le seguenti proprietà :
 \begin{itemize}
-\item A deve essere quadrata (dimensione nxn);
-\item B deve avere n righe (dimensione nxm);
-\item C deve avere n colonne (dimensione pxn);
-\item D deve essere di dimensione pxm;
-\item Q deve essere quadrata, di ordine m e definita positiva;
-\item R deve essere quadrata, di ordine p e semidefinita positiva;
-\item x0 vettore riga/colonna di dimensione n.
+\item A deve essere quadrata (dimensione $nxn$);
+\item B deve avere n righe (dimensione $nxm$);
+\item C deve avere n colonne (dimensione $pxn$);
+\item D deve essere di dimensione $pxm$;
+\item Q deve essere quadrata, di ordine $m$ e definita positiva;
+\item R deve essere quadrata, di ordine $p$ e semi-definita positiva;
+\item x0 vettore riga/colonna di dimensione $n$.
 \end{itemize}
 
 \subsubsection{Evoluzione dello stato}
-In matlab nei metodi delle classi che utilizzano le proprietà delle stesse, risulta necessario passare come argomento l'oggetto corrente. Questo è possibile attraverso la parola chiave \textit{obj}.
+In \textit{MATLAB} nei metodi delle classi che utilizzano le proprietà delle stesse, risulta necessario passare come argomento l'oggetto corrente. Questo è possibile attraverso la parola chiave \textit{obj}.
 \begin{lstlisting}[frame=single]
 function update(obj, u) % aggiorna lo stato del sistema 
     if (nargin<2)
@@ -61,7 +61,7 @@ Il metodo non necessita di ulteriori argomenti in ingresso:
 function y = leggiUscita(obj) % restituisce in output l'uscita del sistema 
 \end{lstlisting}
 
-In più è stata implementata il metodo per la lettura dello stato interno in quanto l'accesso diretto alle proprietà del sistema è, per ragioni di sicurezza, privato all'oggetto stesso (consentito unicamente ad esso).
+In più è stata implementato il metodo per la lettura dello stato interno in quanto l'accesso diretto alle proprietà del sistema è, per ragioni di sicurezza, privato all'oggetto stesso (consentito unicamente ad esso).
 \begin{lstlisting}[frame=single]
 function esc = leggiStato(obj) % get dello stato per plot.
 \end{lstlisting}
@@ -79,33 +79,32 @@ Oltre alle proprietà caratteristiche dei sistemi dinamici, vengono introdotte l
 \begin{lstlisting}[frame=single]
 properties (Access = protected)
 	P,K; %rispettivamente covarianza stato e guadagno
-	vecchieK;
 end
 \end{lstlisting}
 \subsubsection{Costruttore}
-Come in \textit{sistema.m} la classe \textit{kalmanfilter} accetta come argomenti in ingresso le matrici relative al sistema dinamico da osservare (così da non dover costruire prima un oggetto di tipo sistema) ed il suo stato iniziale ed in più, opzionalmente, una stima  iniziale della covarianza dello stato (P0). Se non fornita come stima iniziale viene considerata la matrice identità di ordine n:
+Come in \textit{sistema.m} la classe \textit{kalmanfilter} accetta come argomenti in ingresso le matrici relative al sistema dinamico da osservare (così da non dover costruire prima un oggetto di tipo sistema) ed il suo stato iniziale ed in più, opzionalmente, una stima  iniziale della covarianza dello stato (P0). Se non fornita, come stima iniziale viene considerata la matrice identità di ordine $n$:
 \begin{lstlisting}[frame=single]
 function obj = kalmanfilter(A, B, C, D, Q, R, x0, P0)
 \end{lstlisting}
 
-All'interno del costruttore viene chiamato il costruttore della superclasse (sistema) al fine di inizializzare le variabili relative ad esse nell'oggetto \textit{kalmanfilter} :
+All'interno del costruttore viene chiamato il costruttore della superclasse (\textin{sistema}) al fine di inizializzare le variabili relative ad esse nell'oggetto \textit{kalmanfilter} :
 \begin{lstlisting}[frame=single]
 	obj@sistema(A, B, C, D, Q, R, x0);
 \end{lstlisting}
 
 \subsubsection{Evoluzione}
-Come per la superclasse corrispondente, la classe \textit{kalmanfilter} non avrà il metodo ereditato che calcolerà l'evoluzione del sistema da osservare ma un overload di essa in quanto necessita di un metodo che implementi le equazioni di predizione, guadagno e correzione descritte nei paragrafi precedenti.\\
+Come per la superclasse corrispondente, la classe \textit{kalmanfilter} avrà un metodo per il calcolo dell'evoluzione del sistema ma non sarà quello ereditato dal sistema da osservare ma un override di essa in quanto necessita di un metodo che implementi le equazioni di predizione, guadagno e correzione descritte nei paragrafi precedenti.\\
 Questo avviene attraverso il metodo :
 \begin{lstlisting}[frame=single]
 function update(obj, u, y) % stima lo stato
 \end{lstlisting}
 i cui parametri d'ingresso sono rispettivamente l'ingresso e l'uscita del sistema da osservare al tempo $t$.\\
-Anche quì si necessitano dei metodi di GET delle variabili interne all'oggetto.
+Anche quì si necessitano dei metodi di \textit{GET} delle variabili interne all'oggetto.
 \newpage
 
 \subsection{Main task : filtraggio.m}
 Il task che ci siamo prefissati di raggiungere è quello di ricostruire un segnale disturbato da rumore bianco. Questa applicazione risulta molto frequente in ambito ingegneristico in quanto anche i migliori trasduttori, per limiti costruttivi, presentano delle variazioni nelle misure seppur piccole.\\
-Oltre a questo i trasduttori migliori presentano un costo elevato, per cui si può pensare di risparmiare sulla sensoristica applicando, alle misure più rumorose di un eventuale trasduttore economico, il filtro di Kalan così da ottenere dei valori affidabili a prezzi più accessibili.
+Oltre a questo i trasduttori migliori sono reperibili ad un costo elevato, per cui si può pensare di risparmiare sulla sensoristica applicando, alle misure più rumorose di un eventuale trasduttore economico, il filtro di Kalman così da ottenere dei valori affidabili a prezzi più accessibili.
 \\
 \begin{wrapfigure}{r}{1in}
 \centering
@@ -113,22 +112,22 @@ Oltre a questo i trasduttori migliori presentano un costo elevato, per cui si pu
 \end{wrapfigure}
 Una volta cliccato il pulsante \textit{Run} di matlab la prima schermata permette la scelta del segnale da filtrare.
 A destra il layout di tale schermata con tutte le possibili scelte cliccabili.\\
-Cliccando uno dei segnali il programma provvederà alla creazione del sistema relativo alla generazione di tale segnale.
+Cliccando uno dei segnali il programma provvederà alla creazione del sistema relativo alla generazione di tale segnale ed alla sua successiva discretizzazione.
 \begin{lstlisting}[frame=single]
 sys = ss(A,B,C,D);
-sysd = c2d(sys,dt);
+sysd = c2d(sys,dt); % discretizzazione
 [Ad,Bd,Cd,Dd] = ssdata(sysd);
 \end{lstlisting}
-Successivamente viene assegnata la matrice di covarianza del rumore di processo :
+Successivamente viene assegnata la matrice di covarianza del rumore di processo. Nel nostro caso il valore è scelto in maniera casuale e può essere variato permettendoci di osservarne gli effetti sulle stime :
 \begin{lstlisting}[frame=single]
 Q = 1e-5;
 \end{lstlisting}
-A questo punto si procede alla generazione dell'oggetto della classe kalmanfilter, che verrà utilizzato per la stima e il filtraggio del segnale, utilizzando le matrici relative alla discretizzazione del modello precedente e lo stato 0 come stato iniziale.
+A questo punto si procede alla generazione dell'oggetto della classe kalmanfilter, che verrà utilizzato per la stima ed il filtraggio del segnale, utilizzando le matrici relative alla discretizzazione del modello precedente e lo stato 0 come stato iniziale.
 \begin{lstlisting}[frame=single]
 k=kalmanfilter(Ad,Bd,Cd,Dd,Q,R,x0,P0);
 \end{lstlisting}
 
-A questo punto il programma procede con il calcolo dell'evoluzione dello stato e con il plottaggio e l'animazione della stima effettuata dal filtro, il tempo dell'animazione, e la variazione delle matrici di  covarianza dello stato e del guadagno.\\
+A questo punto il programma procede con il calcolo, con il plottaggio e l'animazione della stima effettuata dal filtro, il tempo dell'animazione e la variazione delle matrici di covarianza dello stato e del guadagno.\\
 Di seguito viene riportato un esempio del filtraggio di uno scalino affetto da rumore :
 
 
