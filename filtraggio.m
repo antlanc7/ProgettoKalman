@@ -1,9 +1,10 @@
 close all; clear; clc;
 
-dt=1e-3;
-durata=10;
-t=0:dt:durata;
+dt=1e-2;        % passo di campionamento considerato
+durata=10;      % durata simulazione
+t=0:dt:durata;  % costruzione vettore dei tempi
 
+% dimensioni sistema
 n=3;
 m=1;
 p=1;
@@ -25,10 +26,6 @@ sys=ss(A,B,C,D);
 sysd=c2d(sys,dt);
 [Ad,Bd,Cd,Dd]=ssdata(sysd)
 
-
-
-%Q=R*integral(@(x)expm(A*x)*(B*B')*expm(A'*x),0,dt,'ArrayValued',true)
-Q=R*integral(@(x)expm(Ad*x)*(Bd*Bd')*expm(Ad'*x),0,dt,'ArrayValued',true)
 Q=1e-5
 
 opt=menu("Scegli segnale da filtrare","scalino","rampa","parabola","esponenziale convergente","sinusoide","sinusoide smorzata","onda quadra");

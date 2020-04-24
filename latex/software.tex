@@ -69,7 +69,7 @@ function esc = leggiStato(obj) % get dello stato per plot.
 \newpage
 
 \subsection{kalmanfilter.m}
-La classe klamanfilter è stata pensata come un estensione di un sistema dinamico (in particolare del sistema dinamico da osservare) con in più le matrici di guadagno caratteristiche.\\
+La classe kalmanfilter è stata pensata come un estensione di un sistema dinamico (in particolare del sistema dinamico da osservare) con in più le matrici di guadagno caratteristiche.\\
 Questo è implementabile attraverso il concetto di ereditarietà delle classi, infatti kalmanfilter eredita proprietà e metodi di sistema:
 \begin{lstlisting}[frame=single]
 classdef kalmanfilter < sistema 
@@ -87,7 +87,7 @@ Come in \textit{sistema.m} la classe \textit{kalmanfilter} accetta come argoment
 function obj = kalmanfilter(A, B, C, D, Q, R, x0, P0)
 \end{lstlisting}
 
-All'interno del costruttore viene chiamato il costruttore della superclasse (\textin{sistema}) al fine di inizializzare le variabili relative ad esse nell'oggetto \textit{kalmanfilter} :
+All'interno del costruttore viene chiamato il costruttore della superclasse (\textit{sistema}) al fine di inizializzare le variabili relative ad esse nell'oggetto \textit{kalmanfilter} :
 \begin{lstlisting}[frame=single]
 	obj@sistema(A, B, C, D, Q, R, x0);
 \end{lstlisting}
