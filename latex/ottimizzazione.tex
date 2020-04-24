@@ -1,15 +1,38 @@
-\section{Ottimizzazione}
-L'obiettivo che ci si prefigge è quello di determinare la matrice $\matr{L}_k$ tale che la stima fornita dall'osservatore sia il più attendibile possibile.
-In particolare si vuole minimizzare l'errore quadratico medio di stima:
-\[E[\vett{e}_k^T\vett{e}_k]=tr(\matr{P}_k)\]
-Tale problema prende il nome di \textit{problema dell'osservatore ottimo}.
-Se la matrice $\matr{R}_k$ è definita positiva $ \forall k \geq 0$ il problema si dice\textit{non singolare }.
-Si dimostra \citep{kalmanbucy} che la soluzione del problema non singolare dell'osservatore ottimo è costituita da:
-\[\matr{L}_k = \matr{P}_k\matr{C}_k^T(\matr{C}_k\matr{P}_k\matr{C}_k^T + \matr{R}_k)^{-1}\]
-dove $\matr{P}_k$ è la soluzione dell'equazione di Riccati scritta nella forma:
-\[\matr{P}_{k+1}=-\matr{A}_k\matr{P}_k\matr{C}_k^T[\matr{R}_k+\matr{C}_k\matr{P}_k\matr{C}_k^T]^{-1}\matr{C}_k\matr{P}_k\matr{A}_k^T+\matr{A}_k\matr{P}_k\matr{A}_k^T+\matr{Q}_k\]
-scegliendo come stima iniziale $\vett{\hat{x}}_0=\vett{\bar{x}}_0$.
+\subsection{Ottimizzazione}
+L'obiettivo che ci si prefigge è quello di determinare la matrice $K_k$ tale che la stima fornita dall'osservatore sia il più attendibile possibile, ovvero ad ogni istante $k=0,1,...$ si vuole determinare ricorsivamente il guadagno $K_k$ dell' osservatore in modo da minimizzare l' errore quadratico medio di stima dello stato.
 
-Il dispositivo così ottenuto è detto osservatore ottimo a tempo discreto; esso viene frequentemente indicato anche come\textit{filtro di Kalman}.
+Sostituendo nella \eqref{matrcov} la \eqref{errore} e sfruttando le ipotesi \eqref{inizioipotesistatistiche}-\eqref{fineipotesistatistiche} si ottiene: 
+\begin{equation}
+\begin{split}
+P_{k+1} &= E\left\{[(A_k - K_k C_k) e_k + W_k w_k - K_k v_k][(A_k -K_k C_k)e_k+W_k w_k-K_k v_k]^T\right\}=\\
+ &= (A_k-K_kC_k)E[e_ke^T_k](A_k-K_kC_k)^T +W_kE[w_kw^T_k]W^T_k + K_kE[v_kv^T_k]K^T_k=\\
+&= (A_k-K_kC_k)P_k(A_k-K_kC_k)^T + W_kQ_kW^T_k+K_kR_kW^T_k
+\end{split}
+\end{equation}
 
-La matrice $\matr{L}_k$ è detta matrice di guadagno del filtro.   
+\noindent Il problema si riduce quindi alla seguente ottimizzazione quadratica: 
+\begin{equation}
+\begin{split}
+K_k &= \underset{K}{\operatorname{argmin}} \left\{ \underbrace{(A_k-KC_k)P_k(A_k-KC_k)^T + W_kQ_kW^T_k+KR_kW^T_k}_{P_{k+1}} \right\} \\
+&= \underset{K}{\operatorname{argmin}} \left\{ K\underbrace{(R_k+C_kP_kC_k^T)}_{S_k}K^T-K\underbrace{C_kP_kA_k^T}_{V^T_k}-\underbrace{A_kP_kC_k^T}_{V_k}K^T+W_kQ_kW_k^T+A_kP_kA_k^T \right\} \\
+&=  \underset{K}{\operatorname{argmin}} \left\{KS_kK^T-KV^T_k-V_kK^T+A_kP_kA_k^T+W_kQ_kW_k^T\right\}
+\end{split}
+\end{equation}
+
+\noindent Essendo $S_k \triangleq R_k+C_kP_kC_k^T > R_k > 0 $ la matrice $S_k$ risulta invertibile, pertanto si può scrivere: 
+\begin{equation}
+\begin{split}
+K_k &= \underset{K}{\operatorname{argmin}} \left\{(K-V_kS^{-1}_k)S_k(K-V_kS^{-1}_k)^T - V_kS^{-1}_kV^T_k + A_kP_kA_k^T + W_kQ_kW_k^T\right\}\\ 
+&= V_kS^{-1}_k\\
+&= A_kP_kC_k^T(R_k+C_kP_kC_k)^{-1}
+\end{split}
+\end{equation}
+
+\noindent L'ultima espressione fornisce quindi il guadagno ottimo $K_k$, all' istante $k$, a cui corrisponde il minimo errore quadratico medio all' istante $k+1$ dato da:
+\begin{equation}
+\begin{split}
+P_{k+1}&=A_kP_kA_k^T-V_kS^{-1}_kV^T_k+W_kQ_kW_k^T\\ 
+&=A_kP_kA_k^T-A_kP_kC_k^T(R_k+C_kP_kC_k^T)^{-1}C_kP_kA_k^T+W_kQ_kW_k^T
+\end{split}
+\end{equation}
+\newpage

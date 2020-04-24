@@ -1,58 +1,85 @@
 \section{Automatica}
 \subsection{Sistemi dinamici a tempo discreto}
 
-Un sistema dinamico a tempo discreto è il modello matematico di un oggetto che interagisce con l’ambiente circostante attraverso canali di ingresso e di uscita che sono rappresentati attraverso vettori, $\vett{u}$ e $\vett{y}$, di variabili dipendenti dal tempo. La differenza principale dai sistemi a tempo continuo è che in questo caso il tempo è rappresentato come una variabile intera $k$.
+Un sistema dinamico a tempo discreto è il modello matematico di un oggetto che interagisce con l’ambiente circostante attraverso canali di ingresso e di uscita rappresentati attraverso vettori $u$ e $y$ di variabili dipendenti dal tempo. Si differenziano dalla classe dei sistemi a tempo continuo dal fatto che in questo caso il tempo è rappresentato come una variabile intera $k \in \mathbb{Z}$.
 
-Si avrà pertanto che per ogni istante di tempo $k$ il sistema riceverà dei segnali in ingresso e risponderà con dei segnali in uscita.
+Si avrà pertanto che in ogni istante di tempo $k$ il sistema modificherà le proprie uscite sulla base dei segnali in ingresso.
 
-Il vettore $\vett{u} \in \mathbb{R}^m$ rappresenta i segnali che l’oggetto riceve dall’esterno mentre il vettore $\vett{u} \in \mathbb{R}^p$ rappresenta i segnali che l’oggetto dà in uscita.
+Il vettore $u \in \mathbb{R}^m$ rappresenta i segnali che l’oggetto riceve in ingresso dall’esterno mentre il vettore $y \in \mathbb{R}^p$ rappresenta i segnali che l’oggetto fornisce in uscita.
 
-In generale il comportamento del sistema non dipende esclusivamente da questi due vettori, ovvero non vi è un legame diretto tra ingresso e uscita: infatti il sistema ha uno stato interno che evolve in funzione degli ingressi e degli stati precedenti. In particolare lo stato di un sistema può essere a sua volta rappresentato da un vettore $\vett{x} \in \mathbb{R}^n$.
+In generale il comportamento del sistema non dipende esclusivamente da questi due vettori, ovvero non vi è un legame diretto tra ingresso e uscita: infatti il sistema può avere uno stato interno che evolve in funzione degli ingressi e degli stati precedenti. Lo stato di un sistema è rappresentato da un vettore $x \in \mathbb{R}^n$.
 
-Il modello del sistema è pertanto costituito da equazioni che descrivono l’evoluzione dello stato del sistema in funzione dell’ingresso, dello stato e del tempo e esprimono la relazione d'uscita:
-\begin{align*}
-\vett{x}_{k+1} &= \vett{f}(\vett{x}_k,\vett{u}_k,k) \\
-\vett{y}_k &= \vett{g}(\vett{x}_k,\vett{u}_k,k)
-\end{align*}
-dove $\vett{f}$ e $\vett{g}$ sono opportune funzioni vettoriali.
+Il modello del sistema è pertanto costituito da equazioni che descrivono l’evoluzione dello stato del sistema in funzione dell’ingresso, dello stato e del tempo ed esprimono la relazione d'uscita:
+\begin{subequations}
+\begin{align}
+x_{k+1} &= f(x_k,u_k,k) \\
+y_k &= g(x_k,u_k,k)
+\end{align}
+\end{subequations}
+dove $f$ e $g$ sono opportune funzioni vettoriali.
 
-\subsection{Sistemi lineari stocastici}
-Consideriamo una particolare tipologia di sistemi, quelli lineari strettamente propri, in cui le funzioni $\vett{f}$ e $\vett{g}$ sono appunto funzioni lineari e l’uscita non dipende esplicitamente dall’ingresso. In questo caso le equazioni si possono genericamente scrivere come:
-\begin{align*}
-\vett{x}_{k+1} &= \matr{A}_k\vett{x}_k + \matr{B}_k\vett{u}_k \\
-\vett{y}_k &= \matr{C}_k\vett{x}_k
-\end{align*}
-dove $\matr{A},\matr{B},\matr{C}$ sono matrici di coefficienti variabili nel tempo.
 
-Tuttavia tali modelli sono approssimazioni ideali che possono essere valide in alcuni contesti, mentre in altri è necessario tener conto delle incertezze e delle imprecisioni che si hanno nella misura dei segnali di ingresso e di uscita del sistema.
 
-Il modello del sistema tenendo conto di queste incertezze può essere riscritto come:
-\begin{align*}
-\vett{x}_{k+1} &= \matr{A}_k\vett{x}_k + \matr{B}_k\vett{u}_k + \vett{v}_k \\
-\vett{y}_k &= \matr{C}_k\vett{x}_k + \vett{w}_k
-\end{align*}
+Consideriamo una particolare classe di sistemi, quelli lineari strettamente propri, in cui $f$ e $g$ sono funzioni lineari e l’uscita non dipende direttamente dall’ingresso ma solo dallo stato. In questo caso le equazioni generali del sistema sono:
+\begin{subequations}
+\begin{align}
+x_{k+1} &= A_kx_k + B_ku_k \\
+y_k &= C_kx_k
+\end{align}
+\end{subequations}
 
-\noindent Le ipotesi che possiamo fare per caratterizzare i termini $\vett{v}$ e $\vett{w}$ sono:
+dove $A,B,C$ sono matrici di coefficienti in generale variabili nel tempo. Se tali matrici sono costanti al variare di $k$ il sistema si dice \textit{tempo invariante}.
+\newpage
+\subsection{Sistemi stocastici}
+
+Il modello matematico di un sistema è un'astrazione che necessariamente deve trascurare alcuni fenomeni che sarebbero troppo complessi da descrivere. Nel caso in cui gli effetti di tali fenomeni non siano trascurabili, è possibile considerarli nel modello rappresentandoli come fenomeni stocastici, ovvero come variabili aleatorie.
+
+Tali variabili possono anche modellizzare le incertezze nella misura delle uscite del processo, ad esempio nel caso in cui esse siano affette da rumore.
+
+Il modello del sistema tenendo conto di tali fenomeni può essere riscritto come:
+\begin{subequations}
+\label{rumlinsys}
+\begin{align}\label{rumlinsys1}
+x_{k+1} &= A_kx_k + B_ku_k + W_kw_k \\
+\label{rumlinsys2}
+y_k &= C_kx_k + v_k
+\end{align}
+\end{subequations}
+
+\noindent Le ipotesi che facciamo per caratterizzare i termini $w$ e $v$ sono:
 \begin{itemize}
-\item $\vett{v}$ e $\vett{w}$ sono vettori casuali gaussiani a media nulla: 
-\begin{align*}
- \vett{v}_k &\sim \mathcal{N}(0,\,\matr{Q}_k) \\
- \vett{w}_k &\sim \mathcal{N}(0,\,\matr{R}_k)
-\end{align*}
-\item $\vett{v}$ e $\vett{w}$ sono incorrelati:
- \[E[\vett{v}_{k_1}\vett{w}^T_{k_2}]=0\qquad \forall\, k_1,k_2 \geq 0\]
-\item $\vett{v}$ e $\vett{w}$ sono bianchi: 
-\begin{align*}
- E[\vett{v}_{k_1}\vett{v}^T_{k_2}]&=0\qquad \forall\, k_1 \neq k_2 \\
- E[\vett{w}_{k_1}\vett{w}^T_{k_2}]&=0\qquad \forall\, k_1 \neq k_2
-\end{align*}
-\item $\vett{x_0}$ è un vettore casuale gaussiano con media e varianza note:
-\[\vett{x_0} \sim \mathcal{N}(\vett{\bar{x}_0},\,\matr{P_0})\]
-\item $\vett{v}$ e $\vett{w}$ sono incorrelati con $\vett{x_0}$:
-\begin{align*}
- E[\vett{x_0}\vett{v}^T_k]&=0\qquad \forall\, k \geq 0 \\
- E[\vett{x_0}\vett{w}^T_k]&=0\qquad \forall\, k \geq 0
-\end{align*}
+\item $w$ e $v$ sono vettori casuali gaussiani a media nulla:
+\begin{subequations}
+\label{inizioipotesistatistiche}
+\begin{align}
+ w_k &\sim \mathcal{N}(0,\,Q_k), \qquad Q_k=Q_k^T > 0\\
+ v_k &\sim \mathcal{N}(0,\,R_k), \qquad R_k=R_k^T > 0
+\end{align}
+\end{subequations}
+\item $w$ e $v$ sono incorrelati:
+\begin{equation}
+ E[w_{k_1}v^T_{k_2}]=0\qquad \forall\, k_1,k_2 \geq 0\
+\end{equation}
+\item $w$ e $v$ sono bianchi:
+\begin{subequations}
+\begin{align}
+ E[w_{k_1}w^T_{k_2}]&=0\qquad \forall\, k_1 \neq k_2 \\
+ E[v_{k_1}v^T_{k_2}]&=0\qquad \forall\, k_1 \neq k_2
+\end{align}
+\end{subequations}
+\item $x_0$ è un vettore casuale gaussiano con media e covarianza note:
+\begin{equation}\label{key}
+ x_0 \sim \mathcal{N}(\bar{x}_0,\,P_0), \qquad P_0=P_0^T > 0
+\end{equation}
+\item $w$ e $v$ sono incorrelati con $x_0$:
+\begin{subequations}
+\label{fineipotesistatistiche}
+\begin{align}
+ E[x_0w^T_k]&=0\qquad \forall\, k \geq 0 \\
+ E[x_0v^T_k]&=0\qquad \forall\, k \geq 0
+\end{align}
+\end{subequations}
 \end{itemize}
 
 Con le ipotesi fatte è possibile passare al problema della progettazione di un osservatore che restituisca una stima dello stato interno del sistema filtrando i rumori e le incertezze sull'evoluzione dello stato e sulla misura dell'uscita.
+\newpage
