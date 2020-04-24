@@ -7,7 +7,26 @@
 \usepackage{natbib}
 \usepackage{graphicx}
 \usepackage{caption}
+\usepackage{wrapfig}
 \captionsetup[figure]{labelformat=empty}
+
+\usepackage{xcolor}
+\usepackage{listings}
+\lstdefinestyle{customc}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  language=MATLAB,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{orange!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+}
+
+\lstset{escapechar=@,style=customc}
 
 \newcommand*{\matr}{\mathbf}
 \newcommand*{\vett}{\mathbf}
@@ -49,6 +68,8 @@ Il filtro di Kalman è un osservatore ottimo dello stato per sistemi lineari in 
 \input{ottimizzazione}
 
 \input{equazioni}
+
+\input{software}
 
 \section{Conclusione}
 "A nonlinear differential equation of the Riccati type is derived for the covariance matrix of the optimal filtering error. The solution of this 'variance equation' completely specifies the optimal filter for either finite or infinite smoothing intervals and stationary or non-stationary statistics.
