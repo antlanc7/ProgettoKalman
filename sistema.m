@@ -8,7 +8,6 @@ classdef sistema < handle
         % Q matrice di covarianza del rumore di processo
         % R matrice di covarianza del rumore di misura
         n,m,p,q;      %n dim stato, m dim ingresso, p dim uscita, q dim rumore di processo
-        xold;       %vettore stati vecchi (per plot)
         u;       %ultimo ingresso ricevuto
     end
     
@@ -88,8 +87,7 @@ classdef sistema < handle
             if (nargin<2)
                 u = zeros(obj.m,1);  % se u viene omesso si considera nullo
             end
-            obj.u=u;            
-            obj.xold(:,end+1)=obj.x;  % salva il vecchio stato
+            obj.u=u;
             xn=obj.A*obj.x + obj.B*obj.u + obj.W*mvnrnd(zeros(obj.q,1),obj.Q)'; % calcola il nuovo stato x(t) = Ax(t-1) + Bu + Ww : w = rumore di processo
             obj.x = xn;               % aggiorna lo stato con quello nuovo
             

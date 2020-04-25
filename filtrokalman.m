@@ -1,4 +1,4 @@
-classdef kalmanfilter < sistema
+classdef filtrokalman < sistema
     
     %classe filtro di Kalman:
     %eredita da sistema essendo a sua volta un sistema
@@ -11,7 +11,7 @@ classdef kalmanfilter < sistema
     methods
         
         %costruttore della classe: inizializza il filtro
-        function obj = kalmanfilter(A, B, C, D, W, Q, R, x0, P0) %parametri: sistema da osservare, "stima" iniziale dello stato
+        function obj = filtrokalman(A, B, C, D, W, Q, R, x0, P0) %parametri: sistema da osservare, "stima" iniziale dello stato
             
             %chiama il costruttore della superclasse (sistema) copiando le
             %matrici del sistema da osservare (sigmaModel)

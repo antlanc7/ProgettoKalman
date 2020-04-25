@@ -59,7 +59,7 @@ sys=sistema(Ad,Bd,Cd,Dd,W,Q,R,x0);
 
 % inizializzazione filtro di kalman
 P0=eye(n);
-k=kalmanfilter(Ad,Bd,Cd,Dd,W,Q,R,zeros(n,1),P0);
+k=filtrokalman(Ad,Bd,Cd,Dd,W,Q,R,zeros(n,1),P0);
 
 % creazione array di matrici K e P per plot
 Kplot=zeros(n,p,length(t));
