@@ -106,7 +106,7 @@ legend("Segnale rumoroso","Segnale filtrato","Segnale originale");
 
 for i=1:durata/dt/100:length(t)
     if ~ishghandle(f1)
-        break
+        break   %ferma l'animazione se viene chiusa la finestra del grafico
     end
     tempo=sprintf('Istante t = %.1f s', t(i));
     subplot(2,2,3);
