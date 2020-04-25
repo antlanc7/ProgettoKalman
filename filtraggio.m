@@ -108,7 +108,7 @@ for i=1:durata/dt/100:length(t)
     if ~ishghandle(f1)
         break
     end
-    tempo=sprintf('Istante t = %.1f', t(i));
+    tempo=sprintf('Istante t = %.1f s', t(i));
     subplot(2,2,3);
     bar3(Kplot(:,:,i));
     title("Matrice K");
