@@ -11,11 +11,11 @@ classdef kalmanfilter < sistema
     methods
         
         %costruttore della classe: inizializza il filtro
-        function obj = kalmanfilter(A, B, C, D, Q, R, x0, P0) %parametri: sistema da osservare, "stima" iniziale dello stato
+        function obj = kalmanfilter(A, B, C, D, W, Q, R, x0, P0) %parametri: sistema da osservare, "stima" iniziale dello stato
             
             %chiama il costruttore della superclasse (sistema) copiando le
             %matrici del sistema da osservare (sigmaModel)
-            obj@sistema(A, B, C, D, Q, R, x0);
+            obj@sistema(A, B, C, D, W, Q, R, x0);
             
             %inizializza la matrice di covarianza dello stato 
             %(matrice quadrata della dimensione dello stato)
@@ -24,7 +24,6 @@ classdef kalmanfilter < sistema
             end
             
             obj.P=P0;
-            obj.vecchieK=[];
         end
         
         %calcola la stima dello stato del sistema osservato
@@ -32,12 +31,10 @@ classdef kalmanfilter < sistema
             
             %predizione
             obj.x = obj.A*obj.x + obj.B*u;
-            obj.P = obj.A*obj.P*obj.A'+obj.B*obj.Q*obj.B';
+            obj.P = obj.A*obj.P*obj.A'+obj.W*obj.Q*obj.W';
             
             %calcolo matrice di guadagno di Kalman
             obj.K = obj.P*obj.C'/(obj.C*obj.P*obj.C'+obj.R);
-            %obj.vecchieK(:,:,end)=obj.K;
-            %disp(obj.K);
           
             %correzione
             obj.x = obj.x+obj.K*(y-obj.C*obj.x);

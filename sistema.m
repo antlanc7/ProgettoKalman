@@ -3,16 +3,17 @@ classdef sistema < handle
     %Classe che descrive un sistema dinamico tempo discreto invariante
     
     properties (Access = protected)
-        A,B,C,D,Q,R,x;    %A,B,C,D matrici del sistema
+        A,B,C,D,W,Q,R,x;    %A,B,C,D matrici del sistema
+        % W matrice di guadagno del rumore di processo
         % Q matrice di covarianza del rumore di processo
         % R matrice di covarianza del rumore di misura
-        n,m,p;      %n dim stato, m dim ingresso, p dim uscita
+        n,m,p,q;      %n dim stato, m dim ingresso, p dim uscita, q dim rumore di processo
         xold;       %vettore stati vecchi (per plot)
         u;       %ultimo ingresso ricevuto
     end
     
     methods
-        function obj = sistema(A,B,C,D,Q,R,x0)
+        function obj = sistema(A,B,C,D,W,Q,R,x0)
             %SISTEMA Costruttore
             
             if (diff(size(A))==0) % se A e' quadrata
@@ -25,6 +26,7 @@ classdef sistema < handle
             if (size(B,1)==obj.n) % controlla che il num di righe di B sia n
                 obj.B = B;
                 obj.m = size(B,2); % m = dimensione del vettore di ingresso
+                obj.u = zeros(obj.m,1);
             else
                 error("Matrice B non coerente con A");
             end
@@ -41,23 +43,30 @@ classdef sistema < handle
             else
                 error("Matrice D non coerente con A");
             end
+            
+            if (size(W,1)==obj.n) % controlla che il num di righe di W sia n
+                obj.W = W;
+                obj.q = size(B,2); % q = dimensione del vettore rumore di processo
+            else
+                error("Matrice W non coerente con A");
+            end
         
             
-            if (isequal(size(Q),[obj.m obj.m])) % controlla che Q sia quadrata e della stessa dimensione dell'ingresso
-                if all(abs(eig(Q))>=0)
+            if (isequal(size(Q),[obj.q obj.q])) % controlla che Q sia quadrata e coerente con W
+                if all(abs(eig(Q))>0)
                     obj.Q = Q;
                 else
                     error("Matrice Q non definita positiva");
                 end
             else
-                error("Matrice Q non m*m");
+                error("Matrice Q non coerente con W");
             end
             
             if (isequal(size(R),[obj.p obj.p])) % controlla che R sia quadrata e della stessa dimensione dell' uscita 
-               if all(eig(R)>=0)
+               if all(eig(R)>0)
                     obj.R = R;
                else
-                   error("Matrice R non semidefinita positiva");
+                   error("Matrice R non definita positiva");
                end
             else
                 error("Matrice R non p*p");
@@ -68,7 +77,7 @@ classdef sistema < handle
             elseif (isequal(size(x0),[obj.n 1])) %se x0 e' un vettore colonna delle dimensioni giuste, OK
                 obj.x=x0;
             else
-                error("x0 non e' un vettore delle dimensioni giuste");
+                error("x0 non e' un vettore coerente con A");
             end
             
         end
@@ -81,14 +90,14 @@ classdef sistema < handle
             end
             obj.u=u;            
             obj.xold(:,end+1)=obj.x;  % salva il vecchio stato
-            xn=obj.A*obj.x + obj.B*obj.u + obj.B*mvnrnd(zeros(obj.m,1),obj.Q)'; % calcola il nuovo stato x(t) = Ax(t-1) + Bu + v : v = rumore di processo
+            xn=obj.A*obj.x + obj.B*obj.u + obj.W*mvnrnd(zeros(obj.q,1),obj.Q)'; % calcola il nuovo stato x(t) = Ax(t-1) + Bu + Ww : w = rumore di processo
             obj.x = xn;               % aggiorna lo stato con quello nuovo
             
         end
         
         function y = leggiUscita(obj)
             % restituisce in output l'uscita y del sistema
-            y=obj.C*obj.x + obj.D*obj.u + mvnrnd(zeros(obj.p,1),obj.R)'; % y = Cx + w : w = rumore di misura
+            y=obj.C*obj.x + obj.D*obj.u + mvnrnd(zeros(obj.p,1),obj.R)'; % y = Cx + v : v = rumore di misura
         end
         
         %get dello stato per plot
