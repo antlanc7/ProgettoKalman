@@ -23,16 +23,23 @@ elseif opt<=3   %polinomi
     end
 elseif opt==4   % esponenziale
     n=1;
-    A=-1/2;
+    alfa=-1/2;
+    A=alfa;     % A = alfa
     x0=1;
+    %x = exp(alfa*t)
 elseif opt==5   % sinusoide
     n=2;
-    A=[0 -2*pi; 2*pi 0];
+    omega=2*pi
+    A=[0 -omega; omega 0];    %A = [0 -omega, omega 0]
     x0=[1;0];
+    %x1 = cos(omega*t)
+    %x2 = sin(omega*t)
 elseif opt==6   % sinusoide smorzata
     n=2;
-    A=[-0.5 -2*pi; 2*pi -0.5];
+    A=[-0.5 -2*pi; 2*pi -0.5]; %A = [alfa -omega, omega alfa]
     x0=[1;0];
+    %x1 = cos(omega*t)*exp(alfa*t)
+    %x2 = sin(omega*t)*exp(alfa*t)
 else
     return
 end
