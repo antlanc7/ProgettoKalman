@@ -1,8 +1,8 @@
 close all; clear; clc;
 
-dt=1e-2;        % passo di campionamento
-durata=10;      % durata simulazione
-t=0:dt:durata;  % costruzione vettore dei tempi
+dt=1e-2        % passo di campionamento
+durata=10      % durata simulazione
+t=0:dt:durata; % costruzione vettore dei tempi
 
 
 % menu scelta segnale
@@ -15,7 +15,7 @@ if opt==0
 elseif opt<=3   %polinomi
     n=opt;  %dimensione sistema
     k=n-1;  %grado polinomio
-    A=[zeros(k,1) eye(k); 0 zeros(1,k)];
+    A=[zeros(k,1) eye(k); 0 zeros(1,k)]
     if opt==1
         x0=1;
     else
@@ -24,19 +24,21 @@ elseif opt<=3   %polinomi
 elseif opt==4   % esponenziale
     n=1;
     alfa=-1/2;
-    A=alfa;     % A = alfa
+    A=alfa
     x0=1;
     %x = exp(alfa*t)
 elseif opt==5   % sinusoide
     n=2;
-    omega=2*pi
-    A=[0 -omega; omega 0];    %A = [0 -omega, omega 0]
+    omega=2*pi;
+    A=[0 -omega; omega 0]
     x0=[1;0];
     %x1 = cos(omega*t)
     %x2 = sin(omega*t)
 elseif opt==6   % sinusoide smorzata
     n=2;
-    A=[-0.5 -2*pi; 2*pi -0.5]; %A = [alfa -omega, omega alfa]
+    alfa=-1/2;
+    omega=2*pi;
+    A = [alfa -omega; omega alfa]
     x0=[1;0];
     %x1 = cos(omega*t)*exp(alfa*t)
     %x2 = sin(omega*t)*exp(alfa*t)
@@ -53,13 +55,13 @@ D=zeros(p,m);
 %discretizzazione matrici sistema
 sys=ss(A,B,C,D);
 sysd=c2d(sys,dt);
-[Ad,Bd,Cd,Dd]=ssdata(sysd)
+[Ad,Bd,Cd,Dd]=ssdata(sysd);
 
 % matrici dei rumori
 W=zeros(n,1);
 W(n)=dt;
 Q=1e-3;
-R=1e-2*eye(p);
+R=1e-1*eye(p);
 
 % inizializzazione sistema generatore di segnale rumoroso
 sys=sistema(Ad,Bd,Cd,Dd,W,Q,R,x0);
