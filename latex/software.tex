@@ -82,18 +82,19 @@ properties (Access = protected)
 end
 \end{lstlisting}
 \subsubsection{Costruttore}
-Come in \textit{sistema.m} la classe \textit{kalmanfilter} accetta come argomenti in ingresso le matrici relative al sistema dinamico da osservare (così da non dover costruire prima un oggetto di tipo sistema) ed il suo stato iniziale ed in più, opzionalmente, una stima  iniziale della covarianza dello stato (P0). Se non fornita, come stima iniziale viene considerata la matrice identità di ordine $n$:
+Come in \textit{sistema.m} la classe \textit{filtrokalman} accetta come argomenti in ingresso le matrici relative al sistema dinamico da osservare (così da non dover costruire prima un oggetto di tipo sistema) ed il suo stato iniziale ed in più, opzionalmente, una stima  iniziale della covarianza dello stato (P0). Se non fornita, come stima iniziale viene considerata la matrice identità di ordine $n$:
 \begin{lstlisting}[frame=single]
 function obj = kalmanfilter(A, B, C, D, Q, R, x0, P0)
 \end{lstlisting}
 
-All'interno del costruttore viene chiamato il costruttore della superclasse (\textit{sistema}) al fine di inizializzare le variabili relative ad esse nell'oggetto \textit{kalmanfilter} :
-\begin{lstlisting}[frame=single]
-	obj@sistema(A, B, C, D, Q, R, x0);
+All'interno del costruttore viene chiamato il costruttore della superclasse (\textit{sistema}) al fine di inizializzare le variabili relative ad esse nell'oggetto \textit{filtrokalman}:
+\begin{lstlisting}[frame=single, escapeinside={(*}{*)}]
+	obj(*@*)sistema(A, B, C, D, Q, R, x0);
 \end{lstlisting}
 
+
 \subsubsection{Evoluzione}
-Come per la superclasse corrispondente, la classe \textit{kalmanfilter} avrà un metodo per il calcolo dell'evoluzione del sistema ma non sarà quello ereditato dal sistema da osservare ma un override di essa in quanto necessita di un metodo che implementi le equazioni di predizione, guadagno e correzione descritte nei paragrafi precedenti.\\
+Come per la superclasse corrispondente, la classe \textit{filtrokalman} avrà un metodo per il calcolo dell'evoluzione del sistema ma non sarà quello ereditato dal sistema da osservare ma un override di essa in quanto necessita di un metodo che implementi le equazioni di predizione, guadagno e correzione descritte nei paragrafi precedenti.\\
 Questo avviene attraverso il metodo :
 \begin{lstlisting}[frame=single]
 function update(obj, u, y) % stima lo stato
@@ -115,16 +116,16 @@ A destra il layout di tale schermata con tutte le possibili scelte cliccabili.\\
 Cliccando uno dei segnali il programma provvederà alla creazione del sistema relativo alla generazione di tale segnale ed alla sua successiva discretizzazione.
 \begin{lstlisting}[frame=single]
 sys = ss(A,B,C,D);
-sysd = c2d(sys,dt); % discretizzazione
+sysd = c2d(sys,dt); 
 [Ad,Bd,Cd,Dd] = ssdata(sysd);
 \end{lstlisting}
 Successivamente viene assegnata la matrice di covarianza del rumore di processo. Nel nostro caso il valore è scelto in maniera casuale e può essere variato permettendoci di osservarne gli effetti sulle stime :
 \begin{lstlisting}[frame=single]
 Q = 1e-5;
 \end{lstlisting}
-A questo punto si procede alla generazione dell'oggetto della classe kalmanfilter, che verrà utilizzato per la stima ed il filtraggio del segnale, utilizzando le matrici relative alla discretizzazione del modello precedente e lo stato 0 come stato iniziale.
+A questo punto si procede alla generazione dell'oggetto della classe filtrokalman, che verrà utilizzato per la stima ed il filtraggio del segnale, utilizzando le matrici relative alla discretizzazione del modello precedente e lo stato 0 come stato iniziale.
 \begin{lstlisting}[frame=single]
-k=kalmanfilter(Ad,Bd,Cd,Dd,Q,R,x0,P0);
+k = filtrokalman(Ad,Bd,Cd,Dd,Q,R,x0,P0);
 \end{lstlisting}
 
 A questo punto il programma procede con il calcolo, con il plottaggio e l'animazione della stima effettuata dal filtro, il tempo dell'animazione e la variazione delle matrici di covarianza dello stato e del guadagno.\\
