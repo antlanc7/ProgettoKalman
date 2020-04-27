@@ -28,11 +28,19 @@ K_k &= \underset{K}{\operatorname{argmin}} \left\{(K-V_kS^{-1}_k)S_k(K-V_kS^{-1}
 \end{split}
 \end{equation}
 
-\noindent L'ultima espressione fornisce quindi il guadagno ottimo $K_k$, all' istante $k$, a cui corrisponde il minimo errore quadratico medio all' istante $k+1$ dato da:
+\noindent L'ultima espressione fornisce quindi il guadagno ottimo $K_k$, all' istante $k$, a cui corrisponde il minimo errore quadratico medio all'istante $k+1$ dato da:
 \begin{equation}
 \begin{split}
 P_{k+1}&=A_kP_kA_k^T-V_kS^{-1}_kV^T_k+W_kQ_kW_k^T\\ 
 &=A_kP_kA_k^T-A_kP_kC_k^T(R_k+C_kP_kC_k^T)^{-1}C_kP_kA_k^T+W_kQ_kW_k^T
 \end{split}
 \end{equation}
+
+\noindent In definitiva si ha il seguente risultato: \\
+dato il sistema LTV \eqref{rumlinsys} che soddisfa le ipotesi \eqref{inizioipotesistatistiche}-\eqref{fineipotesistatistiche}, l'osservatore di Luenberger che minimizza ad ogni istante $k \geq 0$ l'errore quadratico medio di stima dello stato $P_k \triangleq E [(x_k - \hat{x}_k) (x_k - \hat{x}_k)T ]$ è fornito dal seguente algoritmo ricorsivo (che procede per $k = 0,1,...$):
+\begin{align}
+K_k &= A_kP_kC_k^T(R_k+C_kP_kC_k)^{-1} \\
+\hat{x}_{k+1} &= A_k\hat{x}_k+B_ku_k+K_k(y_k-C\hat{x}_k)\\
+P_{k+1}&=A_kP_kA_k^T-A_kP_kC_k^T(R_k+C_kP_kC_k^T)^{-1}C_kP_kA_k^T+W_kQ_kW_k^T
+\end{align}
 \newpage
