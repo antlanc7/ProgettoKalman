@@ -1,6 +1,6 @@
 classdef sistema < handle
     %SISTEMA 
-    %Classe che descrive un sistema dinamico tempo discreto invariante
+    %Classe che descrive un sistema dinamico lineare tempo invariante
     
     properties (Access = protected)
         A,B,C,D,W,Q,R,x;    %A,B,C,D matrici del sistema
@@ -49,7 +49,6 @@ classdef sistema < handle
             else
                 error("Matrice W non coerente con A");
             end
-        
             
             if (isequal(size(Q),[obj.q obj.q])) % controlla che Q sia quadrata e coerente con W
                 if all(abs(eig(Q))>0)
@@ -83,14 +82,13 @@ classdef sistema < handle
                 
                 
         function update(obj, u)
-            % aggiorna lo stato del sistema salvando quello vecchio nel vettore xold per plottare
+            % aggiorna lo stato del sistema
             if (nargin<2)
                 u = zeros(obj.m,1);  % se u viene omesso si considera nullo
             end
-            obj.u=u;
-            xn=obj.A*obj.x + obj.B*obj.u + obj.W*mvnrnd(zeros(obj.q,1),obj.Q)'; % calcola il nuovo stato x(t) = Ax(t-1) + Bu + Ww : w = rumore di processo
+            obj.u = u;  % salva l'ultimo ingresso ricevuto
+            xn = obj.A*obj.x + obj.B*obj.u + obj.W*mvnrnd(zeros(obj.q,1),obj.Q)'; % calcola il nuovo stato x(t+1) = Ax(t) + Bu(t) + Ww(t) : w = rumore di processo
             obj.x = xn;               % aggiorna lo stato con quello nuovo
-            
         end
         
         function y = leggiUscita(obj)
@@ -99,8 +97,8 @@ classdef sistema < handle
         end
         
         %get dello stato per plot
-        function esc = leggiStato(obj)
-            esc = obj.x;
+        function x = leggiStato(obj)
+            x = obj.x;
         end
         
     end

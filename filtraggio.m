@@ -6,7 +6,7 @@ t=0:dt:durata; % costruzione vettore dei tempi
 
 
 % menu scelta segnale
-opt=menu("Scegli segnale da filtrare","scalino","rampa","parabola","esponenziale convergente","sinusoide","sinusoide smorzata");
+opt=menu("Selezione segnale da filtrare:","scalino","rampa","parabola","esponenziale convergente","sinusoide","sinusoide smorzata");
 
 
 %% costruzione generatore di segnale e stato iniziale
@@ -25,7 +25,7 @@ elseif opt==4   % esponenziale
     n=1;
     alfa=-1/2;
     A=alfa
-    x0=1;
+    x0=exp(1);
     %x = exp(alfa*t)
 elseif opt==5   % sinusoide
     n=2;
@@ -70,25 +70,24 @@ sys=sistema(Ad,Bd,Cd,Dd,W,Q,R,x0);
 P0=eye(n);
 k=filtrokalman(Ad,Bd,Cd,Dd,W,Q,R,zeros(n,1),P0);
 
-% creazione array di matrici K e P per plot
-Kplot=zeros(n,p,length(t));
+% creazione array di matrici L e P per plot
+Lplot=zeros(n,p,length(t));
 Pplot=zeros(n,n,length(t));
-
-%% simulazione
 
 % vettori dei segnali
 x=zeros(n,length(t));
 y=zeros(p,length(t));
-xs=zeros(p,length(t));
+xs=zeros(n,length(t));
 
+%% simulazione
 for i=1:length(t)
-    x(:,i)=sys.leggiStato();    % lettura stato sistema (segnale da ricostruire, per plot)
-    y(:,i)=sys.leggiUscita();   % lettura uscita sistema (segnale rumoroso)
-    sys.update();               % calcolo del nuovo stato del sistema
-    xs(i)=k.leggiUscita();      % lettura stima kalman
-    k.update(0,y(:,i));         % aggiornamento filtro --> parametri u=0 e y(segnale rumoroso)
-    Kplot(:,:,i)=k.leggiK();    % lettura matrice K per animazione
-    Pplot(:,:,i)=k.leggiP();    % lettura matrice P per animazione
+    x(:,i)=sys.leggiStato();     % lettura stato sistema (segnale da ricostruire, per plot)
+    y(:,i)=sys.leggiUscita();    % lettura uscita sistema (segnale rumoroso)
+    sys.update();                % calcolo del nuovo stato del sistema
+    k.update(0,y(:,i));          % aggiornamento filtro --> parametri u=0 e y(segnale rumoroso)
+    xs(:,i)=k.leggiStima();      % lettura stima kalman
+    Lplot(:,:,i)=k.leggiL();     % lettura matrice L per animazione
+    Pplot(:,:,i)=k.leggiP();     % lettura matrice P per animazione
 end
 
 %% grafica
@@ -98,20 +97,20 @@ subplot(2,2,[1 2]);
 title("Filtro di Kalman");
 hold on;
 grid on;
-plot(t,y,'b.') % campioni
+plot(t,y,'b.') % campioni da filtrare
 plot(t,xs(1,:),'r','LineWidth',2); % stima kalman
-plot(t,x(1,:),'k') % stato sistema
+plot(t,x(1,:),'k') % stato sistema da ricostruire (non visibile al filtro)
 %plot(t,xf(1,:)-x); % errore
 legend("Segnale rumoroso","Segnale filtrato","Segnale originale");
-
+%%
 for i=1:durata/dt/100:length(t)
     if ~ishghandle(f1)
-        break   %ferma l'animazione se viene chiusa la finestra del grafico
+        break   %ferma l'animazione se viene chiusa la finestra
     end
     tempo=sprintf('Istante t = %.1f s', t(i));
     subplot(2,2,3);
-    bar3(Kplot(:,:,i));
-    title("Matrice K");
+    bar3(Lplot(:,:,i));
+    title("Matrice L");
     xlabel(tempo);
     
     subplot(2,2,4);

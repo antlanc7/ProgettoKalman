@@ -4,10 +4,12 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{url}
 \usepackage{natbib}
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{wrapfig}
+\graphicspath{ {./immagini/} }
 \captionsetup[figure]{labelformat=empty}
 
 \usepackage{xcolor}
@@ -23,10 +25,10 @@
   keywordstyle=\bfseries\color{green!40!black},
   commentstyle=\itshape\color{orange!40!black},
   identifierstyle=\color{blue},
-  stringstyle=\color{orange},
+  stringstyle=\color{orange}
 }
 
-\lstset{escapechar=@,style=customc}
+\lstset{escapechar=@,style=customc,tabsize=2}
 
 %\newcommand*{\matr}{\mathbf}
 %\newcommand*{\vett}{\mathbf}
@@ -35,7 +37,7 @@
 
 \title{Filtro di Kalman}
 \author{Antonio Lanciotti, Lorenzo D'Agostino, Arment Pelivani}
-\date{2019}
+\date{2019-2020}
 
 \begin{document}
 
@@ -43,7 +45,7 @@
 
 \begin{figure}[ht]
 \centering
-\includegraphics[scale=1]{Rudolf_Kalman.jpg} 
+\includegraphics[scale=1]{Rudolf_Kalman} 
 \caption{Rudolf E. Kalman}
 \label{fig:kalman}
 \end{figure}
@@ -57,9 +59,12 @@
 
 
 \section{Introduzione}
-Il filtro di Kalman è un osservatore ottimo dello stato per sistemi lineari in presenza di rumori gaussiani.\\
-La sua versatilità ed utilità lo ha portato ad innumerevoli applicazioni quali il controllo di veicoli di ogni genere (aerospaziali, navali ...), robotica e controllo delle traiettorie, ricostruzione di segnali affetti da disturbi e molti altri.\\\\
-In questa relazione vengono sottolineati i vari passaggi di stampo automatico e statistico che permettono il raggiungimento delle equazioni che lo descrivono.\\
+Il \textit{filtro di Kalman} è un osservatore ottimo dello stato per sistemi lineari in presenza di rumori gaussiani.
+
+La sua versatilità ed utilità lo ha portato ad innumerevoli applicazioni quali il controllo di veicoli di ogni genere (aerospaziali, navali ...), robotica e controllo delle traiettorie, ricostruzione di segnali affetti da disturbi e molto altro.
+
+In questa relazione vengono presentati i procedimenti matematici che permettono il raggiungimento delle equazioni che lo descrivono.
+
 Verrà poi discussa un' applicazione del filtro realizzata in ambiente \textit{MATLAB}.
 
 \newpage
@@ -76,9 +81,8 @@ Verrà poi discussa un' applicazione del filtro realizzata in ambiente \textit{M
 
 \input{software}
 
-\section{Conclusione}
-
 \newpage
+\nocite{conti}
 \bibliographystyle{plain}
 \bibliography{references}
 \end{document}
