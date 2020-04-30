@@ -5,6 +5,4 @@
 - Osservatore (struttura del filtro dal punto di vista dell'osservatore)
 - Ottimizzazione (minimizzazione errore quadratico medio)
 - Equazioni filtro (previsione - guadagno - correzione)
-- Applicazione (spiegazione)
-- Documentazione progetto MATLAB
-- Conclusione
+- Presentazione progetto MATLAB
