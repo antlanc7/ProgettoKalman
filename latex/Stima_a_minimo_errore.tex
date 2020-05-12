@@ -1,0 +1,188 @@
+\subsection{Stimatore BLUE.}
+Come indice di prestazione per valutare la qualità di uno stimatore si introduce l’errore quadratico medio (MSE = Mean Square Error).\\
+\textbf{Definizione di MSE} - dato lo stimatore $\hat{X}=g(Y)$ se ne definisce l’MSE condizionato \\ 
+\begin{align}
+MSE_g(y)&= E_{X|Y}[(X-g(Y))(X-g(Y))^T|Y=y] \nonumber\\
+&={\int{(x-g(y))(x-g(y))^T~f_{X|Y}(x|y)dx}}\nonumber  %% ????
+\end{align}
+e l’MSE incondizionato
+
+\begin{align}
+MSE_g&= E_{X,Y}[(X-g(Y))(X-g(Y))^T]\nonumber\\
+&=\iint{(x-g(y))(x-g(y))^T~f_{X,Y}(x,y)dxdy} \nonumber \\
+&=\int{[\int{(x-g(y))(x-g(y))^T~f_{X|Y}(x|y)dx}]}f_Y(y)dy \nonumber\\
+&=\int{MSE_g(y)f_Y(y)dy}\nonumber\\
+&=E_Y{E_{X|Y}[(X-g(Y))(X-g(Y))^T|Y=y]}\nonumber
+\end{align}
+
+Si noti come l’MSE, sia quello condizionato che quello non condizionato, sia una matrice$nxn$, dove $n$ è la dimensione della variabile$X$da stimare, simmetrica e semi-definitapositiva. Poiché uno stimatore con MSE inferiore è certamente da preferirsi, viene naturaleporsi il problema della determinazione dello stimatore aminimo errore quadratico medio(stimatore MMSE = Minimum Mean Squared Error) ovvero di uno stimatore$g^*(Y)$il cui MSE sia inferiore a quello di ogni altro stimatore $g(Y)$. Per la precisione, considerandol’MSE condizionato, un tale stimatore deve soddisfare la disuguaglianza matriciale
+\begin{equation}
+E[(X-g^*(Y))(X-g^*(Y))^T|Y]\le E[(X-g(Y))(X-g(Y))^T|Y]\forall g(\cdot)
+\end{equation} 
+\newpage
+
+\textbf{Teorema della stima MMSE } - Lo stimatore MMSE $g^*(\cdot)$ definito da (1.17) è dato da 
+\begin{equation}
+g^*(Y)=E[X|Y]
+\end{equation}
+e l’associato MMSE è dato da
+
+\begin{align}
+E[(X-g^*(Y))(X-g^*(Y))^T|Y]&=var(X|Y)\nonumber \\
+&=E[XX^T|Y]-E[X|Y]E^T[X|Y] \nonumber \\
+\end{align}
+
+$dimostrazione$ - Lo stimatore MMSE deve pertanto minimizzare, rispetto a tutti gli
+stimatori $g^*(\cdot)$, il funzionale di costo\\
+%\begin{equation}
+\begin{align}
+V(g)&=E[(X-g(Y))(X-g(Y))^T|Y]= \nonumber\\
+&=E[XX^T+g(Y)g^T(Y)-Xg^T(Y)-g(Y)X^T|Y)]= \nonumber\\
+&=E[XX^T|Y]+g(Y)g^T(Y)-E[X|Y]g^T(Y)-g(Y)E[X|Y]=\nonumber\\
+&=\underbrace{(g(Y)-E[X|Y])(g(Y)-E[X|Y])^T}_{V1(g)}+\underbrace{E[XX^T|Y]-E[X|Y]E^T[X|Y]}_{V2}\nonumber\\
+\end{align}
+%\end{equation}
+dove il primo termine $V1(g)$,dipende da $g^*(\cdot)$, può essere reso nullo (quindi minimo, essendo non-negativo) scegliendo $g(Y)=g^*(Y)$ uguale alla media condizionata come in (1.18), mentre il secondo termine $V2$, indipendente da $g^*(\cdot)$, coincide con la varianza condizionata $var(X|Y)=E[XX^T|Y]-E[X|Y]E^T[X|Y]\ge 0 $ e rappresenta il costo minimo (MMSE) $Vg^*(\cdot)$.\\
+Pertanto lo stimatore MMSE coincide con lo stimatore Bayesiano a media condizionata (EAP) precedentemente introdotto. Di seguito, si mostra come tale stimatore risulti non polarizzato.\\\\
+\newpage
+
+\textbf{Teorema 1 (Non polarizzazione dello stimatore MMSE)} \\
+Lo stimatore MMSE $g^*(Y)=[X|Y]$ è non polarizzato nel senso che 
+% questa equazione bisogna solo meterla in mezzo senza numero di riferimento
+\begin{equation}
+E_Y[g^*(Y)]=E_X[X] \nonumber
+\end{equation}
+
+$dimostrazione$ - Si ha infatti:
+\begin{align}
+E_Y[g^*(Y)]&=\int{ g^*(y)f_Y(y)dy}=\nonumber\\
+ &=\int{ E[X|Y=y]f_Y(y)dy}=\nonumber\\
+ &=\int{[\int xf_{X|Y}(x|y)dx]f_Y(y)dy}=\nonumber\\
+&=\iint xf_{X,Y}(x,y)dxdy =\nonumber\\
+&=\int x [\int f_{X,Y}(x,y)dy]dx=\nonumber\\
+&=\int xf_X(x)dx = \nonumber\\
+&=E_X[X]
+\end{align}
+come volevasi dimostrare.\\
+Benchè lo stimatore MMSE sia stato ottenuto minimizzando l’MSE condizionato
+(1.15), si mostra di seguito come il medesimo stimatore minimizzi anche l’MSE incon-
+dizionato (1.16).
+\newpage
+
+\textbf{Teorema 2 (Ottimalità incondizionata dello stimatore MMSE)} - Lo stimatore
+MMSE $g^*(Y)=E[X|Y]$ minimizza anche l’MSE non condizionato nel senso che
+\begin{equation}
+E_{X,Y}[(X-g^*(Y))(X-g^*(Y))^T|Y]\le E_{X,Y}[(X-g(Y))(X-g(Y))^T|Y]\forall g(\cdot) \nonumber
+\end{equation}
+$dimostrazione$ - Il risultato si basa sulla seguente proprietà dell’operatore di media:
+\begin{equation}
+E_Y\{E_{X,Y}[\psi(X,Y)|Y=y]\}=E_{X,Y}[\psi(X,Y)] \nonumber
+\end{equation}
+
+dove $\phi(\cdot,\cdot)$ è una arbitraria funzione delle variabili aleatorie X e Y.
+Infatti :
+\begin{align}
+E_{X,Y}[\psi(X,Y)]&= \iint \psi(x,y)f_{X,Y}(x,y)dx,dy=\nonumber\\
+&= \iint \psi(x,y)f_{X|Y}(x|y)f_Y(y)dxdy=\nonumber \\
+&=\int [\int \psi(x,y)f_{X|Y}(x|y)dx]f_Y(y)dy=\nonumber\\
+&=\int E_{X|Y}[\psi(X,Y)|Y=y]f_Y(y)dy= \nonumber\\
+&=E_Y\{E_{X|Y}[\psi(X,Y)|Y=y]\}\nonumber
+\end{align}
+
+
+Per definizione, lo stimatore MMSE $g^*(Y)=E[X|Y]$ soddisfa (1.17). Applicando ad ambo i membri di (1.17) l’operatore $E_Y$ e sfruttando la proprietà (1.21), si ottiene quindi la relazione (1.20) come volevasi dimostrare.\\\\
+\textbf{Teorema 3 (Principio di ortogonalità della stima MMSE)} - L’errore di stima dello stimatore MMSE è ortogonale a (incorrelato con) tutti gli stimatori $g(Y)$, i.e.,\\
+\begin{equation}
+ E\{(X-E[X|Y])g^T(Y)|Y\}=0 \forall g(\cdot)\nonumber
+\end{equation}
+$dimostrazione$ - Si ha banalmente
+\begin{equation}
+E\{(X-E[X|Y])g^T(Y)|Y\}=E[X|Y]g^T(Y)-E[X|Y]g^T(Y)=0
+\end{equation}
+qualunque sia lo stimatore $g(\cdot)$come volevasi dimostrare.\\
+In altri termini, la stima MMSE di X basata su Y risulta la proiezione ortogonale
+della variabile X sullo spazio degli stimatori, ovvero delle funzioni g(Y ).\\\\
+\textbf{Teorema 4 (Stima MMSE di funzioni affini del parametro X)} - Sia $g^*(Y)=E[X|Y]$ lo stimatore MMSE di X basato sull’osservazione Y, e siano $A \in\mathbb{R}^{m\times n}$ e $b\in\mathbb{R}^m $, allora $\gamma^*(Y)=Ag^*(Y)+b$ è lo stimatore MMSE di $Z\stackrel{\Delta}{=}AX+b\in\mathbb{R}^m$ basato su Y.\\
+$dimostrazione $ - In virtù della linearità dell’operatore di media: $\gamma^*(Y)=E[Z|Y]=E[AX+b|Y]=AE[X|Y]+b=Ag^*(Y)+b$ qualunque siano A e di dimensioni opportune, come volevasi dimostrare
+\newpage
+
+\textbf{Teorema 5 (Stima MMSE nel caso Gaussiano)} - Se X e Y sono congiuntamente Gaussiane, i.e.,\\
+% QUI BISOGNEREBBE FARE L'EQUAIZONE CON LE MATRICI DI INIZIO PAG 15 SOLO CHE NON MI FA FARE LE MATRICI   ???
+allora lo stimatore MMSE è dato da
+%\begin{equation}
+\begin{align}
+\widehat{X}&=g^*(Y)=E[X|Y]=A*Y+b^*\nonumber\\
+A^*&=\sum_{XY}\sum_Y^{-1} \nonumber\\
+b^*&=\bar{x}-A^*\bar{y}=\bar{x}-\sum_{XY}\sum_Y^{-1}\bar{y}\nonumber
+\end{align}
+con relativo MMSE dato da:
+\begin{equation}
+\widehat{\sum}_X\stackrel{\Delta}{=}E[(X-g^*(Y))(X-g^*(Y))^T]=\sum_X-\sum_{XY}\sum_Y^{-1}\sum_{XY}^T\nonumber
+\end{equation}
+$dimostrazione $ - Nelle ipotesi fatte, sfruttando le formule della media e covarianza
+condizionata di variabili aleatorie Gaussiane, si ha\\
+%\begin{equation}
+\begin{align}
+\widehat{X}&=g^*(Y)=E[X|Y]=\nonumber\\
+&=\bar{x}+ \sum_{XY}\sum_Y^{-1}(Y-y^{-1})=\nonumber\\
+&=\sum_{XY}\sum_Y^{-1}Y+[\bar{x}-\sum_{XY}\sum_Y^{-1}\bar{y}]\nonumber\\
+&=A^*Y+b^* \nonumber
+\end{align}
+
+Inoltre,
+\begin{equation}
+\widehat{\sum}_X=var(X|Y)=\sum_X- \sum_{XY}\sum_Y^{-1}\sum_{XY}^T \nonumber
+\end{equation}
+come volevasi dimostrare.
+\newpage
+%\chapter{ lineare ottima (BLUE)} % non mi fa fare il capitolo qua
+\textbf{Definizione di stimatore affine} - Uno stimatore della forma $g(Y)=AY+b$ per opportuni $A \in\mathbb{R}^{n\times p}$ e $b\in\mathbb{R}^n$, dicesi stimatore affine (lineare se b = 0) di X basato su Y.\\
+Pertanto il precedente risultato afferma che, nel caso Gaussiano, lo stimatore MMSE risulta affine. \\
+Dal momento che uno stimatore affine, completamente caratterizzato dalla matrice $A \in\mathbb{R}^{n\times p}$ e dal vettore $b\in\mathbb{R}^n$, di facile implementazione, viene naturale porsi
+il problema di determinare il migliore, nel senso del minimo errore quadratico medio, stimatore affine $a^*(Y)=A^*Y+b^* $, in altri termini, fra tutti gli stimatori affini $a(Y)=AY + b $ si cerca quello che:
+\begin{enumerate}
+\item fornisce polarizzazione nulla, i.e.,
+$E[\tilde{X}]=E[X-a(Y)]=E[X-AY-b]=\bar{x}-A\bar{y}-b=0 $
+da cui 
+%begin{equation}
+$b =\bar{x}-A\bar{y}$\\
+%end{equation} 
+
+\item (2) rende minimo l’MSE\\
+%\begin{equation}
+\begin{align}
+ V(a)&=E[(X-a(Y))(X-a(Y))^T] =\nonumber\\
+&=E[(X-AY-b)(X-AY-b)^T ] =\nonumber\\
+&=E[(X-AY-\bar{x}+A\bar{y}(X-AY-\bar{x}+A\bar{y})^T] \nonumber\\
+&=E[(\tilde{X})-A\tilde{Y})(\tilde{X})-A\tilde{Y})^T]\nonumber \\
+&=E[\tilde{X}\tilde{X}^T]-AE[\tilde{Y}\tilde{X}^T]-E[\tilde{X}\tilde{Y}^T]A^T+AE[\tilde{Y}\tilde{Y}^T]A^T \nonumber\\
+&=\sum_X-A\sum_{YX}-\sum_{XY}A^T+A\sum_YA^T \nonumber\\
+&=\sum_X-A\sum_{YX}^T-\sum_{XY}A^T+A\sum_YA^T \nonumber\\
+&=(A-\sum_{XY}\sum_{Y}^{-1})\sum_{Y}(A-\sum_{XY}\sum_{Y}^{-1})^T+[\sum_X-\sum_{XY}\sum_Y^{-1}\sum_{XY}^T]\nonumber\\
+\end{align}
+\end{enumerate}
+
+Lo stimatore in oggetto viene riferito in letteratura come migliore stimatore lineare non polarizzato (BLUE = Best Linear Unbiased Estimator), seppur con una imprecisione terminologica trattandosi, in generale, di uno stimatore affine. Vale il seguente risultato.\\
+\textbf{Teorema della stima BLUE} - Sia\\\\\\
+ %mi stannoa fa store  le matrici e i sistemi su questo puntole
+ % ????????????????????????????????
+Allora lo stimatore BLUE di X basato su Y è dato da $a^*(Y)=A^*(Y)+b^* $
+%\begin{equation}
+%\begin{align}
+%SISTEMUCCIO					?????????????
+%\end{aling}
+%\end{equation}
+ed il relativo MSE risulta\\
+\begin{equation}
+\widehat{\sum}_X\stackrel{\Delta}{=}E[(X-a^*(Y))(X-a^*(Y))^T]=\sum_X-\sum_{XY}\sum_Y^{-1}\sum_{XY}^T \nonumber
+\end{equation}
+$dimostrazione$ - Da (1.26) si evince immediatamente che la miglior scelta della matrice A
+dello stimatore affine è proprio $A=A^*\stackrel{\Delta}{=}\sum_{XY}\sum_Y^{-1}$.Conseguentemente, dal vincolo di non
+polarizzazione dello stimatore (1.25), si ricava $b=b^*=\bar{x}-A^*\bar{y}=\bar{x}-\sum_{XY}\sum_Y^{-1}\bar{y}$.\\
+Infine,sostituendo $A=A^* \sum_{XY}\sum_Y^{-1}$ in(1.26) si ottiene:
+\begin{equation}
+\widehat{\sum}_X\stackrel{\Delta}{=}V(a*)=\sum_X-\sum_{XY}\sum_Y^{-1}\sum_{XY}^T \nonumber
+\end{equation}
+
+come volevasi dimostrare.
+\newpage
