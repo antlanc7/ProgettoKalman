@@ -1,18 +1,28 @@
 \section{Osservatore ottimo}
 Nella teoria del controllo, l'osservatore è un sistema dinamico che ha lo scopo di stimare lo stato di un altro sistema. L'osservatore è utile in quanto la conoscenza dell'evoluzione dello stato di un processo permette di risolvere problemi come la stabilizzazione e il controllo.
 
-Nel caso di sistema lineare, l'osservatore può essere progettato come una copia del processo (del quale deve essere pertanto noto il modello) con l'aggiunta di un termine correttivo proporzionale alla differenza tra le uscite del processo e dell'osservatore. 
-
-Tale osservatore prende il nome di \textit{Osservatore di Luenberger} ed ha la seguente espressione:
+L'osservatore più utilizzato nel caso di sistemi lineari prende il nome di \textit{Osservatore di Luenberger}\cite{bolzern} ed ha la seguente espressione:
 \begin{equation}
 \label{obsv}
-\hat{x}_{k+1}=A_k\hat{x}_k+B_ku_k+K_k(y_k-C\hat{x}_k)
+\hat{x}_{k+1}=A_k\hat{x}_k+B_ku_k+K_k(y_k-C_k\hat{x}_k)
 \end{equation}
 
-Si considera il sistema lineare con disturbi di processo e misura \eqref{rumlinsys},
-con stato iniziale $x(k_0)=x_0$ e con ingresso $u_k$ misurabile per ogni $k \geq k_0$.
+Ad ogni istante di tempo, tale sistema calcola la nuova stima dello stato a partire dalla precedente sfruttando il modello noto del processo e le informazioni date dalle quantità conosciute $u_k$ e $y_k$, ovvero ingresso e uscita del processo. \\
+In particolare il termine $A_k\hat{x}_k+B_ku_k$ altro non è che l'applicazione dell'equazione di aggiornamento dello stato \eqref{eqstate} alla stima calcolata nel passo precedente sfruttando la conoscenza dell'ingresso, mentre il termine $K_k(y_k-C_k\hat{x}_k)$ è la correzione che viene fatta sulla base della differenza tra l'uscita del processo $y_k$ e quella stimata dall'osservatore $C_k\hat{x}_k$.\\
+Il fattore $K_k$ è il tassello essenziale per il corretto funzionamento dell'osservatore, dato che va a determinarne il comportamento (stabilità e velocità di convergenza).\\
+In particolare, si può riscrivere l'equazione dell'osservatore nella forma:
+\begin{equation}
+\label{obsv2}
+\hat{x}_{k+1}=(A_k-K_kC_k)\hat{x}_k+B_ku_k+K_ky_k
+\end{equation}
+Si osserva come la dinamica dell'osservatore sia determinata dalla matrice $A_k-K_kC_k$, pertanto la matrice $K_k$ va scelta in modo opportuno, ad esempio in modo tale che garantisca la stabilità del sistema, ovvero che $A_k-K_kC_k$ abbia autovalori $\lambda$ tali che $\lambda<1$ (nel caso di tempo discreto). Tale specifica può essere soddisfatta se e solo se il processo risulta \textit{osservabile}.\\
+Nel caso di sistemi lineari stocastici, come si vedrà in seguito, il problema della determinazione della matrice $K_k$ è affrontato in modo da minimizzare l'errore quadratico medio di stima.\\
+La scelta della stima $\hat{x}_0$ non è critica, dato che se l'osservatore è progettato correttamente gli effetti di una stima iniziale poco precisa si estinguono in un tempo relativamente breve grazie all'effetto del termine correttivo precedentemente descritto.
 
-Per valutare la precisione dell'osservatore si definisce l'errore di stima, \\ $e_k \triangleq x_k-\hat{x}_k$, il quale è regolato da un'equazione dinamica che si può ottenere valutando tale espressione per $k=k+1$ e sostituendo sfruttando le equazioni \eqref{rumlinsys1} e \eqref{obsv}:
+\subsection{Osservatore per sistemi stocastici}
+Si considera il sistema lineare con disturbi di processo e misura \eqref{rumlinsys}, con stato iniziale $x_0$ e con ingresso $u_k$ misurabile per ogni $k \geq k_0$ e costruiamo l'osservatore come in \eqref{obsv}.
+
+Per valutare la precisione dell'osservatore si definisce l'errore di stima, \\ $e_k \triangleq x_k-\hat{x}_k$, il quale è regolato da un'equazione dinamica che si può ottenere valutando tale espressione all'istante $k+1$ e sfruttando le equazioni \eqref{rumlinsys1} e \eqref{obsv}:
 \begin{equation}
 \label{errore}
 \begin{split}
@@ -20,15 +30,33 @@ e_{k+1}&=A_kx_k+B_ku_k+W_kw_k-[A_k\hat{x}_k+B_ku_k+K_k(y_k-C\hat{x}_k)] = \\
 &=(A_k-K_kC_k)e_k+W_kw_k-K_kv_k
 \end{split}
 \end{equation}
-%Osserviamo che il valore atteso dell'errore è un sistema autonomo:
-%\begin{equation}
-%\bar{e}_{k+1}=E[e_{k+1}]=(A_k-K_kC_k)\bar{e}_k+ E[W_kw_k] - E[K_kv_k]=(A_k-K_kC_k)\bar{e}_k
-%\end{equation}
-Osserviamo che l'errore è a sua volta un sistema stocastico, dato che la sua espressione dipende dai termini $v_k$ e $w_k$, pertanto ne definiamo la matrice di covarianza all'istante $k+1$:
+
+Tale errore, essendo definito sulla base dello stato $x_k$ del processo non è noto, tuttavia la sua definizione ci permetterà di caratterizzarlo dal punto di vista statistico, infatti osserviamo che l'errore è a sua volta un sistema stocastico, dato che la sua espressione dipende dai termini $v_k$ e $w_k$, pertanto ne definiamo la matrice di covarianza all'istante $k+1$:
 \begin{equation}
 \label{matrcov}
 P_{k+1}=E[e_{k+1}e_{k+1}^T]
 \end{equation}
-Tale matrice rappresenta l'\textit{errore quadratico medio} di stima all'istante $k+1$.
+La traccia di tale matrice rappresenta l'\textit{errore quadratico medio} di stima all'istante $k+1$.
+
+%Osserviamo che il valore atteso dell'errore è un sistema autonomo:
+%\begin{equation}
+%\bar{e}_{k+1}=E[e_{k+1}]=(A_k-K_kC_k)\bar{e}_k+ E[W_kw_k] - E[K_kv_k]=(A_k-K_kC_k)\bar{e}_k
+%\end{equation}
 
 Per procedere con l'analisi ricordiamo le ipotesi \eqref{inizioipotesistatistiche}-\eqref{fineipotesistatistiche} fatte sui termini stocastici presenti nelle equazioni del sistema.
+In particolare, sfruttiamo le ipotesi di incorrelazione tra i rumori e lo stato iniziale fatte in precedenza per dimostrare che anche l'errore di stima è incorrelato con i rumori.
+Dalla teoria dei sistemi sappiamo che, risolvendo l'equazione alle differenze \eqref{errore} l'errore di stima $e_k$ è una combinazione lineare dell'errore iniziale $e_0=x_0-\hat{x}_0$ e dei rumori $w_i$ e $v_i$ per $i=0,1,...,k-1$:
+\begin{equation}
+e_k=\Phi_{k}e_0 + \sum_{i=0}^{k-1}\Phi_{k-i}W_iw_i - \sum_{j=0}^{k-1}\Phi_{k-j}K_jv_j
+\end{equation}
+dove $\Phi_{k}=\prod_{i=0}^{k-1}A_i-K_iC_i$.\\
+Utilizzando tale espressione possiamo dimostrare l'incorrelazione tra l'errore di stima e i rumori di processo e misura.
+\begin{equation}
+\begin{split}
+E[e_kw_k^T]&=E[(\Phi_{k}e_0 + \sum_{i=0}^{k-1}\Phi_{k-i}W_iw_i - \sum_{j=0}^{k-1}\Phi_{k-j}K_jv_j)w_k^T]=\\
+&=\Phi_kE[e_0w_k^t] + \sum_{i=0}^{k-1}\Phi_{k-i}W_iE[w_iw_k^t] - \sum_{j=0}^{k-1}\Phi_{k-j}K_jE[v_jw_k^T]=\\
+&=\Phi_kE[x_0w_k^t] - \Phi_k\hat{x}_0E[w_k^t] = 0
+\end{split}
+\end{equation}
+Allo stesso modo si dimostra che anche $E[e_kv_k^T]=0$.
+\newpage

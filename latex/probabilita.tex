@@ -28,8 +28,6 @@ E[aX + bY] = aE[X] + bE[Y]
 \end{equation}
 
 
-
-
 \subsubsection{Varianza}
 
 La varianza di una variabile aleatoria è una funzione che fornisce una misura della variabilità dei valori assunti dalla variabile stessa; nello specifico, la misura di quanto essi si discostino dal valore atteso.
@@ -41,19 +39,52 @@ Var(X) = E[(X - E[X])^2]
 
 \subsubsection{Covarianza}
 
-In statistica e in teoria della probabilità, la covarianza di due variabili aleatorie è un numero che fornisce una misura di quanto le due varino dipendentemente l'una dall'altra.
+La covarianza di due variabili aleatorie è un numero che fornisce una misura di quanto le due varino dipendentemente l'una dall'altra.
 
 La covarianza di due variabili aleatorie $X$ e $Y$ è il valore atteso dei prodotti delle loro distanze dalla media: \begin{equation}
 Cov(X,Y)= E [(X-E[X])(Y-E[Y])]
 \end{equation}
 Due variabili casuali si dicono \textit{incorrelate} se la loro covarianza è nulla.
 
-La covarianza può essere considerata una generalizzazione della varianza 
+La covarianza può essere considerata una generalizzazione della varianza:
 \begin{equation}
 Var(X) = Cov(X,X)
 \end{equation}
 
-\subsection{Variabili gaussiane e modellazione dei rumori.}
+\subsection{Vettori casuali}
+
+Un vettore casuale è un vettore i cui elementi sono variabili casuali.\\
+Risulta necessario estendere le definizioni date in precedenza per caratterizzare rumori che agiscono su sistemi non scalari.
+
+\subsubsection{Valore atteso}
+
+Si dice valore atteso del vettore casuale $X \in \mathbb{R}^n$ il vettore dei valori attesi delle variabili casuali che lo compongono: 
+\begin{equation}
+E[X] = \begin{pmatrix}
+E[X_1] & E[X_2] & \dots & E[X_n]
+\end{pmatrix}^T
+\end{equation}
+Si definisce \textit{valore quadratico medio} di $X$ come $E[X^T X]$.
+
+\subsubsection{Matrice di covarianza}
+
+Si definisce \textit{matrice di covarianza} del vettore casuale $X \in \mathbb{R}^n$ la matrice $n \times n$: \begin{equation}
+ \Sigma_X = Cov(X, X) = E[(X-E[X])(X-E[X])^T]
+\end{equation}
+Per come è definita, la matrice di covarianza è una matrice simmetrica semidefinita positiva i cui elementi $\Sigma_{ij}$ sono le covarianze tra gli elementi $X_i$ e $X_j$ del vettore $X$.
+
+A sua volta si definisce la matrice di \textit{cross-covarianza} tra due vettori casuali $X$ e $Y$, la matrice
+\begin{equation}
+ \Sigma_{XY} = Cov(X, Y) = E[(X-E[X])(Y-E[Y])^T]
+\end{equation}
+Due vettori casuali $X$ e $Y$ si dicono \textit{incorrelati} se $\Sigma_{XY} = 0$.\\
+Dati due vettori casuali $X$ e $Y$ l'operazione di \textit{congiunzione} definisce un nuovo vettore casuale $v=\begin{pmatrix}X \\ Y\end{pmatrix}$ tale che: 
+\begin{equation}
+E[v]=\begin{pmatrix}\mu_X \\ \mu_Y\end{pmatrix} \qquad \Sigma_v=\begin{pmatrix}\Sigma_X && \Sigma_{XY} \\ \Sigma_{YX} && \Sigma_Y\end{pmatrix}
+\end{equation}
+Si definisce inoltre l'operazione di condizionamento tra i vettori $X$ e $Y$: essa produce una variabile aleatoria $X|Y$ delle stesse dimensioni di $X$ che modellizza il comportamento della variabile casuale $X$ in seguito all'osservazione del valore assunto dalla variabile $Y$.
+
+\subsection{Variabili gaussiane}
 
 Le variabili gaussiane sono particolari variabili aleatorie caratterizzate da due parametri, $\mu$ e $\sigma^2$, e sono indicate tradizionalmente con: 
 \begin{equation}
@@ -67,36 +98,21 @@ Si può dimostrare che per le variabili gaussiane vale che:
 \begin{equation}
 E[X]= \mu \qquad Var[X]= \sigma^2
 \end{equation}
+Possiamo definire \textit{vettore casuale gaussiano} un vettore di variabili gaussiane.\\
+Allo stesso modo delle variabili gaussiane scalari, un vettore gaussiano $X$ è descritto completamente dalla media $\mu_X \in \mathbb{R}^n$ e dalla matrice di covarianza $\Sigma_X \in \mathbb{R}^{n \times n}$.\\
 
-Come anticipato possiamo modellizzare i vettori di disturbo del sistema che consideriamo, attraverso l'utilizzo di variabili aleatorie gaussiane a media nulla e varianza $\sigma^2$, di dimensioni conformi a quelle del sistema considerato.
-
-\newpage
-\subsection{Vettori casuali}
-
-Un vettore casuale è un vettore i cui elementi sono variabili casuali.
-
-Risulta necessario estendere le definizioni date in precedenza per caratterizzare rumori che agiscono su sistemi non scalari.
-
-\subsubsection{Valore atteso}
-
-Si dice valore atteso del vettore casuale $x \in \mathbb{R}^n$ il vettore dei valori attesi delle variabili casuali che lo compongono: 
+\subsubsection{Condizionamento di variabili gaussiane}
+Siano $X$ e $Y$ due variabili aleatorie congiuntamente gaussiane, ovvero tali che:
 \begin{equation}
-E[x] = \begin{pmatrix}
-E[x_1] & E[x_2] & \dots & E[x_n]
-\end{pmatrix}^T
+\label{congiuntgauss}
+\begin{pmatrix}X \\ Y\end{pmatrix} \sim \mathcal{N} \Biggl ( \begin{pmatrix}\mu_X \\ \mu_Y\end{pmatrix}, \begin{pmatrix}\Sigma_X && \Sigma_{XY} \\ \Sigma_{YX} && \Sigma_Y\end{pmatrix} \Biggl )
 \end{equation}
-Si definisce \textit{valore quadratico medio} di $x$ come $E[x^T x]$.
+Allora il condizionamento tra le due variabili $X|Y$ è a sua volta una variabile gaussiana.
+Si dimostra\cite{stimablue} che media e covarianza di tale variabile valgono:
+\begin{align}
+\mu_{X|Y}&=\mu_X + \Sigma_{XY}\Sigma_{Y}^{-1}(y-\mu_Y)\\
+\Sigma_{X|Y}&=\Sigma_X-\Sigma_{XY}\Sigma_{Y}^{-1}\Sigma_{YX}
+\end{align}
+dove $y$ rappresenta il valore dell'osservazione della variabile $Y$.
 
-\subsubsection{Matrice di covarianza}
-
-Si definisce \textit{matrice di covarianza} del vettore casuale $x \in \mathbb{R}^n$ la matrice $n \times n$: \begin{equation}
- Cov(x, x) = E[(x-E[x])(x-E[x])^T]
-\end{equation}
-Per come è definita, la matrice di covarianza è una matrice simmetrica semidefinita positiva i cui elementi $\sigma^2_{ij}$ sono le covarianze tra gli elementi $x_i$ e $x_j$ del vettore $x$.
-
-A sua volta si definisce la matrice di \textit{cross-covarianza} tra due vettori casuali $x$ e $y$, la matrice
-\begin{equation}
- Cov(x, y) = E[(x-E[x])(y-E[y])^T]
-\end{equation}
-Due vettori $x$ e $y$ si dicono \textit{incorrelati} se $Cov(x,y) = 0$.
 \newpage
