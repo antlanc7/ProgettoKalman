@@ -5,6 +5,14 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{url}
+
+\usepackage{hyperref}
+\hypersetup{
+     colorlinks = true,
+     linkcolor = black,
+     urlcolor = blue
+     }
+
 \usepackage{natbib}
 \usepackage{graphicx}
 \usepackage{caption}
@@ -61,11 +69,10 @@
 \section{Introduzione}
 Il \textit{filtro di Kalman} è un osservatore ottimo dello stato per sistemi lineari in presenza di rumori gaussiani.
 
-La sua versatilità ed utilità lo ha portato ad innumerevoli applicazioni quali il controllo di veicoli di ogni genere (aerospaziali, navali ...), robotica e controllo delle traiettorie, ricostruzione di segnali affetti da disturbi e molto altro.
-
+La sua versatilità ed utilità lo ha portato ad innumerevoli applicazioni quali il controllo di veicoli di ogni genere  \href{https://www.researchgate.net/publication/224138621_Applications_of_Kalman_Filtering_in_Aerospace_1960_to_the_Present_Historical_Perspectives/link/56aa3b4308ae7f592f0f2af7/download}{(aerospaziali, navali ...)}, \href{https://www.cc.gatech.edu/~afb/classes/CS4495-Fall2014/slides/CS4495-Tracking2.pdf}{robotica e object tracking}, ricostruzione di segnali affetti da disturbi, stima dello State Of Charge \href{https://webcache.googleusercontent.com/search?q=cache:ZiA-RBaxXNcJ:https://www.mdpi.com/1996-1073/8/8/7854/pdf+&cd=1&hl=it&ct=clnk&gl=it&client=firefox-b-d}{(SOC)} delle batterie e molto altro. Trova anche spazio in \href{https://www.researchgate.net/publication/237579118_THE_KALMAN_FILTER_IN_FINANCE_AN_APPLICATION_TO_TERM_STRUCTURE_MODELS_OF_COMMODITY_PRICES_AND_A_COMPARISON_BETWEEN_THE_SIMPLE_AND_THE_EXTENDED_FILTERS}{applicazioni finanziarie}.
 In questa relazione vengono presentati i procedimenti matematici che permettono il raggiungimento delle equazioni che lo descrivono.
 
-Verrà poi discussa un' applicazione del filtro realizzata in ambiente \textit{MATLAB}.
+Verrà poi discussa un' applicazione del filtro, inerente al problema della ricostruzione di segnali affetti da rumore, realizzata in ambiente \textit{MATLAB}.
 
 \newpage
 
