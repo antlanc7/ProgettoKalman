@@ -6,7 +6,7 @@ L'osservatore più utilizzato nel caso di sistemi lineari prende il nome di \tex
 \label{obsv}
 \hat{x}_{k+1}=A_k\hat{x}_k+B_ku_k+K_k(y_k-C_k\hat{x}_k)
 \end{equation}
-
+dove $\hat{x}_k$ rappresenta la stima dello stato $x_k$.\\
 Ad ogni istante di tempo, tale sistema calcola la nuova stima dello stato a partire dalla precedente sfruttando il modello noto del processo e le informazioni date dalle quantità conosciute $u_k$ e $y_k$, ovvero ingresso e uscita del processo. \\
 In particolare il termine $A_k\hat{x}_k+B_ku_k$ altro non è che l'applicazione dell'equazione di aggiornamento dello stato \eqref{eqstate} alla stima calcolata nel passo precedente sfruttando la conoscenza dell'ingresso, mentre il termine $K_k(y_k-C_k\hat{x}_k)$ è la correzione che viene fatta sulla base della differenza tra l'uscita del processo $y_k$ e quella stimata dall'osservatore $C_k\hat{x}_k$.\\
 Il fattore $K_k$ è il tassello essenziale per il corretto funzionamento dell'osservatore, dato che va a determinarne il comportamento (stabilità e velocità di convergenza).\\
@@ -20,7 +20,7 @@ Nel caso di sistemi lineari stocastici, come si vedrà in seguito, il problema d
 La scelta della stima $\hat{x}_0$ non è critica, dato che se l'osservatore è progettato correttamente gli effetti di una stima iniziale poco precisa si estinguono in un tempo relativamente breve grazie all'effetto del termine correttivo precedentemente descritto.
 
 \subsection{Osservatore per sistemi stocastici}
-Si considera il sistema lineare con disturbi di processo e misura \eqref{rumlinsys}, con stato iniziale $x_0$ e con ingresso $u_k$ misurabile per ogni $k \geq k_0$ e costruiamo l'osservatore come in \eqref{obsv}.
+Si considera il sistema lineare con disturbi di processo e misura \eqref{rumlinsys}, con stato iniziale $x_0$ e con ingresso $u_k$ misurabile per ogni $k \geq 0$ e costruiamo l'osservatore come in \eqref{obsv}.
 
 Per valutare la precisione dell'osservatore si definisce l'errore di stima, \\ $e_k \triangleq x_k-\hat{x}_k$, il quale è regolato da un'equazione dinamica che si può ottenere valutando tale espressione all'istante $k+1$ e sfruttando le equazioni \eqref{rumlinsys1} e \eqref{obsv}:
 \begin{equation}
@@ -30,11 +30,16 @@ e_{k+1}&=A_kx_k+B_ku_k+W_kw_k-[A_k\hat{x}_k+B_ku_k+K_k(y_k-C\hat{x}_k)] = \\
 &=(A_k-K_kC_k)e_k+W_kw_k-K_kv_k
 \end{split}
 \end{equation}
+Tale errore, essendo definito sulla base dello stato $x_k$ del processo, non è noto, tuttavia la sua definizione ci permette di caratterizzarlo dal punto di vista statistico.
 
-Tale errore, essendo definito sulla base dello stato $x_k$ del processo non è noto, tuttavia la sua definizione ci permetterà di caratterizzarlo dal punto di vista statistico, infatti osserviamo che l'errore è a sua volta un sistema stocastico, dato che la sua espressione dipende dai termini $v_k$ e $w_k$, pertanto ne definiamo la matrice di covarianza all'istante $k+1$:
+Utilizzando la stima dello stato prodotta dall'osservatore possiamo andare a costruire una stima della matrice di covarianza dello stato, considerando $E[x_k] \simeq \hat{x}_k$.
 \begin{equation}
 \label{matrcov}
-P_{k+1}=E[e_{k+1}e_{k+1}^T]
+\begin{split}
+Cov(x_{k+1})&=E[(x_{k+1}-E[x_{k+1}])(x_{k+1}-E[x_{k+1}])^T] \simeq\\
+&\simeq E[(x_{k+1}-\hat{x}_{k+1})(x_{k+1}-\hat{x}_{k+1})^T]=\\
+&=E[e_{k+1}e_{k+1}^T] \triangleq P_{k+1}
+\end{split}
 \end{equation}
 La traccia di tale matrice rappresenta l'\textit{errore quadratico medio} di stima all'istante $k+1$.
 
@@ -49,14 +54,15 @@ Dalla teoria dei sistemi sappiamo che, risolvendo l'equazione alle differenze \e
 \begin{equation}
 e_k=\Phi_{k}e_0 + \sum_{i=0}^{k-1}\Phi_{k-i}W_iw_i - \sum_{j=0}^{k-1}\Phi_{k-j}K_jv_j
 \end{equation}
-dove $\Phi_{k}=\prod_{i=0}^{k-1}A_i-K_iC_i$.\\
+dove $\Phi_{k}=\prod_{i=0}^{k-1}(A_i-K_iC_i)$.\\
 Utilizzando tale espressione possiamo dimostrare l'incorrelazione tra l'errore di stima e i rumori di processo e misura.
 \begin{equation}
 \begin{split}
 E[e_kw_k^T]&=E[(\Phi_{k}e_0 + \sum_{i=0}^{k-1}\Phi_{k-i}W_iw_i - \sum_{j=0}^{k-1}\Phi_{k-j}K_jv_j)w_k^T]=\\
-&=\Phi_kE[e_0w_k^t] + \sum_{i=0}^{k-1}\Phi_{k-i}W_iE[w_iw_k^t] - \sum_{j=0}^{k-1}\Phi_{k-j}K_jE[v_jw_k^T]=\\
-&=\Phi_kE[x_0w_k^t] - \Phi_k\hat{x}_0E[w_k^t] = 0
+&=\Phi_kE[e_0w_k^T] + \sum_{i=0}^{k-1}\Phi_{k-i}W_iE[w_iw_k^T] - \sum_{j=0}^{k-1}\Phi_{k-j}K_jE[v_jw_k^T]=\\
+&=\Phi_kE[x_0w_k^T] - \Phi_k\hat{x}_0E[w_k^T] = 0
 \end{split}
 \end{equation}
+dove essendo $\hat{x}_0$ una quantità nota e non stocastica può essere portata fuori dall'operatore valore atteso.\\
 Allo stesso modo si dimostra che anche $E[e_kv_k^T]=0$.
 \newpage

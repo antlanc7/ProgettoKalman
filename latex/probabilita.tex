@@ -19,7 +19,7 @@ Alle variabili casuali sono associati i concetti di media/valore atteso, di vari
 
 Nella teoria della probabilità il valore atteso di una variabile casuale $X$, è un numero indicato con $E[X]$ che formalizza l'idea di valore medio di un fenomeno aleatorio.
 \begin{equation}
-\ {\mathbb  {E}}[X]=\int _{{-\infty }}^{{\infty }}xf(x)dx
+E[X]=\int _{{-\infty }}^{{\infty }}xf(x)dx
 \end{equation}
 
 \noindent  Si noti che l'operatore valore atteso è lineare:
@@ -52,12 +52,13 @@ Var(X) = Cov(X,X)
 \end{equation}
 
 \subsection{Vettori casuali}
-
 Un vettore casuale è un vettore i cui elementi sono variabili casuali.\\
 Risulta necessario estendere le definizioni date in precedenza per caratterizzare rumori che agiscono su sistemi non scalari.
 
-\subsubsection{Valore atteso}
+\subsubsection{Funzione di densità di probabilità}
+La funzione di densità di probabilità nel caso vettoriale è una funzione scalare di $n$ variabili, il cui integrale su $\mathbb{R}^n$ deve essere unitario.
 
+\subsubsection{Valore atteso}
 Si dice valore atteso del vettore casuale $X \in \mathbb{R}^n$ il vettore dei valori attesi delle variabili casuali che lo compongono: 
 \begin{equation}
 E[X] = \begin{pmatrix}
@@ -67,7 +68,6 @@ E[X_1] & E[X_2] & \dots & E[X_n]
 Si definisce \textit{valore quadratico medio} di $X$ come $E[X^T X]$.
 
 \subsubsection{Matrice di covarianza}
-
 Si definisce \textit{matrice di covarianza} del vettore casuale $X \in \mathbb{R}^n$ la matrice $n \times n$: \begin{equation}
  \Sigma_X = Cov(X, X) = E[(X-E[X])(X-E[X])^T]
 \end{equation}
@@ -78,14 +78,38 @@ A sua volta si definisce la matrice di \textit{cross-covarianza} tra due vettori
  \Sigma_{XY} = Cov(X, Y) = E[(X-E[X])(Y-E[Y])^T]
 \end{equation}
 Due vettori casuali $X$ e $Y$ si dicono \textit{incorrelati} se $\Sigma_{XY} = 0$.\\
-Dati due vettori casuali $X$ e $Y$ l'operazione di \textit{congiunzione} definisce un nuovo vettore casuale $v=\begin{pmatrix}X \\ Y\end{pmatrix}$ tale che: 
+
+\subsubsection{Distribuzioni congiunte}
+Dati due vettori casuali $X$ e $Y$ l'operazione di \textit{congiunzione} definisce un nuovo vettore casuale $(X,Y)=\begin{pmatrix}X \\ Y\end{pmatrix}$ tale che: 
 \begin{equation}
-E[v]=\begin{pmatrix}\mu_X \\ \mu_Y\end{pmatrix} \qquad \Sigma_v=\begin{pmatrix}\Sigma_X && \Sigma_{XY} \\ \Sigma_{YX} && \Sigma_Y\end{pmatrix}
+E[X,Y]=\begin{pmatrix}\mu_X \\ \mu_Y\end{pmatrix}
 \end{equation}
-Si definisce inoltre l'operazione di condizionamento tra i vettori $X$ e $Y$: essa produce una variabile aleatoria $X|Y$ delle stesse dimensioni di $X$ che modellizza il comportamento della variabile casuale $X$ in seguito all'osservazione del valore assunto dalla variabile $Y$.
+\begin{equation}
+	\Sigma_{X,Y}=\begin{pmatrix}\Sigma_X && \Sigma_{XY} \\ \Sigma_{YX} && \Sigma_Y\end{pmatrix}
+\end{equation}
+X e Y si dicono \textit{indipendenti} se vale:
+\begin{equation}
+	f_{X,Y}(x,y)=f_X(x)f_Y(y)
+\end{equation}
+
+\subsubsection{Distribuzioni condizionate}
+Dati due vettori $X$ e $Y$, l'operazione di condizionamento produce una variabile aleatoria $X|Y$ delle stesse dimensioni di $X$ che modellizza il comportamento della variabile casuale $X$ in seguito all'osservazione del valore assunto dal vettore $Y$.
+In particolare $X|Y$ è definito come il vettore casuale avente come funzione di densità di probabilità la funzione:
+\begin{equation}
+	f_{X|Y}(x)=\frac{f_{X,Y}(x,y)}{f_Y(y)}
+\end{equation}
+valutata per $y$ uguale al valore osservato di $Y$.
+Seguono le definizioni di \textit{valore atteso condizionato}:
+\begin{equation}
+	E[X|Y]=\int_{\mathbb{R}^n}xf_{X|Y}(x,y)dx
+\end{equation}
+e di \textit{covarianza condizionata}:
+\begin{equation}
+	Cov(X|Y)=E[(X-E[X|Y])(X-E[X|Y])^T|Y]
+\end{equation}
+	
 
 \subsection{Variabili gaussiane}
-
 Le variabili gaussiane sono particolari variabili aleatorie caratterizzate da due parametri, $\mu$ e $\sigma^2$, e sono indicate tradizionalmente con: 
 \begin{equation}
 X \sim N(\mu ,\sigma^2)

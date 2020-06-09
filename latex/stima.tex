@@ -9,11 +9,9 @@ Si definisce \textit{stimatore di $X \in \mathbb{R}^n$ basato sull’osservazion
 Dato che le variabili in gioco sono casuali, anche la stima sarà una variabile casuale. Distinguiamo la \textit{variabile casuale stima} $\widehat{X}$ da $\hat{x}$ che è il particolare valore della stima ottenuto dall'applicazione dello stimatore all'osservazione $y$ effettuata.
 
 Si definisce l'\textit{errore di stima} $\mathrm{E}=X-\widehat{X}=X-g(Y)$ come la differenza tra la variabile da stimare e la sua stima. Un obiettivo naturale è quello di rendere tale errore di stima "piccolo" in accordo
-a qualche criterio, deterministico o probabilistico, da precisare opportunamente. A tale
-proposito, un criterio valido potrebbe essere quello di avere un errore di stima a media
+a qualche criterio, deterministico o probabilistico, da precisare opportunamente. Sicuramente un criterio valido potrebbe essere quello di avere un errore di stima a media
 nulla (\textit{stimatore non polarizzato}):
 \[E[\mathrm{E}]=E[X-\widehat{X}]=0 \implies E[\widehat{X}]=E[X]\]
-e di covarianza $E[\mathrm{E}\mathrm{E}^T]$ in qualche modo minima.
 
 Come indice di prestazione per valutare la qualità di uno stimatore si introduce l’errore quadratico medio (MSE = Mean Square Error):
 \begin{equation}
@@ -33,7 +31,7 @@ e l’associato MMSE è dato da
 \begin{equation}
 \begin{split}
 &E[(X-g^*(Y))^T(X-g^*(Y))|Y]\\
-&=tr(var(X|Y)) \\
+&=tr(Cov(X|Y)) \\
 &=E[X^TX|Y]-E^T[X|Y]E[X|Y]
 \end{split}
 \end{equation}
@@ -46,31 +44,33 @@ V(g)&=E[(X-g(Y))^T(X-g(Y))|Y]= \\
 &=\underbrace{(g(Y)-E[X|Y])^T(g(Y)-E[X|Y])}_{V_1(g)}+\underbrace{E[X^TX|Y]-E^T[X|Y]E[X|Y]}_{V_2}\\
 \end{split}
 \end{equation}
-dove il primo termine $V_1(g)$, dipendente da $g^*(\cdot)$, può essere reso nullo (quindi minimo, essendo non-negativo) scegliendo $g(Y)=g^*(Y)$ uguale alla media condizionata come in \eqref{stimatoremmse}, mentre il secondo termine $V_2$, indipendente da $g^*(\cdot)$, coincide con la traccia della varianza condizionata $tr(var(X|Y))=tr(E[XX^T|Y]-E[X|Y]E^T[X|Y])=E[X^TX|Y]-E^T[X|Y]E[X|Y]\ge 0 $ e rappresenta il costo minimo (MMSE) $Vg^*(\cdot)$.\\
+dove il primo termine $V_1(g)$, dipendente da $g^*(\cdot)$, può essere reso nullo (quindi minimo, essendo non-negativo) scegliendo $g(Y)=g^*(Y)$ uguale alla media condizionata come in \eqref{stimatoremmse}, mentre il secondo termine $V_2$, indipendente da $g^*(\cdot)$, coincide con la traccia della covarianza condizionata $tr(Cov(X|Y))=tr(E[XX^T|Y]-E[X|Y]E^T[X|Y])=E[X^TX|Y]-E^T[X|Y]E[X|Y]$ che è una quantità non negativa, essendo la traccia di una matrice di covarianza che è sempre (semi)definita positiva e rappresenta il costo minimo (MMSE) $Vg^*(\cdot)$.\\
 
 \subsubsection{Stima MMSE nel caso Gaussiano} 
-Se $X$ e $Y$ sono congiuntamente Gaussiane (vedi \eqref{congiuntgauss}) allora lo stimatore MMSE è dato da
+Se $X$ e $Y$ sono congiuntamente Gaussiane \eqref{congiuntgauss} allora lo stimatore MMSE è dato da
 \begin{equation}
+\label{mmsex}
 \begin{split}
 \widehat{X}&=g^*(Y)=E[X|Y]=\\
 &=\Sigma_{XY}\Sigma_Y^{-1}Y + \mu_{X}-\Sigma_{XY}\Sigma_Y^{-1}\mu_{Y}
 \end{split}
 \end{equation}
-con relativo MMSE dato da:
+con covarianza data da:
 \begin{equation}
-tr(\widehat{\Sigma}_X)\triangleq tr(E[(X-g^*(Y))(X-g^*(Y))^T])=tr(\Sigma_X-\Sigma_{XY}\Sigma_Y^{-1}\Sigma_{XY}^T)
+\label{mmsep}
+\Sigma_{\widehat{X}}= E[(X-g^*(Y))(X-g^*(Y))^T]=\Sigma_X-\Sigma_{XY}\Sigma_Y^{-1}\Sigma_{XY}^T
 \end{equation}
 $Dimostrazione $ - Nelle ipotesi fatte, sfruttando le formule della media e covarianza condizionata di variabili aleatorie Gaussiane, si ha
 \begin{equation}
 \begin{split}
 \widehat{X}&=g^*(Y)=E[X|Y]=\\
-&=\mu_{X}+ \Sigma_{XY}\Sigma_Y^{-1}(Y-y^{-1})=\\
+&=\mu_{X}+ \Sigma_{XY}\Sigma_Y^{-1}(Y-\mu_Y)=\\
 &=\Sigma_{XY}\Sigma_Y^{-1}Y+[\mu_{X}-\Sigma_{XY}\Sigma_Y^{-1}\mu_{Y}]\\
 \end{split}
 \end{equation}
 Inoltre,
 \begin{equation}
-\widehat{\Sigma}_X=var(X|Y)=\Sigma_X- \Sigma_{XY}\Sigma_Y^{-1}\Sigma_{XY}^T 
+\Sigma_{\widehat{X}}=Cov(X|Y)=\Sigma_X- \Sigma_{XY}\Sigma_Y^{-1}\Sigma_{XY}^T 
 \end{equation}
 come volevasi dimostrare.
 

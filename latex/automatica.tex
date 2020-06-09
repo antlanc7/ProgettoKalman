@@ -17,8 +17,7 @@ y_k &= g(x_k,u_k,k)
 \end{align}
 \end{subequations}
 dove $f$ e $g$ sono opportune funzioni vettoriali.
-
-
+L'evoluzione del sistema dipende pertanto anche dallo stato iniziale $x_0$ assunto nell'istante $k=0$ e procede per valori di $k \geq 0$.
 
 Consideriamo una particolare classe di sistemi, quelli lineari strettamente propri, in cui $f$ e $g$ sono funzioni lineari e l’uscita non dipende direttamente dall’ingresso ma solo dallo stato. In questo caso le equazioni generali del sistema sono:
 \begin{subequations}
@@ -28,16 +27,12 @@ x_{k+1} &= A_kx_k + B_ku_k \\
 y_k &= C_kx_k
 \end{align}
 \end{subequations}
-
 dove $A,B,C$ sono matrici di coefficienti in generale variabili nel tempo. Se tali matrici sono costanti al variare di $k$ il sistema si dice \textit{tempo invariante}.
 \newpage
 
 \subsection{Sistemi stocastici}
-
-Il modello matematico di un sistema è un'astrazione che necessariamente deve trascurare alcuni fenomeni che sarebbero troppo complessi da descrivere. Nel caso in cui gli effetti di tali fenomeni non siano trascurabili, è possibile considerarli nel modello rappresentandoli come fenomeni stocastici, ovvero come variabili aleatorie.
-
-Tali variabili possono anche modellizzare le incertezze nella misura delle uscite del processo, ad esempio nel caso in cui esse siano affette da rumore.
-
+Il modello matematico di un sistema è un'astrazione che necessariamente deve trascurare alcuni fenomeni che sarebbero troppo complessi da descrivere. Nel caso in cui gli effetti di tali fenomeni non siano trascurabili, è possibile considerarli nel modello rappresentandoli come fenomeni stocastici, ovvero come variabili aleatorie.\\
+Tali variabili possono anche modellizzare le incertezze nella misura delle uscite del processo, ad esempio nel caso in cui esse siano affette da rumore.\\
 Il modello del sistema tenendo conto di tali fenomeni può essere riscritto come:
 \begin{subequations}
 \label{rumlinsys}
@@ -82,6 +77,6 @@ y_k &= C_kx_k + v_k
 \end{align}
 \end{subequations}
 \end{itemize}
-
+In questo discorso consideriamo l'ingresso come perfettamente noto, dato che eventuali rumori in ingresso al sistema possono essere tenuti in considerazione nel termine $W_kw_k$.\\
 Con le ipotesi fatte è possibile passare al problema della progettazione di un osservatore che restituisca una stima dello stato interno del sistema filtrando i rumori e le incertezze sull'evoluzione dello stato e sulla misura dell'uscita.
 \newpage

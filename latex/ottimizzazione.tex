@@ -1,5 +1,5 @@
 \subsection{Ottimizzazione}
-L'obiettivo che ci si prefigge è quello di determinare la matrice $K_k$ tale che la stima fornita dall'osservatore sia il più attendibile possibile, ovvero ad ogni istante $k=0,1,...$ si vuole determinare ricorsivamente il guadagno $K_k$ dell' osservatore in modo da minimizzare l' errore quadratico medio di stima dello stato.\\
+L'obiettivo che ci si prefigge è quello di determinare la matrice $K_k$ tale che la stima fornita dall'osservatore sia il più attendibile possibile, ovvero ad ogni istante $k=0,1,...$ si vuole determinare il guadagno $K_k$ dell' osservatore in modo da minimizzare l' errore quadratico medio di stima dello stato.\\
 Sostituendo nella \eqref{matrcov} la \eqref{errore} e sfruttando le ipotesi \eqref{inizioipotesistatistiche}-\eqref{fineipotesistatistiche} e il risultato ottenuto alla fine del precedente paragrafo si ottiene: 
 \begin{equation}
 \begin{split}
@@ -12,17 +12,17 @@ P_{k+1} &= E\left\{[(A_k - K_k C_k) e_k + W_k w_k - K_k v_k][(A_k -K_k C_k)e_k+W
 \noindent Il problema si riduce quindi alla seguente ottimizzazione quadratica: 
 \begin{equation}
 \begin{split}
-K_k &= \underset{K}{\operatorname{argmin}}\{tr[]P_{k+1}])\}=\\
+K_k &= \underset{K}{\operatorname{argmin}}\{tr(P_{k+1})\}=\\
 &= \underset{K}{\operatorname{argmin}} \left\{ tr \left[(A_k-KC_k)P_k(A_k-KC_k)^T + W_kQ_kW^T_k+KR_kW^T_k\right] \right\} \\
 &= \underset{K}{\operatorname{argmin}} \left\{ tr \left[ K\underbrace{(R_k+C_kP_kC_k^T)}_{S_k}K^T-K\underbrace{C_kP_kA_k^T}_{V^T_k}-\underbrace{A_kP_kC_k^T}_{V_k}K^T+W_kQ_kW_k^T+A_kP_kA_k^T \right]\right\} \\
 &=  \underset{K}{\operatorname{argmin}} \left\{ tr \left[KS_kK^T-KV^T_k-V_kK^T+A_kP_kA_k^T+W_kQ_kW_k^T\right]\right\}
 \end{split}
 \end{equation}
 
-\noindent Essendo $S_k \triangleq R_k+C_kP_kC_k^T > R_k > 0 $ la matrice $S_k$ risulta invertibile, pertanto si può scrivere: 
+\noindent Essendo $S_k \triangleq R_k+C_kP_kC_k^T > R_k > 0 $ la matrice $S_k$ risulta invertibile, pertanto si può scrivere, trascurando i termini indipendenti da $K_k$: 
 \begin{equation}
 \begin{split}
-K_k &= \underset{K}{\operatorname{argmin}} \left\{tr\left[(K-V_kS^{-1}_k)S_k(K-V_kS^{-1}_k)^T - V_kS^{-1}_kV^T_k + A_kP_kA_k^T + W_kQ_kW_k^T\right]\right\}\\ 
+K_k &= \underset{K}{\operatorname{argmin}} \left\{tr\left[(K-V_kS^{-1}_k)S_k(K-V_kS^{-1}_k)^T\right]\right\}\\ 
 &= V_kS^{-1}_k\\
 &= A_kP_kC_k^T(R_k+C_kP_kC_k)^{-1}
 \end{split}
@@ -37,13 +37,15 @@ tr[P_{k+1}]&=tr[A_kP_kA_k^T-V_kS^{-1}_kV^T_k+W_kQ_kW_k^T]\\
 \end{equation}
 
 \noindent In definitiva si ha il seguente risultato: \\
-dato il sistema LTV \eqref{rumlinsys} che soddisfa le ipotesi \eqref{inizioipotesistatistiche}-\eqref{fineipotesistatistiche}, l'osservatore di Luenberger che minimizza ad ogni istante $k \geq 0$ l'errore quadratico medio di stima dello stato $P_k \triangleq E [(x_k - \hat{x}_k)^T(x_k - \hat{x}_k)]$ è fornito dal seguente algoritmo ricorsivo (che procede per $k = 0,1,...$):
+dato il sistema LTV \eqref{rumlinsys} che soddisfa le ipotesi \eqref{inizioipotesistatistiche}-\eqref{fineipotesistatistiche}, l'osservatore di Luenberger che minimizza ad ogni istante $k \geq 0$ l'errore quadratico medio di stima dello stato $tr(P_k)$ è fornito dal seguente algoritmo ricorsivo (che procede per $k = 0,1,...$):
 \begin{align}
 \label{luenb1}
 K_k &= A_kP_kC_k^T(R_k+C_kP_kC_k)^{-1} \\
 \label{luenb2}
 \hat{x}_{k+1} &= A_k\hat{x}_k+B_ku_k+K_k(y_k-C\hat{x}_k)\\
 \label{luenb3}
-P_{k+1}&=A_kP_kA_k^T-A_kP_kC_k^T(R_k+C_kP_kC_k^T)^{-1}C_kP_kA_k^T+W_kQ_kW_k^T
+P_{k+1}&=A_kP_kA_k^T - K_kC_kP_kA_k^T+W_kQ_kW_k^T
 \end{align}
+Tale algoritmo prende il nome di \textit{filtro di Kalman}\cite{kalmanbucy}, tuttavia in questa forma esso si presenta come un predittore a un passo dello stato $x_k$, ovvero la stima $\hat{x}_k$ dipende dalle osservazioni precedenti $y_{0:k-1}=\{y_0,y_1,...,y_{k-1}\}$.\\
+L'idea è quella di definire un algoritmo che si comporti da vero e proprio filtro, calcolando cioè la stima $\hat{x}_k$ sulla base di tutte le osservazioni $y_{0:k}$.
 \newpage
